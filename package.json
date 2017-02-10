@@ -10,7 +10,7 @@
     "exec": "exec",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
-    "lint": "eslint ./app;  exit 0",
+    "lint": "eslint ./app;  exit 0"
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
