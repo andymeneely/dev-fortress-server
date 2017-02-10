@@ -9,7 +9,8 @@
     "coverage": "istanbul cover _mocha",
     "exec": "exec",
     "migrate": "knex migrate:latest",
-    "lint": "eslint ./app;  exit 0"
+    "seed": "knex seed:run",
+    "lint": "eslint ./app;  exit 0",
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
