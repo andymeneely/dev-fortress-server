@@ -6,10 +6,15 @@ require('./role');
 
 const User = bookshelf.model('User', {
   tableName: 'user',
-  password: () => this.hasOne('Password'),
-  email: () => this.hasOne('Email'),
-  roles: () => this.belongsToMany('Role', 'user_role'),
+  password() {
+    return this.hasOne('Password');
+  },
+  email() {
+    return this.hasOne('Email');
+  },
+  roles() {
+    return this.belongsToMany('Role', 'user_role');
+  },
 });
 
 module.exports = User;
-
