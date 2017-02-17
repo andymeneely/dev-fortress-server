@@ -10,7 +10,7 @@ const should = chai.should();
 // Timeout to be used for checking controller responses
 const timeout = 250;
 
-function getMockUserReq() {
+function getMockRegisterUserReq() {
   return {
     body: {
       username: 'test_user_model',
@@ -22,7 +22,7 @@ function getMockUserReq() {
 }
 
 describe('User Controller Tests', () => {
-  beforeEach((done) => {
+  before((done) => {
     knex.migrate.rollback()
       .then(() => {
         knex.migrate.latest()
@@ -35,55 +35,70 @@ describe('User Controller Tests', () => {
       });
   });
 
-  afterEach((done) => {
+  after((done) => {
     knex.migrate.rollback()
     .then(() => {
       done();
     });
   });
-  describe('user controller registerNewUser success', () => {
-    it('should succeed registerNewUser', (done) => {
-      const mockReq = getMockUserReq();
+  describe('user controller registerNewUser', () => {
+    describe('user controller registerNewUser success', () => {
+      it('should succeed registerNewUser', (done) => {
+        const mockReq = getMockRegisterUserReq();
+        const mockRes = new MockExpressResponse();
+        UserController.registerNewUser(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(200);
+          mockRes.statusMessage.should.equal('OK');
+          done();
+        }, timeout);
+      });
+    });
+    describe('user controller registerNewUser fail', () => {
+      it('should fail registerNewUser missing username', (done) => {
+        const mockReq = getMockRegisterUserReq();
+        delete mockReq.body.username;
+        const mockRes = new MockExpressResponse();
+        UserController.registerNewUser(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(400);
+          mockRes.statusMessage.should.equal('Bad Request');
+          done();
+        }, timeout);
+      });
+      it('should fail registerNewUser missing password', (done) => {
+        const mockReq = getMockRegisterUserReq();
+        delete mockReq.body.password;
+        const mockRes = new MockExpressResponse();
+        UserController.registerNewUser(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(400);
+          mockRes.statusMessage.should.equal('Bad Request');
+          done();
+        }, timeout);
+      });
+      it('should fail registerNewUser missing email', (done) => {
+        const mockReq = getMockRegisterUserReq();
+        delete mockReq.body.email;
+        const mockRes = new MockExpressResponse();
+        UserController.registerNewUser(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(400);
+          mockRes.statusMessage.should.equal('Bad Request');
+          done();
+        }, timeout);
+      });
+    });
+  });
+  describe('user controller getUsers', () => {
+    it('user controller getUsers success', (done) => {
+      const mockReq = {};
       const mockRes = new MockExpressResponse();
-      UserController.registerNewUser(mockReq, mockRes);
+      UserController.getUsers(mockReq, mockRes);
       setTimeout(() => {
         mockRes.statusCode.should.equal(200);
         mockRes.statusMessage.should.equal('OK');
-        done();
-      }, timeout);
-    });
-  });
-  describe('user controller registerNewUser fail', () => {
-    it('should fail registerNewUser missing username', (done) => {
-      const mockReq = getMockUserReq();
-      delete mockReq.body.username;
-      const mockRes = new MockExpressResponse();
-      UserController.registerNewUser(mockReq, mockRes);
-      setTimeout(() => {
-        mockRes.statusCode.should.equal(400);
-        mockRes.statusMessage.should.equal('Bad Request');
-        done();
-      }, timeout);
-    });
-    it('should fail registerNewUser missing password', (done) => {
-      const mockReq = getMockUserReq();
-      delete mockReq.body.password;
-      const mockRes = new MockExpressResponse();
-      UserController.registerNewUser(mockReq, mockRes);
-      setTimeout(() => {
-        mockRes.statusCode.should.equal(400);
-        mockRes.statusMessage.should.equal('Bad Request');
-        done();
-      }, timeout);
-    });
-    it('should fail registerNewUser missing email', (done) => {
-      const mockReq = getMockUserReq();
-      delete mockReq.body.email;
-      const mockRes = new MockExpressResponse();
-      UserController.registerNewUser(mockReq, mockRes);
-      setTimeout(() => {
-        mockRes.statusCode.should.equal(400);
-        mockRes.statusMessage.should.equal('Bad Request');
+        mockRes._getJSON().should.be.an('array');
         done();
       }, timeout);
     });
