@@ -1,7 +1,7 @@
 {
+    "extends": "../.eslintrc.json",
     "env": {
       "node": true,
       "mocha": true
-    },
-    "extends": "../.eslintrc.json"
+    }    
 }
