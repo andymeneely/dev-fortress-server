@@ -15,6 +15,7 @@ module.exports = {
     connection: {
       filename: ':memory:',
     },
+    useNullAsDefault: true,
   },
 
   staging: {
