@@ -1,8 +1,10 @@
 const express = require('express');
+const authenticationController = require('../controllers/authentication');
+const { enableCORS, allowHeaders, allowMethods, handleOptions } = require('../middleware/utils');
 
 const router = express.Router();
 
-const authenticationController = require('../controllers/authentication');
+router.use(enableCORS, allowHeaders, allowMethods, handleOptions);
 
 router.use('/user', require('./user'));
 router.use('/role', require('./role'));
