@@ -38,7 +38,7 @@ describe('User Role API Test', () => {
       agent
         .post('/api/login')
         .send({
-          username: 'admin',
+          username: 'test_user_admin',
           password: 'password',
         })
         .then((res) => {
@@ -51,6 +51,30 @@ describe('User Role API Test', () => {
             })
             .then((response) => {
               response.should.have.status(200);
+              done();
+            });
+        });
+    });
+    it('should fail user role update on /api/user/:id/role', (done) => {
+      const agent = chai.request.agent(server);
+
+      // login and get a token
+      agent
+        .post('/api/login')
+        .send({
+          username: 'test_user',
+          password: 'password',
+        })
+        .then((res) => {
+          res.should.have.status(200);
+          // attempt to add role 1 to user 1
+          return agent.patch('/api/user/1/roles')
+            .set('Authorization', `Bearer ${res.body.token}`)
+            .send({
+              add: 1,
+            })
+            .catch((error) => {
+              error.should.have.status(403);
               done();
             });
         });
