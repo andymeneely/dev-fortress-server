@@ -26,7 +26,8 @@ router.delete(
 );
 router.patch(
   '/:id/roles',
-  authenticationMiddleware.validateAuthentication,
+  authenticationMiddleware.validateAuthentication,  // isAuthenticated middleware
+  authenticationMiddleware.verifyAdministrator,     // verifyAdministrator middleware
   userController.setRoles
 );
 
