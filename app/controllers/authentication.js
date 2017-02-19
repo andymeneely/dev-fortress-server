@@ -36,6 +36,7 @@ function login(req, res) {
 
     const tokenData = {
       username: userData.attributes.username,
+      is_admin: userData.attributes.is_admin,
       // todo add other token data
     };
 
