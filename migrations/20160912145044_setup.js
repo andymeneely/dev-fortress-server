@@ -32,9 +32,9 @@ exports.up = knex =>
 
 exports.down = (knex, Promise) =>
   Promise.all([
-    knex.schema.dropTable('user'),
     knex.schema.dropTable('password'),
     knex.schema.dropTable('email'),
-    knex.schema.dropTable('role'),
     knex.schema.dropTable('user_role'),
+    knex.schema.dropTable('role'),
+    knex.schema.dropTable('user'),
   ]);
