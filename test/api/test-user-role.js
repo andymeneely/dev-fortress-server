@@ -3,9 +3,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../app');
 
-/* eslint-disable */
 const should = chai.should();
-/* eslint-enable */
 
 chai.use(chaiHttp);
 
@@ -47,7 +45,9 @@ describe('User Role API Test', () => {
           return agent.patch('/api/user/1/roles')
             .set('Authorization', `Bearer ${res.body.token}`)
             .send({
-              add: 1,
+              add: {
+                role_id: 1,
+              },
             })
             .then((response) => {
               response.should.have.status(200);
@@ -71,7 +71,9 @@ describe('User Role API Test', () => {
           return agent.patch('/api/user/1/roles')
             .set('Authorization', `Bearer ${res.body.token}`)
             .send({
-              add: 1,
+              add: {
+                role_id: 1,
+              },
             })
             .catch((error) => {
               error.should.have.status(403);

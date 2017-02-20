@@ -6,6 +6,9 @@
     },
     "rules": {
       // Override default settings for this directory
-      "no-underscore-dangle": "off"
+      "no-underscore-dangle": "off",
+      "no-unused-vars": ["error", {
+        "varsIgnorePattern": "should"
+      }]
     }  
 }

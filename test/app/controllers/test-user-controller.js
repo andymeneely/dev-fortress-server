@@ -3,9 +3,7 @@ const chai = require('chai');
 const UserController = require('../../../app/controllers/user');
 const MockExpressResponse = require('mock-express-response');
 
-/* eslint-disable */
 const should = chai.should();
-/* eslint-enable */
 
 // Timeout to be used for checking controller responses
 const timeout = 250;
