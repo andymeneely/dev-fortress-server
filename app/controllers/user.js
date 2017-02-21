@@ -56,7 +56,7 @@ function registerNewUser(req, res) {
         throw new Error('A user with that username already exists.');
       }
     });
-          // check email exists
+    // check email exists
     const emailExistsPromise = Email.where('address', req.body.email)
     .count('id', { transacting: t })
     .tap((count) => {
