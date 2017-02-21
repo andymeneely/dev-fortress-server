@@ -1,4 +1,4 @@
-const user = require('../models/user');
+const User = require('../models/user');
 const authentication = require('../lib/authentication');
 
 
@@ -9,12 +9,12 @@ const authentication = require('../lib/authentication');
  * @param  {Function} next - pass to next route handler
  */
 function login(req, res) {
-  const userDataPromise = user.where('username', req.body.username.toLowerCase()).fetch({
+  const userDataPromise = User.where('username', req.body.username.toLowerCase()).fetch({
     require: true,
     withRelated: ['password'],
   });
 
-  const checkPasswordPromise = userDataPromise.then(() =>
+  const checkPasswordPromise = userDataPromise.then(user =>
     new Promise((accept, reject) => {
       authentication.checkPassword(req.body.password, user.related('password').attributes.password_hash, (err, success) => {
         if (err) {

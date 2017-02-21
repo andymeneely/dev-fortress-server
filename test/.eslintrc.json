@@ -1,0 +1,11 @@
+{
+    "extends": "../.eslintrc.json",
+    "env": {
+      "node": true,
+      "mocha": true
+    },
+    "rules": {
+      // Override default settings for this directory
+      "no-underscore-dangle": "off"
+    }  
+}

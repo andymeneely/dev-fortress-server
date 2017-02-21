@@ -45,8 +45,7 @@ function registerNewUser(req, res) {
   }
 
   userData.username = req.body.username.toLowerCase();
-  userData.first_name = req.body.first_name;
-  userData.last_name = req.body.first_name;
+  userData.name = req.body.name;
 
   return bookshelf.transaction((t) => {
     // check user exists
@@ -72,14 +71,14 @@ function registerNewUser(req, res) {
      * @return {Promise}       - a promise
      */
     function afterUserSave(model) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) =>
         authentication.hashPassword(req.body.password, (err, hash) => {
           if (err) {
             return reject(err);
           }
           return resolve(hash);
-        });
-      })
+        })
+      )
       .then(hash => // Create password model
         Password.forge({
           password_hash: hash,
@@ -114,12 +113,12 @@ function registerNewUser(req, res) {
   )
   .catch((err) => {
     // username exists
-    if (err.error === 'UsernameExists') {
-      return res.status(400).json(err);
+    if (err.message === 'A user with that username already exists.') {
+      return res.status(400).json({ error: err.message });
     }
     // email exists
-    if (err.error === 'EmailExists') {
-      return res.status(400).json(err);
+    if (err.message === 'That email is already taken.') {
+      return res.status(400).json({ error: err.message });
     }
     // Unknown error
     console.error(err);

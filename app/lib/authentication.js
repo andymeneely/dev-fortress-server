@@ -22,9 +22,9 @@ function hashPassword(password, callback) {
     if (err) {
       return callback(err);
     }
-    return bcrypt.hash(password, salt, (hash) => {
-      if (err) {
-        return callback(err);
+    return bcrypt.hash(password, salt, (errr, hash) => {
+      if (errr) {
+        return callback(errr);
       }
       return callback(null, hash);
     });

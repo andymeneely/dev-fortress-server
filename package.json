@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "test": "mocha",
+    "start": "NODE_ENV=development node ./bin/www",
+    "test": "NODE_ENV=test mocha --recursive",
     "docs": "jsdoc -c ./jsdoc.json -r",
     "coverage": "istanbul cover _mocha",
     "exec": "exec",
     "migrate": "knex migrate:latest",
+    "seed": "knex seed:run",
     "lint": "eslint ./app;  exit 0"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "eslint": "^3.14.1",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
@@ -36,6 +38,7 @@
     "istanbul": "^0.4.5",
     "jsdoc": "^3.4.1",
     "mocha": "^3.0.2",
+    "mock-express-response": "^0.2.0",
     "sqlite3": "^3.1.4"
   }
 }
