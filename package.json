@@ -6,7 +6,7 @@
     "start": "NODE_ENV=development node ./bin/www",
     "test": "NODE_ENV=test mocha --recursive",
     "docs": "jsdoc -c ./jsdoc.json -r",
-    "coverage": "istanbul cover _mocha",
+    "coverage": "NODE_ENV=test istanbul cover _mocha test/**/*",
     "exec": "exec",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
