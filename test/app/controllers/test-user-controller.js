@@ -76,14 +76,14 @@ describe('User Controller Tests', () => {
           done();
         }, timeout);
       });
-      it('should fail registerNewUser missing is_admin', (done) => {
+      it('should pass registerNewUser missing is_admin', (done) => {
         const mockReq = getMockRegisterUserReq();
         delete mockReq.body.is_admin;
         const mockRes = new MockExpressResponse();
         UserController.registerNewUser(mockReq, mockRes);
         setTimeout(() => {
-          mockRes.statusCode.should.equal(400);
-          mockRes.statusMessage.should.equal('Bad Request');
+          mockRes.statusCode.should.equal(200);
+          mockRes.statusMessage.should.equal('OK');
           done();
         }, timeout);
       });

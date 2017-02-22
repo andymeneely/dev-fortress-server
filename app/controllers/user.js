@@ -37,11 +37,8 @@ function registerNewUser(req, res) {
   }
 
   if (!has(req.body, 'is_admin')) {
-    return res.status(400)
-    .json({
-      error: 'MissingField',
-      message: 'admin field is missing',
-    });
+    userData.is_admin = false;
+    return res.status(200);
   }
 
   if (!has(req.body, 'email')) {
@@ -54,6 +51,7 @@ function registerNewUser(req, res) {
 
   userData.username = req.body.username.toLowerCase();
   userData.name = req.body.name;
+  userData.is_admin = req.body.is_admin;
 
   return bookshelf.transaction((t) => {
     // check user exists
