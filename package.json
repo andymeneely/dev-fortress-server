@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=development node ./bin/www",
-    "test": "NODE_ENV=test mocha --recursive",
+    "test": "NODE_ENV=test _mocha test/**/*",
     "docs": "jsdoc -c ./jsdoc.json -r",
     "coverage": "NODE_ENV=test nyc --reporter=html _mocha test/**/*",
     "exec": "exec",
