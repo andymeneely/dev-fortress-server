@@ -15,6 +15,7 @@ function getMockRegisterUserReq() {
       password: 'password',
       email: 'test_user_model@test.com',
       name: 'Test User Model',
+      is_admin: false,
     },
   };
 }
@@ -67,6 +68,17 @@ describe('User Controller Tests', () => {
       it('should fail registerNewUser missing password', (done) => {
         const mockReq = getMockRegisterUserReq();
         delete mockReq.body.password;
+        const mockRes = new MockExpressResponse();
+        UserController.registerNewUser(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(400);
+          mockRes.statusMessage.should.equal('Bad Request');
+          done();
+        }, timeout);
+      });
+      it('should fail registerNewUser missing is_admin', (done) => {
+        const mockReq = getMockRegisterUserReq();
+        delete mockReq.body.is_admin;
         const mockRes = new MockExpressResponse();
         UserController.registerNewUser(mockReq, mockRes);
         setTimeout(() => {

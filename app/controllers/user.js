@@ -36,6 +36,14 @@ function registerNewUser(req, res) {
     });
   }
 
+  if (!has(req.body, 'is_admin')) {
+    return res.status(400)
+    .json({
+      error: 'MissingField',
+      message: 'admin field is missing',
+    });
+  }
+
   if (!has(req.body, 'email')) {
     return res.status(400)
     .json({
@@ -56,7 +64,7 @@ function registerNewUser(req, res) {
         throw new Error('A user with that username already exists.');
       }
     });
-    // check email exists
+          // check email exists
     const emailExistsPromise = Email.where('address', req.body.email)
     .count('id', { transacting: t })
     .tap((count) => {

@@ -77,6 +77,7 @@ describe('User Registration API Tests', () => {
             password: 'password_registration',
             email: 'test_registration@test.com',
             name: 'Test User Registration',
+            is_admin: false,
           })
           .end((err, res) => {
             res.should.have.status(200);
@@ -92,6 +93,7 @@ describe('User Registration API Tests', () => {
             username: 'test_user_registration',
             password: 'password_registration',
             email: 'test_registration@test.com',
+            is_admin: false,
           })
           .end((err, res) => {
             res.should.have.status(200);
