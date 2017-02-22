@@ -21,7 +21,7 @@ function getMockRegisterUserReq() {
 }
 
 describe('User Controller Tests', () => {
-  before((done) => {
+  beforeEach((done) => {
     knex.migrate.rollback()
       .then(() => {
         knex.migrate.latest()
@@ -34,7 +34,7 @@ describe('User Controller Tests', () => {
       });
   });
 
-  after((done) => {
+  afterEach((done) => {
     knex.migrate.rollback()
     .then(() => {
       done();
@@ -79,6 +79,17 @@ describe('User Controller Tests', () => {
       it('should pass registerNewUser missing is_admin', (done) => {
         const mockReq = getMockRegisterUserReq();
         delete mockReq.body.is_admin;
+        const mockRes = new MockExpressResponse();
+        UserController.registerNewUser(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(200);
+          mockRes.statusMessage.should.equal('OK');
+          done();
+        }, timeout);
+      });
+      it('should pass registerNewUser missing name', (done) => {
+        const mockReq = getMockRegisterUserReq();
+        delete mockReq.body.name;
         const mockRes = new MockExpressResponse();
         UserController.registerNewUser(mockReq, mockRes);
         setTimeout(() => {
