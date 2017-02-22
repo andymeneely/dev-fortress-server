@@ -6,7 +6,7 @@
     "start": "NODE_ENV=development node ./bin/www",
     "test": "NODE_ENV=test mocha --recursive",
     "docs": "jsdoc -c ./jsdoc.json -r",
-    "coverage": "NODE_ENV=test istanbul cover _mocha test/**/*",
+    "coverage": "NODE_ENV=test nyc --reporter=html _mocha test/**/*",
     "exec": "exec",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
@@ -35,10 +35,10 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-react": "^6.9.0",
-    "istanbul": "^0.4.5",
     "jsdoc": "^3.4.1",
     "mocha": "^3.0.2",
     "mock-express-response": "^0.2.0",
+    "nyc": "^10.1.2",
     "sqlite3": "^3.1.4"
   }
 }
