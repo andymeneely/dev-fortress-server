@@ -1,4 +1,5 @@
 const userController = require('../controllers/user');
+const authenticationController = require('../controllers/authentication');
 const authenticationMiddleware = require('../middleware/authentication');
 const express = require('express');
 
@@ -35,5 +36,13 @@ router.patch(
   authenticationMiddleware.verifyAdministrator,              // verifyAdministrator middleware
   userController.setRoles
 );
-
+router.post(
+  '/login',
+  authenticationController.login
+);
+router.post(
+  '/refresh',
+  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationController.refreshToken
+);
 module.exports = router;
