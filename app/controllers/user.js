@@ -38,7 +38,10 @@ function registerNewUser(req, res) {
 
   if (!has(req.body, 'is_admin')) {
     userData.is_admin = false;
-    return res.status(200);
+  } else if (req.body.is_admin === true) {
+    userData.is_admin = true;
+  } else {
+    userData.is_admin = false;
   }
 
   if (!has(req.body, 'email')) {
@@ -51,7 +54,6 @@ function registerNewUser(req, res) {
 
   userData.username = req.body.username.toLowerCase();
   userData.name = req.body.name;
-  userData.is_admin = req.body.is_admin;
 
   return bookshelf.transaction((t) => {
     // check user exists
