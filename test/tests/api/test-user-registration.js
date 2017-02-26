@@ -1,7 +1,8 @@
-const knex = require('../../app/lib/db');
+const API_USER_REGISTER_URL = require('../../data/constants').API_USER_REGISTER_URL;
+const knex = require('../../../app/lib/db');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../../app');
+const server = require('../../../app');
 
 const should = chai.should();
 let adminAuthToken = '';
@@ -101,23 +102,38 @@ describe('User Registration API Tests', () => {
           });
       });
     });
-  });
-
-  describe('Register with Regular User', () => {
-    describe('register test_user_registration with regular user', () => {
-      it('should fail register test_user_registration on /api/user POST', (done) => {
+    describe('register test_user_registration success', () => {
+      it(`should succeed register test_user_registration on ${API_USER_REGISTER_URL} POST`, (done) => {
         chai.request(server)
-          .post('/api/user')
-          .set('Authorization', `Bearer ${userAuthToken}`)
+          .post(API_USER_REGISTER_URL)
           .send({
             username: 'test_user_registration',
             password: 'password_registration',
             email: 'test_registration@test.com',
+            name: 'Test User Registration',
           })
           .end((err, res) => {
-            res.should.have.status(403);
+            res.should.have.status(200);
             done();
           });
+      });
+    });
+    describe('Register with Regular User', () => {
+      describe('register test_user_registration with regular user', () => {
+        it('should fail register test_user_registration on /api/user POST', (done) => {
+          chai.request(server)
+            .post('/api/user')
+            .set('Authorization', `Bearer ${userAuthToken}`)
+            .send({
+              username: 'test_user_registration',
+              password: 'password_registration',
+              email: 'test_registration@test.com',
+            })
+            .end((err, res) => {
+              res.should.have.status(403);
+              done();
+            });
+        });
       });
     });
   });

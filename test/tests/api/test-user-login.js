@@ -1,7 +1,8 @@
-const knex = require('../../app/lib/db');
+const API_LOGIN_URL = require('../../data/constants').API_LOGIN_URL;
+const knex = require('../../../app/lib/db');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../../app');
+const server = require('../../../app');
 
 const should = chai.should();
 
@@ -28,9 +29,9 @@ describe('User Login API Tests', () => {
     });
   });
   describe('login test_user_admin success', () => {
-    it('should succeed login test_user_admin on /api/login POST', (done) => {
+    it(`should succeed login test_user_admin on ${API_LOGIN_URL} POST`, (done) => {
       chai.request(server)
-        .post('/api/login')
+        .post(API_LOGIN_URL)
         .send({
           username: 'test_user_admin',
           password: 'password',
@@ -43,9 +44,9 @@ describe('User Login API Tests', () => {
   });
 
   describe('login test_user_admin fail password', () => {
-    it('should fail login test_user_admin on /api/login POST', (done) => {
+    it(`should fail login test_user_admin on ${API_LOGIN_URL} POST`, (done) => {
       chai.request(server)
-        .post('/api/login')
+        .post(API_LOGIN_URL)
         .send({
           username: 'test_user_admin',
           password: 'wrong_password',
@@ -58,9 +59,9 @@ describe('User Login API Tests', () => {
   });
 
   describe('login test_user_admin fail username', () => {
-    it('should fail login test_wronguser_admin on /api/login POST', (done) => {
+    it(`should fail login test_wronguser_admin on ${API_LOGIN_URL} POST`, (done) => {
       chai.request(server)
-        .post('/api/login')
+        .post(API_LOGIN_URL)
         .send({
           username: 'test_wronguser_admin',
           password: 'password',

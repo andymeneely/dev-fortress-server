@@ -1,7 +1,8 @@
-const knex = require('../../app/lib/db');
+const API_LOGIN_URL = require('../../data/constants').API_LOGIN_URL;
+const knex = require('../../../app/lib/db');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../../app');
+const server = require('../../../app');
 
 const should = chai.should();
 
@@ -34,7 +35,7 @@ describe('User Role API Test', () => {
 
       // login and get a token
       agent
-        .post('/api/login')
+        .post(API_LOGIN_URL)
         .send({
           username: 'test_user_admin',
           password: 'password',
@@ -60,7 +61,7 @@ describe('User Role API Test', () => {
 
       // login and get a token
       agent
-        .post('/api/login')
+        .post(API_LOGIN_URL)
         .send({
           username: 'test_user',
           password: 'password',
