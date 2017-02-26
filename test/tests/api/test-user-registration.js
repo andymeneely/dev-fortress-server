@@ -102,22 +102,6 @@ describe('User Registration API Tests', () => {
           });
       });
     });
-    describe('register test_user_registration success', () => {
-      it(`should succeed register test_user_registration on ${API_USER_REGISTER_URL} POST`, (done) => {
-        chai.request(server)
-          .post(API_USER_REGISTER_URL)
-          .send({
-            username: 'test_user_registration',
-            password: 'password_registration',
-            email: 'test_registration@test.com',
-            name: 'Test User Registration',
-          })
-          .end((err, res) => {
-            res.should.have.status(200);
-            done();
-          });
-      });
-    });
     describe('Register with Regular User', () => {
       describe('register test_user_registration with regular user', () => {
         it('should fail register test_user_registration on /api/user POST', (done) => {
