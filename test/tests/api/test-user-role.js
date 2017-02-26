@@ -35,7 +35,7 @@ describe('User Role API Test', () => {
 
       // login and get a token
       agent
-        .post(API_LOGIN_URL)
+        .post(`${API_LOGIN_URL}`)
         .send({
           username: 'test_user_admin',
           password: 'password',
@@ -61,7 +61,7 @@ describe('User Role API Test', () => {
 
       // login and get a token
       agent
-        .post(API_LOGIN_URL)
+        .post(`${API_LOGIN_URL}`)
         .send({
           username: 'test_user',
           password: 'password',
