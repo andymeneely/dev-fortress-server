@@ -36,6 +36,14 @@ function registerNewUser(req, res) {
     });
   }
 
+  if (!has(req.body, 'is_admin')) {
+    userData.is_admin = false;
+  } else if (req.body.is_admin === true) {
+    userData.is_admin = true;
+  } else {
+    userData.is_admin = false;
+  }
+
   if (!has(req.body, 'email')) {
     return res.status(400)
     .json({

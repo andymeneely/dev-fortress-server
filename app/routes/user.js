@@ -17,7 +17,12 @@ router.get(
   userController.getUserById
 );
 // CREATE a new user
-router.post('/', userController.registerNewUser);
+router.post(
+  '/',
+  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.verifyAdministrator,
+  userController.registerNewUser
+);
 // DELETE a user
 router.delete(
   '/:id',

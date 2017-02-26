@@ -15,12 +15,13 @@ function getMockRegisterUserReq() {
       password: 'password',
       email: 'test_user_model@test.com',
       name: 'Test User Model',
+      is_admin: false,
     },
   };
 }
 
 describe('User Controller Tests', () => {
-  before((done) => {
+  beforeEach((done) => {
     knex.migrate.rollback()
       .then(() => {
         knex.migrate.latest()
@@ -33,7 +34,7 @@ describe('User Controller Tests', () => {
       });
   });
 
-  after((done) => {
+  afterEach((done) => {
     knex.migrate.rollback()
     .then(() => {
       done();
@@ -72,6 +73,28 @@ describe('User Controller Tests', () => {
         setTimeout(() => {
           mockRes.statusCode.should.equal(400);
           mockRes.statusMessage.should.equal('Bad Request');
+          done();
+        }, timeout);
+      });
+      it('should pass registerNewUser missing is_admin', (done) => {
+        const mockReq = getMockRegisterUserReq();
+        delete mockReq.body.is_admin;
+        const mockRes = new MockExpressResponse();
+        UserController.registerNewUser(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(200);
+          mockRes.statusMessage.should.equal('OK');
+          done();
+        }, timeout);
+      });
+      it('should pass registerNewUser missing name', (done) => {
+        const mockReq = getMockRegisterUserReq();
+        delete mockReq.body.name;
+        const mockRes = new MockExpressResponse();
+        UserController.registerNewUser(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(200);
+          mockRes.statusMessage.should.equal('OK');
           done();
         }, timeout);
       });
