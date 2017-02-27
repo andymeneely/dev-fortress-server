@@ -28,10 +28,20 @@ exports.up = knex =>
   .createTable('user_role', (table) => {
     table.integer('user_id').references('user.id').notNullable();
     table.integer('role_id').references('role.id').notNullable();
+  })
+  .createTable('teamtype', (table) => {
+    table.increments('id');
+    table.string('name').notNullable();
+    table.string('description').notNullable();
+    table.boolean('initial_mature').notNullable();
+    table.integer('initial_resources').notNullable();
+    table.integer('initial_mindset').notNullable();
+    table.boolean('disabled').defaultsTo(false);
   });
 
 exports.down = (knex, Promise) =>
   Promise.all([
+    knex.schema.dropTable('teamtype'),
     knex.schema.dropTable('password'),
     knex.schema.dropTable('email'),
     knex.schema.dropTable('user_role'),
