@@ -1,6 +1,6 @@
 const bookshelf = require('../lib/bookshelf');
 
-const TeamType = bookshelf.Model('TeamType', {
+const TeamType = bookshelf.model('TeamType', {
   tableName: 'teamtype',
 });
 
