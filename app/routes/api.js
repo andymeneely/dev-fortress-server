@@ -7,6 +7,7 @@ router.use(enableCORS, allowHeaders, allowMethods, handleOptions, redirect);
 
 router.use('/user', require('./user'));
 router.use('/role', require('./role'));
+router.use('/teamtype', require('./teamtype'));
 
 // Generate 404s
 router.use((req, res, next) => {
