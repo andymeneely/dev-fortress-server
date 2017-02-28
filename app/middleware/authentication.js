@@ -115,9 +115,42 @@ function verifyAdministrator(req, res, next) {
   return next();
 }
 
+/**
+ * Pre-req: validateAuthenticationAttachUser
+ * Ensure that the user is in the 'Professor' role.
+ */
+function verifyProfessor(req, res, next) {
+  if (!req.user) {
+    console.error('validateAuthenticationAttachUser middleware is a pre-requisite of verifyAdministrator middleware.');
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'The server is configured incorrectly.',
+    });
+  }
+  // If the user is an admin, skip Professor role checking
+  if (req.user.is_admin) {
+    return next();
+  }
+  const roles = req.user.roles;
+  let isProf = false;
+
+  roles.forEach((role) => {
+    if (role.name === 'Professor') {
+      isProf = true;
+    }
+  });
+  if (isProf) {
+    return next();
+  }
+  return res.status(403).json({
+    error: 'Forbidden',
+    message: 'User must be part of the \'Professor\' Role to perform this action',
+  });
+}
 
 module.exports = {
   validateAuthentication,
   validateAuthenticationAttachUser,
   verifyAdministrator,
+  verifyProfessor,
 };
