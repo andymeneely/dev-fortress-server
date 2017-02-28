@@ -31,7 +31,7 @@ exports.up = knex =>
   })
   .createTable('teamtype', (table) => {
     table.increments('id');
-    table.string('name').notNullable();
+    table.string('name').unique().notNullable();
     table.string('description').notNullable();
     table.boolean('initial_mature').notNullable();
     table.integer('initial_resources').notNullable();
