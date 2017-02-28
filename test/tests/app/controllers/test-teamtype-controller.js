@@ -61,5 +61,29 @@ describe('TeamType Controller Tests', () => {
         }, timeout);
       });
     });
+    describe('teamtype controller createTeamType fail', () => {
+      it('should fail createTeamType name exists');
+      it('should fail createTeamType missing name');
+      it('should fail createTeamType missing description');
+      it('should fail createTeamType missing initial_mature');
+      it('should fail createTeamType missing initial_mindset');
+      it('should fail createTeamType missing initial_resources');
+    });
+  });
+  describe('teamtype controller getTeamTypes', () => {
+    describe('teamtype Controller getTeamTypes success', () => {
+      it('should succeed getTeamTypes');
+    });
+    describe('teamtype Controller getTeamTypes fail', () => {
+      it('should fail getTeamTypes');
+    });
+  });
+  describe('teamtype controller getTeamTypeById', () => {
+    describe('teamtype Controller getTeamTypeById success', () => {
+      it('should succeed getTeamTypeById');
+    });
+    describe('teamtype Controller getTeamTypeById fail', () => {
+      it('should fail getTeamTypeById');
+    });
   });
 });
