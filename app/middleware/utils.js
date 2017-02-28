@@ -22,9 +22,22 @@ function handleOptions(req, res, next) {
   return next();
 }
 
+/**
+ * Used for when API Endpoints are deprecated / changed.
+ */
+function redirect(req, res, next) {
+  switch (req.url) {
+    case '/login':
+      return res.redirect(308, '/api/user/login');
+    default:
+      return next();
+  }
+}
+
 module.exports = {
   enableCORS,
   allowHeaders,
   allowMethods,
   handleOptions,
+  redirect,
 };

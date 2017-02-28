@@ -1,6 +1,34 @@
 const User = require('../models/user');
 const authentication = require('../lib/authentication');
 
+/**
+ * Pre-req: User is authenticated and model data is attached to req.user
+ * Generate a JWT for the user.
+ * @param {Express.Request}   req  - the request
+ * @param {Express.Response}  res  - the response
+ */
+function refreshToken(req, res) {
+  if (!(req.user)) {
+    console.error('No user data attached to req.body. AttachUser middleware is required.');
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'The server is configured incorrectly.',
+    });
+  }
+  const tokenData = {
+    userId: req.user.id,
+  };
+  return new Promise((accept, reject) => {
+    authentication.signToken(tokenData, (err, theToken) => {
+      if (err) {
+        reject(err);
+      }
+      return res.json({
+        token: theToken,
+      });
+    });
+  });
+}
 
 /**
  * Verify password and generate a JWT for a user
@@ -34,21 +62,10 @@ function login(req, res) {
       });
     }
 
-    const tokenData = {
-      userId: userData.attributes.id,
-      // todo add other token data
-    };
+    // Attach User data to the request. Required by refreshToken
+    req.user = userData.attributes;
 
-    return new Promise((accept, reject) => {
-      authentication.signToken(tokenData, (err, theToken) => {
-        if (err) {
-          reject(err);
-        }
-        return res.json({
-          token: theToken,
-        });
-      });
-    });
+    return refreshToken(req, res);
   })
   .catch((err) => {
     if (err.message === 'EmptyResponse') {
@@ -58,7 +75,7 @@ function login(req, res) {
         message: 'Username not found',
       });
     }
-        // Unknown error
+    // Unknown error
     console.error(err);
     return res.status(500)
     .json({
@@ -67,7 +84,7 @@ function login(req, res) {
   });
 }
 
-
 module.exports = {
   login,
+  refreshToken,
 };

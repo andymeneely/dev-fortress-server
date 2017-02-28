@@ -1,6 +1,6 @@
-const knex = require('../../../app/lib/db');
+const knex = require('../../../../app/lib/db');
 const chai = require('chai');
-const UserController = require('../../../app/controllers/user');
+const UserController = require('../../../../app/controllers/user');
 const MockExpressResponse = require('mock-express-response');
 
 const should = chai.should();
