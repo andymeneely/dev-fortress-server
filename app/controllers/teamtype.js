@@ -8,7 +8,10 @@ const TeamType = require('../models/teamtype');
  * Returns the serialized and coerced collection.
  */
 function serializeAndCoerce(teamTypeCollection) {
-  const teamTypeCollectionJson = teamTypeCollection.serialize();
+  let teamTypeCollectionJson = teamTypeCollection.serialize();
+  if (!Array.isArray(teamTypeCollectionJson)) {
+    teamTypeCollectionJson = new Array(teamTypeCollectionJson);
+  }
   // Type coercion for boolean values
   teamTypeCollectionJson.forEach((teamType) => {
     teamType.initial_mature = !!teamType.initial_mature;
@@ -34,11 +37,13 @@ function getTeamTypes(req, res) {
       return res.status(404)
       .json({
         error: 'NotFound',
+        request: req.body,
       });
     }
     console.error(err);
     return res.status(500).json({
       error: 'UnknownError',
+      request: req.body,
     });
   });
 }
@@ -53,7 +58,7 @@ function getTeamTypeById(req, res) {
     require: true,
   })
   .then((result) => {
-    const teamType = serializeAndCoerce(result);
+    const teamType = serializeAndCoerce(result)[0];   // serializeAndCoerce always returns an array.
     res.json(teamType);
   })
   .catch((err) => {
@@ -61,7 +66,8 @@ function getTeamTypeById(req, res) {
     if (err.message === 'EmptyResponse') {
       return res.status(404)
       .json({
-        error: 'NotFound',
+        error: 'A TeamType with the requested id could not be found.',
+        request: { params: req.params },
       });
     }
     // Unknown error
@@ -69,6 +75,7 @@ function getTeamTypeById(req, res) {
     return res.status(500)
     .json({
       error: 'UnknownError',
+      request: { params: req.params },
     });
   });
 }
@@ -121,6 +128,7 @@ function createTeamType(req, res) {
       console.error(err);
       return res.status(500).json({
         error: 'UnknownError',
+        request: req.body,
       });
     });
 }
