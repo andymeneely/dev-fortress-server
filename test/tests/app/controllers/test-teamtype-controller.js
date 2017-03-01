@@ -4,7 +4,7 @@ const TeamTypeController = require('../../../../app/controllers/teamtype');
 const MockExpressResponse = require('mock-express-response');
 
 const should = chai.should();
-
+const assert = chai.assert;
 // Timeout to be used for checking controller responses
 const timeout = 250;
 
@@ -22,26 +22,33 @@ function getMockCreateTeamTypeReq() {
 }
 
 describe('TeamType Controller Tests', () => {
-  beforeEach((done) => {
-    knex.migrate.rollback()
-      .then(() => {
-        knex.migrate.latest()
-          .then(() => {
-            knex.seed.run()
-              .then(() => {
-                done();
-              });
-          });
-      });
-  });
-
-  afterEach((done) => {
-    knex.migrate.rollback()
-    .then(() => {
-      done();
-    });
-  });
   describe('teamtype controller createTeamType', () => {
+    before((done) => {
+      knex.migrate.rollback()
+        .then(() => {
+          knex.migrate.latest()
+            .then(() => {
+              knex.seed.run()
+                .then(() => {
+                  done();
+                });
+            });
+        });
+    });
+
+    after((done) => {
+      knex.migrate.rollback()
+        .then(() => {
+          knex.migrate.latest()
+            .then(() => {
+              knex.seed.run()
+                .then(() => {
+                  done();
+                });
+            });
+        });
+    });
+
     describe('teamtype controller createTeamType success', () => {
       it('should succeed createTeamType', (done) => {
         const mockReq = getMockCreateTeamTypeReq();
@@ -62,7 +69,18 @@ describe('TeamType Controller Tests', () => {
       });
     });
     describe('teamtype controller createTeamType fail', () => {
-      it('should fail createTeamType name exists');
+      it('should fail createTeamType name exists', (done) => {
+        const mockReq = getMockCreateTeamTypeReq();
+        const mockRes = new MockExpressResponse();
+        TeamTypeController.createTeamType(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(409);
+          const resJSON = mockRes._getJSON();
+          resJSON.error.should.equal('Conflict: TeamType with same name exists.');
+          assert.deepEqual(resJSON.request, mockReq.body);
+          done();
+        }, timeout);
+      });
       it('should fail createTeamType missing name');
       it('should fail createTeamType missing description');
       it('should fail createTeamType missing initial_mature');
