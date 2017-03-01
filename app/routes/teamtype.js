@@ -4,8 +4,22 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/', teamtypeController.getTeamTypes);
-router.get('/:id', teamtypeController.getTeamTypeById);
+router.get(
+  '/',
+  authenticationMiddleware.validateAuthentication,
+  teamtypeController.getTeamTypes
+);
+router.get(
+  '/:id',
+  authenticationMiddleware.validateAuthentication,
+  teamtypeController.getTeamTypeById
+);
+router.put(
+  '/:id',
+  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.verifyProfessor,
+  teamtypeController.updateExistingTeamType
+);
 router.post(
   '/',
   authenticationMiddleware.validateAuthenticationAttachUser,
