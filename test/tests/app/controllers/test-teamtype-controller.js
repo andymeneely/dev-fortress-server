@@ -149,7 +149,19 @@ describe('TeamType Controller Tests', () => {
   });
   describe('teamtype controller getTeamTypes', () => {
     describe('teamtype Controller getTeamTypes success', () => {
-      it('should succeed getTeamTypes');
+      it('should succeed getTeamTypes', (done) => {
+        const mockReq = {
+          body: { },
+        };
+        const mockRes = new MockExpressResponse();
+        TeamTypeController.getTeamTypes(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(200);
+          const resJSON = mockRes._getJSON();
+          resJSON.should.be.an('array');
+          done();
+        }, timeout);
+      });
     });
     describe('teamtype Controller getTeamTypes fail', () => {
       it('should fail getTeamTypes');
@@ -157,10 +169,35 @@ describe('TeamType Controller Tests', () => {
   });
   describe('teamtype controller getTeamTypeById', () => {
     describe('teamtype Controller getTeamTypeById success', () => {
-      it('should succeed getTeamTypeById');
+      it('should succeed getTeamTypeById', (done) => {
+        const mockReq = {
+          params: { id: 1 },
+        };
+        const mockRes = new MockExpressResponse();
+        TeamTypeController.getTeamTypeById(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(200);
+          const resJSON = mockRes._getJSON();
+          resJSON.id.should.equal(1);
+          done();
+        }, timeout);
+      });
     });
     describe('teamtype Controller getTeamTypeById fail', () => {
-      it('should fail getTeamTypeById');
+      it('should fail getTeamTypeById', (done) => {
+        const mockReq = {
+          params: { id: 100 },
+        };
+        const mockRes = new MockExpressResponse();
+        TeamTypeController.getTeamTypeById(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(404);
+          const resJSON = mockRes._getJSON();
+          resJSON.error.should.equal('A TeamType with the requested id could not be found.');
+          assert.deepEqual(resJSON.request, mockReq);
+          done();
+        }, timeout);
+      });
     });
   });
 });
