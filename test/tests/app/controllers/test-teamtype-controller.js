@@ -163,9 +163,6 @@ describe('TeamType Controller Tests', () => {
         }, timeout);
       });
     });
-    describe('teamtype Controller getTeamTypes fail', () => {
-      it('should fail getTeamTypes');
-    });
   });
   describe('teamtype controller getTeamTypeById', () => {
     describe('teamtype Controller getTeamTypeById success', () => {
