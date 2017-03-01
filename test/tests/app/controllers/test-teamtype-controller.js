@@ -76,16 +76,75 @@ describe('TeamType Controller Tests', () => {
         setTimeout(() => {
           mockRes.statusCode.should.equal(409);
           const resJSON = mockRes._getJSON();
-          resJSON.error.should.equal('Conflict: TeamType with same name exists.');
           assert.deepEqual(resJSON.request, mockReq.body);
           done();
         }, timeout);
       });
-      it('should fail createTeamType missing name');
-      it('should fail createTeamType missing description');
-      it('should fail createTeamType missing initial_mature');
-      it('should fail createTeamType missing initial_mindset');
-      it('should fail createTeamType missing initial_resources');
+      it('should fail createTeamType missing name', (done) => {
+        const mockReq = getMockCreateTeamTypeReq();
+        delete mockReq.body.name;
+        const mockRes = new MockExpressResponse();
+        TeamTypeController.createTeamType(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(400);
+          const resJSON = mockRes._getJSON();
+          resJSON.error.should.equal('"name" is a required field.');
+          assert.deepEqual(resJSON.request, mockReq.body);
+          done();
+        }, timeout);
+      });
+      it('should fail createTeamType missing description', (done) => {
+        const mockReq = getMockCreateTeamTypeReq();
+        delete mockReq.body.description;
+        const mockRes = new MockExpressResponse();
+        TeamTypeController.createTeamType(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(400);
+          const resJSON = mockRes._getJSON();
+          resJSON.error.should.equal('"description" is a required field.');
+          assert.deepEqual(resJSON.request, mockReq.body);
+          done();
+        }, timeout);
+      });
+      it('should fail createTeamType missing initial_mature', (done) => {
+        const mockReq = getMockCreateTeamTypeReq();
+        delete mockReq.body.initial_mature;
+        const mockRes = new MockExpressResponse();
+        TeamTypeController.createTeamType(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(400);
+          const resJSON = mockRes._getJSON();
+          resJSON.error.should.equal('"initial_mature" is a required field.');
+          assert.deepEqual(resJSON.request, mockReq.body);
+          done();
+        }, timeout);
+      });
+      it('should fail createTeamType missing initial_mindset', (done) => {
+        const mockReq = getMockCreateTeamTypeReq();
+        delete mockReq.body.initial_mindset;
+        const mockRes = new MockExpressResponse();
+        TeamTypeController.createTeamType(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(400);
+          const resJSON = mockRes._getJSON();
+          resJSON.error.should.equal('"initial_mindset" is a required field.');
+          assert.deepEqual(resJSON.request, mockReq.body);
+          done();
+        }, timeout);
+      });
+      it('should fail createTeamType missing initial_resources', (done) => {
+        const mockReq = getMockCreateTeamTypeReq();
+        delete mockReq.body.initial_resources;
+        const mockRes = new MockExpressResponse();
+        TeamTypeController.createTeamType(mockReq, mockRes);
+        setTimeout(() => {
+          mockRes.statusCode.should.equal(400);
+          const resJSON = mockRes._getJSON();
+          resJSON.error.should.equal('"initial_resources" is a required field.');
+          assert.deepEqual(resJSON.request, mockReq.body);
+          done();
+        }, timeout);
+      });
     });
   });
   describe('teamtype controller getTeamTypes', () => {

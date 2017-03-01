@@ -79,15 +79,46 @@ function getTeamTypeById(req, res) {
  * @param  {Express.Response}   res  - the response object
  */
 function createTeamType(req, res) {
+  if (!req.body.name) {
+    return res.status(400).json({
+      error: '"name" is a required field.',
+      request: req.body,
+    });
+  }
+  if (!req.body.description) {
+    return res.status(400).json({
+      error: '"description" is a required field.',
+      request: req.body,
+    });
+  }
+  if (!req.body.initial_mature) {
+    return res.status(400).json({
+      error: '"initial_mature" is a required field.',
+      request: req.body,
+    });
+  }
+  if (!req.body.initial_resources) {
+    return res.status(400).json({
+      error: '"initial_resources" is a required field.',
+      request: req.body,
+    });
+  }
+  if (!req.body.initial_mindset) {
+    return res.status(400).json({
+      error: '"initial_mindset" is a required field.',
+      request: req.body,
+    });
+  }
   return TeamType.forge(req.body)
     .save().then(teamtype => res.json(teamtype.serialize()))
     .catch((err) => {
       if (err.errno === 19 && err.code === 'SQLITE_CONSTRAINT') {
         return res.status(409).json({
-          error: 'Conflict: TeamType with same name exists.',
+          error: err,
           request: req.body,
         });
       }
+      console.error(err);
       return res.status(500).json({
         error: 'UnknownError',
       });
