@@ -80,13 +80,18 @@ function getTeamTypeById(req, res) {
  */
 function createTeamType(req, res) {
   return TeamType.forge(req.body)
-  .save().then(teamtype => res.json(teamtype.serialize()))
-  .catch((err) => {
-    console.error(err);
-    return res.status(500).json({
-      error: 'UnknownError',
+    .save().then(teamtype => res.json(teamtype.serialize()))
+    .catch((err) => {
+      if (err.errno === 19 && err.code === 'SQLITE_CONSTRAINT') {
+        return res.status(409).json({
+          error: 'Conflict: TeamType with same name exists.',
+          request: req.body,
+        });
+      }
+      return res.status(500).json({
+        error: 'UnknownError',
+      });
     });
-  });
 }
 
 
