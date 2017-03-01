@@ -197,4 +197,108 @@ describe('TeamType Controller Tests', () => {
       });
     });
   });
+  describe('teamtype controller updateExistingTeamType', () => {
+    it('should succeed updateExistingTeamType name', (done) => {
+      const mockReq = {
+        params: { id: 1 },
+        body: {
+          name: 'Cavern',
+        },
+      };
+      const mockRes = new MockExpressResponse();
+      TeamTypeController.updateExistingTeamType(mockReq, mockRes);
+      setTimeout(() => {
+        mockRes.statusCode.should.equal(200);
+        const resJSON = mockRes._getJSON();
+        resJSON.id.should.equal(mockReq.params.id);
+        resJSON.name.should.equal(mockReq.body.name);
+        done();
+      }, timeout);
+    });
+    it('should succeed updateExistingTeamType description', (done) => {
+      const mockReq = {
+        params: { id: 1 },
+        body: {
+          description: 'Azure Computing',
+        },
+      };
+      const mockRes = new MockExpressResponse();
+      TeamTypeController.updateExistingTeamType(mockReq, mockRes);
+      setTimeout(() => {
+        mockRes.statusCode.should.equal(200);
+        const resJSON = mockRes._getJSON();
+        resJSON.id.should.equal(mockReq.params.id);
+        resJSON.description.should.equal(mockReq.body.description);
+        done();
+      }, timeout);
+    });
+    it('should succeed updateExistingTeamType initial_mature', (done) => {
+      const mockReq = {
+        params: { id: 1 },
+        body: {
+          initial_mature: false,
+        },
+      };
+      const mockRes = new MockExpressResponse();
+      TeamTypeController.updateExistingTeamType(mockReq, mockRes);
+      setTimeout(() => {
+        mockRes.statusCode.should.equal(200);
+        const resJSON = mockRes._getJSON();
+        resJSON.id.should.equal(mockReq.params.id);
+        (!!resJSON.initial_mature).should.equal(mockReq.body.initial_mature);
+        done();
+      }, timeout);
+    });
+    it('should succeed updateExistingTeamType initial_mindset', (done) => {
+      const mockReq = {
+        params: { id: 1 },
+        body: {
+          initial_mindset: 100,
+        },
+      };
+      const mockRes = new MockExpressResponse();
+      TeamTypeController.updateExistingTeamType(mockReq, mockRes);
+      setTimeout(() => {
+        mockRes.statusCode.should.equal(200);
+        const resJSON = mockRes._getJSON();
+        resJSON.id.should.equal(mockReq.params.id);
+        resJSON.initial_mindset.should.equal(mockReq.body.initial_mindset);
+        done();
+      }, timeout);
+    });
+    it('should succeed updateExistingTeamType initial_resources', (done) => {
+      const mockReq = {
+        params: { id: 1 },
+        body: {
+          initial_resources: 100,
+        },
+      };
+      const mockRes = new MockExpressResponse();
+      TeamTypeController.updateExistingTeamType(mockReq, mockRes);
+      setTimeout(() => {
+        mockRes.statusCode.should.equal(200);
+        const resJSON = mockRes._getJSON();
+        resJSON.id.should.equal(mockReq.params.id);
+        resJSON.initial_resources.should.equal(mockReq.body.initial_resources);
+        done();
+      }, timeout);
+    });
+    it('should succeed updateExistingTeamType disabled', (done) => {
+      const mockReq = {
+        params: { id: 1 },
+        body: {
+          disabled: true,
+        },
+      };
+      const mockRes = new MockExpressResponse();
+      TeamTypeController.updateExistingTeamType(mockReq, mockRes);
+      setTimeout(() => {
+        mockRes.statusCode.should.equal(200);
+        const resJSON = mockRes._getJSON();
+        resJSON.id.should.equal(mockReq.params.id);
+        (!!resJSON.disabled).should.equal(mockReq.body.disabled);
+        done();
+      }, timeout);
+    });
+  });
 });
