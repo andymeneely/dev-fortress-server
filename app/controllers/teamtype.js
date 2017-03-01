@@ -2,6 +2,7 @@
  * @module controllers/teamtype
  */
 const TeamType = require('../models/teamtype');
+const bookshelf = require('../lib/bookshelf');
 
 /**
  * Internal helper function. Serializes and performs type coercion
@@ -18,6 +19,34 @@ function serializeAndCoerce(teamTypeCollection) {
     teamType.disabled = !!teamType.disabled;
   });
   return teamTypeCollectionJson;
+}
+
+/**
+ * Update an existing TeamType
+ * @param  {Express.Request}   req  - the request object
+ * @param  {Express.Response}  res  - the response object
+ */
+function updateExistingTeamType(req, res) {
+  const targetTeamType = TeamType.forge({ id: req.params.id });
+  targetTeamType.fetch()
+    .then(teamtype =>
+      bookshelf.transaction(t =>
+        teamtype.save(req.body, { transacting: t })
+      )
+    )
+    .then(() => {
+      targetTeamType.fetch()
+        .then((updatedTeamType) => {
+          res.status(200).send(updatedTeamType);
+        })
+        .catch((err) => {
+          console.error(err);
+          return res.status(500).json({
+            error: 'UnknownError',
+            request: req.body,
+          });
+        });
+    });
 }
 
 /**
@@ -135,6 +164,7 @@ function createTeamType(req, res) {
 
 
 module.exports = {
+  updateExistingTeamType,
   getTeamTypes,
   getTeamTypeById,
   createTeamType,
