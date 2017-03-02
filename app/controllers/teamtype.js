@@ -91,14 +91,6 @@ function getTeamTypeById(req, res) {
     res.json(teamType);
   })
   .catch((err) => {
-    // 404
-    if (err.message === 'EmptyResponse') {
-      return res.status(404)
-      .json({
-        error: 'A TeamType with the requested id could not be found.',
-        request: { params: req.params },
-      });
-    }
     // Unknown error
     console.error(err);
     return res.status(500)
