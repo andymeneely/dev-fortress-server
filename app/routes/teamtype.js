@@ -14,7 +14,7 @@ router.get(
   authenticationMiddleware.validateAuthentication,
   teamtypeController.getTeamTypeById
 );
-router.put(
+router.patch(
   '/:id',
   authenticationMiddleware.validateAuthenticationAttachUser,
   authenticationMiddleware.verifyProfessor,
