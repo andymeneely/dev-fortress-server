@@ -14,13 +14,14 @@ Getting Started
 ### Dependencies
 - NodeJS v6.0+
 - Node Package Manager v4.2.0+
+- OpenSSL
 
-The project expects there to be a `privkey.pem` and `pubkey.pem` in the `resources/` directory. These files make up the public/private keypair used to sign and validate the JSON Web Tokens used in authenticating requests. You can easily generate these files by running an included script `node ./scripts/generate_jwt_keys.js`. (all this script does is make system calls to `openssl`, so you'll need that installed.)
+The project expects there to be a `privkey.pem` and `pubkey.pem` in the `resources/` directory. These files make up the public/private keypair used to sign and validate the JSON Web Tokens used in authenticating requests. You can easily generate these files by running an included script `node ./scripts/generate_jwt_keys.js`. (all this script does is make system calls to [openssl](https://github.com/openssl/openssl), so you'll need that installed.)
 
 ### Running the server
 1. `npm install` to install project dependencies.
 2. `npm run migrate` to initialize the database for the project.
-3. `knex seed:run` to seed the database with required data.
+3. `npm run seed` to seed the database with required data.
 4. `npm start` to start the server.
 
 Migrations are written in the `migrations/` directory.
