@@ -45,6 +45,11 @@ function getEventById(req, res) {
   });
 }
 
+/**
+ * Create a Event
+ * @param  {Express.Request}   req  - the request object
+ * @param  {Express.Response}  res  - the response object
+ */
 function createEvent(req, res) {
   const eventData = {};
   // validate request
@@ -112,9 +117,37 @@ function createEvent(req, res) {
     });
   });
 }
+/**
+ * Update a Event in the database by id
+ * @param  {Express.Request}   req  - the request object
+ * @param  {Express.Response}  res  - the response object
+ */
+function updateEvent(req, res) {
+  const targetEvent = Event.forge({ id: req.params.id });
+  targetEvent.fetch()
+    .then(event =>
+      bookshelf.transaction(t =>
+        event.save(req.body, { transacting: t })
+      )
+    )
+    .then(() => {
+      targetEvent.fetch()
+        .then((updatedEvent) => {
+          res.status(200).send(updatedEvent);
+        })
+        .catch((err) => {
+          console.error(err);
+          return res.status(500).json({
+            error: 'UnknownError',
+            request: req.body,
+          });
+        });
+    });
+}
 
 module.exports = {
   getEvents,
   getEventById,
   createEvent,
+  updateEvent,
 };
