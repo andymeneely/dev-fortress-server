@@ -25,15 +25,15 @@ function getEvents(req, res) {
 function getEventById(req, res) {
   return Event.where('id', req.params.id).fetch({
     require: true,
-    withRelated: req.query.withRelated,
   })
-  .then(user => res.json(user.serialize()))
+  .then(event => res.json(event.serialize()))
   .catch((err) => {
     // 404
     if (err.message === 'EmptyResponse') {
       return res.status(404)
       .json({
-        error: 'NotFound',
+        error: 'An Event with that ID could not be found.',
+        request: { params: req.params },
       });
     }
     // Unknown error
@@ -41,6 +41,7 @@ function getEventById(req, res) {
     return res.status(500)
     .json({
       error: 'UnknownError',
+      request: { params: req.params },
     });
   });
 }

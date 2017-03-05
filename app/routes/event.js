@@ -30,8 +30,10 @@ router.post(
 
 // UPDATE a specific event
 router.patch(
-  '/id',
+  '/',
   authenticationMiddleware.validateAuthenticationAttachUser,
   authenticationMiddleware.verifyProfessor,
   eventController.createEvent
 );
+
+module.exports = router;
