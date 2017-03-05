@@ -87,7 +87,7 @@ function validateAuthenticationAttachUser(req, res, next) {
       })
       .catch((fetchErr) => {
         console.error(fetchErr);
-        res.status(500).json({
+        return res.status(500).json({
           error: 'Unknown Error',
         });
       });
