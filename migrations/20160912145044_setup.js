@@ -37,10 +37,18 @@ exports.up = knex =>
     table.integer('initial_resources').notNullable();
     table.integer('initial_mindset').notNullable();
     table.boolean('disabled').defaultsTo(false);
+  })
+  .createTable('rumor', (table) => {
+    table.increments('id');
+    table.string('name').unique().notNullable();
+    table.string('description').notNullable();
+    table.integer('event_id');
+    table.boolean('disabled').defaultTo(false);
   });
 
 exports.down = (knex, Promise) =>
   Promise.all([
+    knex.schema.dropTable('rumor'),
     knex.schema.dropTable('teamtype'),
     knex.schema.dropTable('password'),
     knex.schema.dropTable('email'),
