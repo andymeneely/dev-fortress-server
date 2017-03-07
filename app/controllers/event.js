@@ -96,7 +96,12 @@ function createEvent(req, res) {
         throw new Error('A event with that name already exists.');
       }
     });
-    return Promise.all([eventExistsPromise]);
+    function saveEvent() {
+      return Event.forge(eventData)
+      .save(null, { transacting: t });
+    }
+    return Promise.all([eventExistsPromise])
+    .then(saveEvent);
   })
   .then(event =>
     res.json({
