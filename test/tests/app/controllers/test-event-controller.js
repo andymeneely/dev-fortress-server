@@ -124,7 +124,6 @@ describe('Event Controller Tests', () => {
         const mockRes = new MockExpressResponse();
         EventController.getEventById(mockReq, mockRes);
         setTimeout(() => {
-          console.log(mockRes._getJSON());
           mockRes.statusCode.should.equal(200);
           const resJSON = mockRes._getJSON();
           resJSON.id.should.equal(1);
