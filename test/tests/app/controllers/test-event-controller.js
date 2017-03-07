@@ -116,7 +116,7 @@ describe('Event Controller Tests', () => {
   });
 
   describe('event controller getEventById', () => {
-/*    describe('event Controller getEventById success', () => {
+    describe('event Controller getEventById success', () => {
       it('should succeed getEventById', (done) => {
         const mockReq = {
           params: { id: 1 },
@@ -131,7 +131,7 @@ describe('Event Controller Tests', () => {
           done();
         }, timeout);
       });
-    }); */
+    });
     describe('event Controller getEventById fail', () => {
       it('should fail getEventById', (done) => {
         const mockReq = {
