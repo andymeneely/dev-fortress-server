@@ -33,7 +33,7 @@ router.patch(
   '/',
   authenticationMiddleware.validateAuthenticationAttachUser,
   authenticationMiddleware.verifyProfessor,
-  eventController.createEvent
+  eventController.updateEvent
 );
 
 module.exports = router;
