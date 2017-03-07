@@ -1,32 +1,32 @@
-Express Starter Kit
+Dev-Fortress Server
 =======
-Starter kit repo for a RESTful NodeJS/Express application.
+Server for Dev-Fortress Security Game
 
 Overview
 ----
-The purpose of this repo if to eliminate much of the tyical boilerplate/scoffolding that is invloved when starting a brand new Express RESTful backend.
+This is the server-side component of the Dev-Fortress Security Game originally created by [Andy Meneely](https://github.com/andymeneely).
 
-It includes testing utilities via Mocha, test coverage via Istanbul, an ORM via Bookshelf and Knex and many other features that normally require a lot of repetitive configuration.
+The project is designed to be consumed by [dev-fortress-client](https://github.com/andymeneely/dev-fortress-client).
 
-Usage
+Getting Started
 ----
-When you first clone this repo there are a few things you'll need to do to get started.
 
-It is assumed that you have NodeJS v6.0+ installed and npm.
+### Dependencies
+- NodeJS v6.0+
+- Node Package Manager v4.2.0+
+- OpenSSL
 
-First is to run `npm install` to install project dependencies.
+The project expects there to be a `privkey.pem` and `pubkey.pem` in the `resources/` directory. These files make up the public/private keypair used to sign and validate the JSON Web Tokens used in authenticating requests. You can easily generate these files by running an included script `node ./scripts/generate_jwt_keys.js`. (all this script does is make system calls to [openssl](https://github.com/openssl/openssl), so you'll need that installed.)
 
-You should now be able to run `npm start` and start the project locally. However, you don't have a database yet.
+### Running the server
+1. `npm install` to install project dependencies.
+2. `npm run migrate` to initialize the database for the project.
+3. `npm run seed` to seed the database with required data.
+4. `npm start` to start the server.
 
-The default development databsae uses SQLite. The app uses knex as a query bulider which also manages migrations. It also uses Bookshelf as an ORM.
-
-Migrations are written in the `migrations/` directory. These migrations can be run with `npm run migrate`.
+Migrations are written in the `migrations/` directory.
 
 Once this is done you should now have a `databse.sqlite3` file in your project root. This is your project's development database.
-
-The default project also expects there to be a `privkey.pem` and `pubkey.pem` in the resources folder. These files make up the public/private keypair used to sign and validate the JSON Web Tokens used in authenticating requests.
-
-You can easily generate these files by running an included script `node ./scripts/generate_jwt_keys.js`. (all this script does is make system calls to openssl, so you'll need that installed.)
 
 Project Structure
 ----
