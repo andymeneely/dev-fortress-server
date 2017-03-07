@@ -43,7 +43,7 @@ exports.up = knex =>
     table.string('name').unique().notNullable();
     table.string('description').notNullable();
     table.integer('default_damage').notNullable();
-    table.boolean('disabled').notNullable();
+    table.boolean('disabled').defaultsTo(false);
   });
 
 exports.down = (knex, Promise) =>
