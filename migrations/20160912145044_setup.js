@@ -49,14 +49,14 @@ exports.up = knex =>
     table.increments('id');
     table.string('name').unique().notNullable();
     table.string('description').notNullable();
-    table.integer('event_id');
+    table.integer('event_id').references('event.id').notNullable();
     table.boolean('disabled').defaultTo(false);
   });
 
 exports.down = (knex, Promise) =>
   Promise.all([
-    knex.schema.dropTable('event'),
     knex.schema.dropTable('rumor'),
+    knex.schema.dropTable('event'),
     knex.schema.dropTable('teamtype'),
     knex.schema.dropTable('password'),
     knex.schema.dropTable('email'),
