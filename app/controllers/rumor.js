@@ -7,8 +7,6 @@ const bookshelf = require('../lib/bookshelf');
 
 const has = require('has');
 
-const bookshelf = require('../lib/bookshelf');
-
 /**
  * Internal helper function. Serializes and performs type coercion
  * Returns the serialized and coerced collection.
