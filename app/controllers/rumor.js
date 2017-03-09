@@ -2,7 +2,10 @@
  * @module controllers/rumor
  */
 const Rumor = require('../models/rumor');
+const Event = require('../models/event');
 const bookshelf = require('../lib/bookshelf');
+
+const has = require('has');
 
 /**
  * Internal helper function. Serializes and performs type coercion
@@ -82,18 +85,23 @@ function getRumors(req, res) {
  * @param  {Express.Response}  res  - the response object
  */
 function getRumorById(req, res) {
-  return Rumor.where('id', req.params.id).fetch({
-    require: true,
-    withRelated: req.query.withRelated,
-  })
+  return Rumor.where('id', req.params.id).fetch()
   .then((rumor) => {
-    const rumorJson = serializeAndCoerce(rumor)[0];
-    return res.json(rumorJson);
+    if (!rumor) {
+      res.status(404).send({
+        error: 'A Rumor with that ID does not exist.',
+        request: req,
+      });
+    } else {
+      const rumorJson = serializeAndCoerce(rumor)[0];
+      res.send(rumorJson);
+    }
   })
   .catch((err) => {
     console.error(err);
-    return res.status(500).json({
+    return res.status(500).send({
       error: err,
+      request: req,
     });
   });
 }
@@ -105,33 +113,61 @@ function getRumorById(req, res) {
  */
 function createRumor(req, res) {
   const newRumorData = req.body;
-  if (!newRumorData.name) {
-    res.status(400).json({
+  if (!has(newRumorData, 'name')) {
+    return res.status(400).json({
       error: '"name" is a required field.',
       request: newRumorData,
     });
   }
-  if (!newRumorData.description) {
-    res.status(400).json({
+  if (!has(newRumorData, 'description')) {
+    return res.status(400).json({
       error: '"description" is a required field.',
       request: newRumorData,
     });
   }
-  Rumor.forge(newRumorData)
-    .save().then(rumor => res.json(serializeAndCoerce(rumor)[0]))
-    .catch((err) => {
-      if (err.errno === 19 && err.code === 'SQLITE_CONSTRAINT') {
-        res.status(409).json({
-          error: err,
+  if (!has(newRumorData, 'event_id')) {
+    return res.status(400).json({
+      error: '"event_id" is a required field.',
+      request: newRumorData,
+    });
+  }
+  return Event.where('id', newRumorData.event_id).fetch({
+    require: true,
+  })
+  .then(() => {
+    // The event exists, forge the Rumor.
+    Rumor.forge(newRumorData)
+      .save().then(rumor => res.json(serializeAndCoerce(rumor)[0]))
+      .catch((err) => {
+        if (err.errno === 19 && err.code === 'SQLITE_CONSTRAINT') {
+          return res.status(409).json({
+            error: err,
+            request: newRumorData,
+          });
+        }
+        console.error(err);
+        return res.status(500).json({
+          error: 'UnknownError',
           request: newRumorData,
         });
-      }
-      console.error(err);
-      res.status(500).json({
-        error: 'UnknownError',
+      });
+  }, (reason) => {
+    // Promise rejected.
+    if (reason.message === 'EmptyResponse') {
+      return res.status(400).json({
+        error: 'The Event represented by event_id does not exist.',
         request: newRumorData,
       });
+    }
+    console.error(reason);
+    return res.status(500).json({
+      error: 'UnknownError',
+      requst: newRumorData,
     });
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 }
 
 module.exports = {
