@@ -7,6 +7,8 @@ const bookshelf = require('../lib/bookshelf');
 
 const has = require('has');
 
+const bookshelf = require('../lib/bookshelf');
+
 /**
  * Internal helper function. Serializes and performs type coercion
  * Returns the serialized and coerced collection.
@@ -168,6 +170,21 @@ function createRumor(req, res) {
   .catch((error) => {
     console.error(error);
   });
+  Rumor.forge(newRumorData)
+    .save().then(rumor => res.json(serializeAndCoerce(rumor)[0]))
+    .catch((err) => {
+      if (err.errno === 19 && err.code === 'SQLITE_CONSTRAINT') {
+        res.status(409).json({
+          error: err,
+          request: newRumorData,
+        });
+      }
+      console.error(err);
+      res.status(500).json({
+        error: 'UnknownError',
+        request: newRumorData,
+      });
+    });
 }
 
 module.exports = {
