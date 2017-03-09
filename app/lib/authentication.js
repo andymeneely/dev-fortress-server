@@ -57,12 +57,12 @@ function signToken(tokenData, callback) {
 /**
  * Verify a JWT
  * @param  {Sring}    token    - the token to verify
- * @param  {Function}   callback - the callback
+ * @param  {Function}   callback - Optional. the callback
  */
 function verifyToken(token, callback) {
-  return jwt.verify(token, publicCert, callback);
+  if (callback) return jwt.verify(token, publicCert, callback);
+  return jwt.verify(token, publicCert);
 }
-
 
 module.exports = {
   hashPassword,
