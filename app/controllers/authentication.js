@@ -10,7 +10,7 @@ const authentication = require('../lib/authentication');
 function refreshToken(req, res) {
   if (!(req.user)) {
     console.error('No user data attached to req.body. AttachUser middleware is required.');
-    return res.status(500).json({
+    res.status(500).send({
       error: 'Internal Server Error',
       message: 'The server is configured incorrectly.',
     });
@@ -18,15 +18,17 @@ function refreshToken(req, res) {
   const tokenData = {
     userId: req.user.id,
   };
-  return new Promise((accept, reject) => {
-    authentication.signToken(tokenData, (err, theToken) => {
-      if (err) {
-        reject(err);
-      }
-      return res.json({
+  authentication.signToken(tokenData, (err, theToken) => {
+    if (err) {
+      res.status(500).send({
+        error: err,
+        request: req.body,
+      });
+    } else {
+      res.send({
         token: theToken,
       });
-    });
+    }
   });
 }
 
@@ -53,10 +55,10 @@ function login(req, res) {
     })
   );
 
-  return Promise.all([userDataPromise, checkPasswordPromise])
+  Promise.all([userDataPromise, checkPasswordPromise])
   .then(([userData, passMatch]) => {
     if (!passMatch) {
-      return res.status(400).json({
+      res.status(400).send({
         error: 'BadPassword',
         message: 'Password is incorrect for user',
       });
@@ -65,22 +67,23 @@ function login(req, res) {
     // Attach User data to the request. Required by refreshToken
     req.user = userData.attributes;
 
-    return refreshToken(req, res);
+    refreshToken(req, res);
   })
   .catch((err) => {
     if (err.message === 'EmptyResponse') {
-      return res.status(400)
-      .json({
+      res.status(400)
+      .send({
         error: 'NoUser',
         message: 'Username not found',
       });
+    } else {
+      // Unknown error
+      console.error(err);
+      res.status(500)
+        .send({
+          error: 'UnknownError',
+        });
     }
-    // Unknown error
-    console.error(err);
-    return res.status(500)
-    .json({
-      error: 'UnknownError',
-    });
   });
 }
 
