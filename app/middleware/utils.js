@@ -28,9 +28,10 @@ function handleOptions(req, res, next) {
 function redirect(req, res, next) {
   switch (req.url) {
     case '/login':
-      return res.redirect(308, '/api/user/login');
+      res.redirect(308, '/api/user/login');
+      break;
     default:
-      return next();
+      next();
   }
 }
 
