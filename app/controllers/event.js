@@ -139,7 +139,7 @@ function updateEvent(req, res) {
     .then(() => {
       targetEvent.fetch()
         .then((updatedEvent) => {
-          res.status(200).send(updatedEvent);
+          res.status(200).json(updatedEvent);
         })
         .catch((err) => {
           console.error(err);

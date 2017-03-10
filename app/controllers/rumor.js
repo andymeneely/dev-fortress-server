@@ -48,7 +48,7 @@ function updateExistingRumor(req, res) {
     .then(() => {
       targetRumor.fetch()
         .then((updatedRumor) => {
-          res.status(200).send(serializeAndCoerce(updatedRumor)[0]);
+          res.status(200).json(serializeAndCoerce(updatedRumor)[0]);
         })
         .catch((err) => {
           console.error(err);
@@ -88,18 +88,18 @@ function getRumorById(req, res) {
   return Rumor.where('id', req.params.id).fetch()
   .then((rumor) => {
     if (!rumor) {
-      res.status(404).send({
+      res.status(404).json({
         error: 'A Rumor with that ID does not exist.',
         request: req,
       });
     } else {
       const rumorJson = serializeAndCoerce(rumor)[0];
-      res.send(rumorJson);
+      res.json(rumorJson);
     }
   })
   .catch((err) => {
     console.error(err);
-    return res.status(500).send({
+    return res.status(500).json({
       error: err,
       request: req,
     });

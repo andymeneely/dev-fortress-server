@@ -6,20 +6,20 @@ const User = require('../models/user');
  */
 function tokenErrorHandler(err, res) {
   if (err.name === 'TokenExpiredError') {
-    res.status(401).send({
+    res.status(401).json({
       error: 'TokenExpired',
       message: 'jwt expired',
     });
   }
 
   if (err.name === 'JsonWebTokenError') {
-    res.status(401).send({
+    res.status(401).json({
       error: 'NoToken',
       message: 'jwt must be provided',
     });
   }
   console.error(err);
-  res.status(401).send({
+  res.status(401).json({
     error: 'Unauthorized',
     message: 'You are not authenticated.',
   });
@@ -32,7 +32,7 @@ function tokenErrorHandler(err, res) {
 function validateAuthentication(req, res, next) {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
-    return res.status(401).send({
+    return res.status(401).json({
       error: 'Unauthorized',
       message: 'You are not authenticated.',
     });
@@ -41,7 +41,7 @@ function validateAuthentication(req, res, next) {
   const authMatch = authHeader.match(/Bearer (.*)$/);
 
   if (!authMatch) {
-    return res.status(401).send({
+    return res.status(401).json({
       error: 'Unauthorized',
       message: 'You are not authenticated.',
     });
@@ -59,7 +59,7 @@ function validateAuthentication(req, res, next) {
 function validateAuthenticationAttachUser(req, res, next) {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
-    res.status(401).send({
+    res.status(401).json({
       error: 'Unauthorized',
       message: 'You are not authenticated.',
     });
@@ -68,7 +68,7 @@ function validateAuthenticationAttachUser(req, res, next) {
   const authMatch = authHeader.match(/Bearer (.*)$/);
 
   if (!authMatch) {
-    res.status(401).send({
+    res.status(401).json({
       error: 'Unauthorized',
       message: 'You are not authenticated.',
     });
@@ -83,7 +83,7 @@ function validateAuthenticationAttachUser(req, res, next) {
     })
     .catch((fetchErr) => {
       console.error(fetchErr);
-      res.status(500).send({
+      res.status(500).json({
         error: 'Unknown Error',
       });
     });
