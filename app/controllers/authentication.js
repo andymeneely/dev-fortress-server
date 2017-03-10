@@ -10,7 +10,7 @@ const authentication = require('../lib/authentication');
 function refreshToken(req, res) {
   if (!(req.user)) {
     console.error('No user data attached to req.body. AttachUser middleware is required.');
-    res.status(500).send({
+    res.status(500).json({
       error: 'Internal Server Error',
       message: 'The server is configured incorrectly.',
     });
@@ -20,12 +20,12 @@ function refreshToken(req, res) {
   };
   authentication.signToken(tokenData, (err, theToken) => {
     if (err) {
-      res.status(500).send({
+      res.status(500).json({
         error: err,
         request: req.body,
       });
     } else {
-      res.send({
+      res.status(200).json({
         token: theToken,
       });
     }
@@ -58,7 +58,7 @@ function login(req, res) {
   Promise.all([userDataPromise, checkPasswordPromise])
   .then(([userData, passMatch]) => {
     if (!passMatch) {
-      res.status(400).send({
+      res.status(400).json({
         error: 'BadPassword',
         message: 'Password is incorrect for user',
       });
@@ -72,7 +72,7 @@ function login(req, res) {
   .catch((err) => {
     if (err.message === 'EmptyResponse') {
       res.status(400)
-      .send({
+      .json({
         error: 'NoUser',
         message: 'Username not found',
       });
@@ -80,7 +80,7 @@ function login(req, res) {
       // Unknown error
       console.error(err);
       res.status(500)
-        .send({
+        .json({
           error: 'UnknownError',
         });
     }
