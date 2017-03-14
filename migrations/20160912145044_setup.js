@@ -13,21 +13,21 @@ exports.up = knex =>
     table.integer('user_id').references('user.id').notNullable().onDelete('CASCADE');
     table.string('password_hash').notNullable();
     table.timestamp('updated_at').defaultTo(knex.fn.now());
-    table.boolean('valid').defaultsTo(true);
+    table.boolean('valid').defaultTo(true);
   })
   .createTable('email', (table) => {
     table.increments('id');
     table.integer('user_id').references('user.id').notNullable().onDelete('CASCADE');
     table.string('address').unique().notNullable();
-    table.boolean('verified').defaultsTo(false);
+    table.boolean('verified').defaultTo(false);
   })
   .createTable('role', (table) => {
     table.increments('id');
     table.string('name').unique().notNullable();
   })
   .createTable('user_role', (table) => {
-    table.integer('user_id').references('user.id').notNullable();
-    table.integer('role_id').references('role.id').notNullable();
+    table.integer('user_id').references('user.id').notNullable().onDelete('CASCADE');
+    table.integer('role_id').references('role.id').notNullable().onDelete('CASCADE');
   })
   .createTable('teamtype', (table) => {
     table.increments('id');
@@ -36,25 +36,35 @@ exports.up = knex =>
     table.boolean('initial_mature').notNullable();
     table.integer('initial_resources').notNullable();
     table.integer('initial_mindset').notNullable();
-    table.boolean('disabled').defaultsTo(false);
+    table.boolean('disabled').defaultTo(false);
   })
   .createTable('event', (table) => {
     table.increments('id');
     table.string('name').unique().notNullable();
     table.string('description').notNullable();
     table.integer('default_damage').notNullable();
-    table.boolean('disabled').defaultsTo(false);
+    table.boolean('disabled').defaultTo(false);
   })
   .createTable('rumor', (table) => {
     table.increments('id');
     table.string('name').unique().notNullable();
     table.string('description').notNullable();
-    table.integer('event_id').references('event.id').notNullable();
+    table.integer('event_id').references('event.id').notNullable().onDelete('CASCADE');
     table.boolean('disabled').defaultTo(false);
+  })
+  .createTable('game', (table) => {
+    table.increments('id');
+    table.string('name').unique().notNullable();
+    table.timestamp('created_at').defaultTo(knex.fn.now()).notNullable();
+    table.integer('current_round').unsigned().defaultTo(0).notNullable();
+    table.integer('max_round').unsigned().notNullable();
+    table.integer('round_phase').unsigned().defaultTo(0).notNullable();
+    table.integer('storyteller_id').references('user.id').notNullable().onDelete('CASCADE');
   });
 
 exports.down = (knex, Promise) =>
   Promise.all([
+    knex.schema.dropTable('game'),
     knex.schema.dropTable('rumor'),
     knex.schema.dropTable('event'),
     knex.schema.dropTable('teamtype'),
