@@ -36,4 +36,15 @@ router.patch(
   eventController.updateEvent
 );
 
+/**
+ * Generate 404s.
+ * Only use this at the bottom of custom route handlers.
+ */
+router.use((req, res) => {
+  res.status(404).json({
+    error: 'Not Found',
+    request: req.body,
+  });
+});
+
 module.exports = router;
