@@ -10,7 +10,7 @@ router.use('/role', require('./role'));
 router.use('/event', require('./event'));
 router.use('/teamtype', require('./teamtype'));
 router.use('/rumor', require('./rumor'));
-
+router.use('/game', require('./game'));
 
 // Generate 404s
 router.use((req, res, next) => {
