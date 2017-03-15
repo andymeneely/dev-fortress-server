@@ -271,8 +271,6 @@ function createGame(req, res) {
   });
 }
 
-
-
 module.exports = {
   getGames,
   updateGame,
