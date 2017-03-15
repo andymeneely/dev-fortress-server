@@ -239,8 +239,12 @@ function createGame(req, res) {
       // Set storyteller to admin/professor making the request
       newGameReq.storyteller_id = req.user.id;
 
-      Game.forge(newGameReq)
-      .save().then(game => res.status(201).json(game.serialize()))
+      Game.forge(newGameReq).save()
+      .then((game) => {
+        // Retrieve the newly created game and return it in the response body.
+        Game.where('id', game.id).fetch()
+        .then(newGame => res.status(201).json(newGame.serialize()));
+      })
       .catch((err) => {
         console.error(err);
         res.status(500).json({
