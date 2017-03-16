@@ -37,7 +37,7 @@ function updateExistingTeamType(req, res) {
     .then(() => {
       targetTeamType.fetch()
         .then((updatedTeamType) => {
-          res.status(200).send(updatedTeamType);
+          res.status(200).json(updatedTeamType);
         })
         .catch((err) => {
           console.error(err);

@@ -6,20 +6,20 @@ const User = require('../models/user');
  */
 function tokenErrorHandler(err, res) {
   if (err.name === 'TokenExpiredError') {
-    return res.status(401).json({
+    res.status(401).json({
       error: 'TokenExpired',
       message: 'jwt expired',
     });
   }
 
   if (err.name === 'JsonWebTokenError') {
-    return res.status(401).json({
+    res.status(401).json({
       error: 'NoToken',
       message: 'jwt must be provided',
     });
   }
   console.error(err);
-  return res.status(401).json({
+  res.status(401).json({
     error: 'Unauthorized',
     message: 'You are not authenticated.',
   });
@@ -32,7 +32,7 @@ function tokenErrorHandler(err, res) {
 function validateAuthentication(req, res, next) {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
-    return res.status(401).send({
+    return res.status(401).json({
       error: 'Unauthorized',
       message: 'You are not authenticated.',
     });
@@ -41,7 +41,7 @@ function validateAuthentication(req, res, next) {
   const authMatch = authHeader.match(/Bearer (.*)$/);
 
   if (!authMatch) {
-    return res.status(401).send({
+    return res.status(401).json({
       error: 'Unauthorized',
       message: 'You are not authenticated.',
     });
@@ -59,7 +59,7 @@ function validateAuthentication(req, res, next) {
 function validateAuthenticationAttachUser(req, res, next) {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
-    return res.status(401).send({
+    res.status(401).json({
       error: 'Unauthorized',
       message: 'You are not authenticated.',
     });
@@ -68,30 +68,27 @@ function validateAuthenticationAttachUser(req, res, next) {
   const authMatch = authHeader.match(/Bearer (.*)$/);
 
   if (!authMatch) {
-    return res.status(401).send({
+    res.status(401).json({
       error: 'Unauthorized',
       message: 'You are not authenticated.',
     });
   }
 
-  return auth.verifyToken(authMatch[1], (err, decoded) => {
-    if (err) {
-      return tokenErrorHandler(err, res);
-    }
-    const userId = decoded.userId;
-    return User.forge({ id: userId })
-      .fetch({ withRelated: 'roles' })
-      .then((user) => {
-        req.user = user.serialize();
-        return next();
-      })
-      .catch((fetchErr) => {
-        console.error(fetchErr);
-        res.status(500).json({
-          error: 'Unknown Error',
-        });
+  const decoded = auth.verifyToken(authMatch[1]);
+  const userId = decoded.userId;
+
+  const userPromise = User.where('id', userId).fetch()
+    .then((user) => {
+      req.user = user.serialize();
+    })
+    .catch((fetchErr) => {
+      console.error(fetchErr);
+      res.status(500).json({
+        error: 'Unknown Error',
       });
-  });
+    });
+
+  userPromise.then(next);
 }
 
 /**

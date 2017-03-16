@@ -244,7 +244,7 @@ function setRoles(req, res) {
       withRelated: ['roles'],
     })
   )
-  .then(user => res.status(200).send(user))
+  .then(user => res.status(200).json(user))
   .catch((err) => {
     console.error(err);
     return res.status(500)
