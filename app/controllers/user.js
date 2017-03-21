@@ -160,8 +160,7 @@ function getUserById(req, res) {
   return User.where('id', req.params.id).fetch({
     require: true,
     withRelated: req.query.withRelated,
-  })
-            .then(user => res.json(user.serialize()))
+  }).then(user => res.json(user.serialize()))
   .catch((err) => {
     const regMatch = err.message.match(/([a-zA-Z]*) is not defined on the model/);
     if (regMatch) {

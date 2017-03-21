@@ -17,6 +17,12 @@ function getMockRegisterUserReq() {
       name: 'Test User Model',
       is_admin: false,
     },
+    params: {
+      id: 0,
+    },
+    query: {
+      withRelated: { },
+    },
   };
 }
 
@@ -120,6 +126,32 @@ describe('User Controller Tests', () => {
         mockRes.statusCode.should.equal(200);
         mockRes.statusMessage.should.equal('OK');
         mockRes._getJSON().should.be.an('array');
+        done();
+      }, timeout);
+    });
+  });
+  describe('user controller getUserById', () => {
+    it('user controller getUserById success', (done) => {
+      const mockReq = getMockRegisterUserReq();
+      mockReq.params.id = 1;
+      const mockRes = new MockExpressResponse();
+      UserController.getUserById(mockReq, mockRes);
+      setTimeout(() => {
+        mockRes.statusCode.should.equal(200);
+        const resJSON = mockRes._getJSON();
+        resJSON.id.should.equal(1);
+        done();
+      }, timeout);
+    });
+    it('user controller getUserById fail', (done) => {
+      const mockReq = getMockRegisterUserReq();
+      mockReq.params.id = 100;
+      const mockRes = new MockExpressResponse();
+      UserController.getUserById(mockReq, mockRes);
+      setTimeout(() => {
+        mockRes.statusCode.should.equal(404);
+        const resJSON = mockRes._getJSON();
+        resJSON.error.should.equal('NotFound');
         done();
       }, timeout);
     });
