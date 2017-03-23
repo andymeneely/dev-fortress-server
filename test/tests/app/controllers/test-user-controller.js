@@ -2,11 +2,9 @@ const knex = require('../../../../app/lib/db');
 const chai = require('chai');
 const UserController = require('../../../../app/controllers/user');
 const MockExpressResponse = require('mock-express-response');
+const timeout = require('../../../data/constants').TIMEOUT;
 
 const should = chai.should();
-
-// Timeout to be used for checking controller responses
-const timeout = 250;
 
 function getMockRegisterUserReq() {
   return {

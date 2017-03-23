@@ -2,11 +2,10 @@ const knex = require('../../../../app/lib/db');
 const chai = require('chai');
 const TeamTypeController = require('../../../../app/controllers/teamtype');
 const MockExpressResponse = require('mock-express-response');
+const timeout = require('../../../data/constants').TIMEOUT;
 
 const should = chai.should();
 const assert = chai.assert;
-// Timeout to be used for checking controller responses
-const timeout = 250;
 
 function getMockCreateTeamTypeReq() {
   return {

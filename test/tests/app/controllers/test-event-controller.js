@@ -2,12 +2,10 @@ const knex = require('../../../../app/lib/db');
 const chai = require('chai');
 const EventController = require('../../../../app/controllers/event');
 const MockExpressResponse = require('mock-express-response');
+const timeout = require('../../../data/constants').TIMEOUT;
 
 const should = chai.should();
 const assert = chai.assert;
-
-// Timeout to be used for checking controller responses
-const timeout = 250;
 
 function getMockCreateEventReq() {
   return {
