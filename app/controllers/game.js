@@ -45,7 +45,7 @@ function getGameById(req, res) {
     } else {
       res.status(404).json({
         error: 'Game with the associated ID was not found',
-        request: req.body,
+        request: req.params,
       });
     }
   })
@@ -53,7 +53,7 @@ function getGameById(req, res) {
     console.error(err);
     res.status(500).json({
       error: 'UnknownError',
-      request: req.body,
+      request: req.params,
     });
   });
 }
@@ -122,7 +122,7 @@ function updateGame(req, res) {
     }
 
     if (has(updatedFields, 'name')) {
-      return validateNameUnique(updatedFields.name).then((isValid) => {
+      const namePromise = validateNameUnique(updatedFields.name).then((isValid) => {
         if (!isValid) {
           throw new Error('Game with Name exists');
         }
@@ -130,7 +130,7 @@ function updateGame(req, res) {
       .catch((err) => {
         if (err.message === 'Game with Name exists') {
           res.status(400).json({
-            error: 'Bad Request: There is already a Game with that name. Please choose a unique name.',
+            error: 'There is already a Game with that name. Please choose a unique name.',
             request: updatedFields,
           });
           return false;
@@ -142,6 +142,7 @@ function updateGame(req, res) {
         });
         return false;
       });
+      return Promise.resolve(namePromise);
     }
 
     if (has(updatedFields, 'storyteller_id')) {
@@ -183,30 +184,30 @@ function updateGame(req, res) {
   let existingGameQuery = Game.where('id', gameId);
 
   if (!req.user.is_admin) existingGameQuery = existingGameQuery.where('storyteller_id', user.id);
-
   existingGameQuery.fetch().then((game) => {
     if (!game) {
       res.status(404).json({
         error: 'Game with the associated ID was not found',
         request: req.body,
       });
-    } else {
-      Promise.resolve(validateUpdateRequests()).then((isValid) => {
-        if (isValid) {
-          game.save(updatedFields)
-          .then(() => existingGameQuery.fetch())
-          .then(updatedGame => res.status(200).json(updatedGame))
-          .catch((err) => {
-            console.error(err);
-            res.status(500).json({
-              error: 'UnknownError',
-              request: updatedFields,
-            });
-          });
-        }
+    } else if (validateUpdateRequests()) {
+      game.save(updatedFields)
+      .then(() => existingGameQuery.fetch()
+      .then((updatedGame) => {
+        res.status(200).json(updatedGame.serialize());
+      })
+      )
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({
+          error: 'UnknownError',
+          request: updatedFields,
+        });
       });
     }
   });
+
+  Promise.resolve(existingGameQuery);
 }
 
 /**
@@ -219,14 +220,14 @@ function createGame(req, res) {
   const newGameReq = req.body;
   if (!has(newGameReq, 'name')) {
     res.status(400).json({
-      error: 'Bad Request: Missing required "name" field.',
+      error: 'Missing required "name" field.',
       request: newGameReq,
     });
     return null;
   }
   if (!has(newGameReq, 'max_round')) {
     res.status(400).json({
-      error: 'Bad Request: Missing required "max_round" field.',
+      error: 'Missing required "max_round" field.',
       request: newGameReq,
     });
     return null;
@@ -239,25 +240,25 @@ function createGame(req, res) {
       // Set storyteller to admin/professor making the request
       newGameReq.storyteller_id = req.user.id;
 
-      Game.forge(newGameReq).save()
-      .then((game) => {
+      return Game.forge(newGameReq).save()
+      .then(game =>
         // Retrieve the newly created game and return it in the response body.
         Game.where('id', game.id).fetch()
-        .then(newGame => res.status(201).json(newGame.serialize()));
-      })
+        .then(newGame => res.status(201).json(newGame.serialize()))
+      )
       .catch((err) => {
         console.error(err);
-        res.status(500).json({
+        return res.status(500).json({
           error: 'UnknownError',
+          request: newGameReq,
         });
       });
-      return null;
     }
   })
   .catch((err) => {
     if (err.message === 'Game with Name exists') {
       res.status(400).json({
-        error: 'Bad Request: There is already a Game with that name. Please choose a unique name.',
+        error: 'There is already a Game with that name. Please choose a unique name.',
         request: newGameReq,
       });
       return null;
