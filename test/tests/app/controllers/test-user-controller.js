@@ -5,13 +5,11 @@ const MockExpressResponse = require('mock-express-response');
 const API_USER_GET_USER_BY_ID = require('../../../data/constants').API_USER_GET_USER_BY_ID;
 const API_LOGIN_URL = require('../../../data/constants').API_LOGIN_URL;
 const server = require('../../../../app');
+const timeout = require('../../../data/constants').TIMEOUT;
 
 const should = chai.should();
 let adminAuthToken = '';
 let userAuthToken = '';
-
-// Timeout to be used for checking controller responses
-const timeout = 250;
 
 function getMockRegisterUserReq() {
   return {
@@ -87,7 +85,7 @@ describe('User Controller Tests', () => {
       }, (error) => {
         console.error(error);
       });
-    }, 500);
+    }, timeout);
   });
 
   describe('user controller registerNewUser', () => {

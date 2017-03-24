@@ -10,19 +10,18 @@ function tokenErrorHandler(err, res) {
       error: 'TokenExpired',
       message: 'jwt expired',
     });
-  }
-
-  if (err.name === 'JsonWebTokenError') {
+  } else if (err.name === 'JsonWebTokenError') {
     res.status(401).json({
       error: 'NoToken',
       message: 'jwt must be provided',
     });
+  } else {
+    console.error(err);
+    res.status(401).json({
+      error: 'Unauthorized',
+      message: 'You are not authenticated.',
+    });
   }
-  console.error(err);
-  res.status(401).json({
-    error: 'Unauthorized',
-    message: 'You are not authenticated.',
-  });
 }
 
 /**
@@ -49,17 +48,17 @@ function validateAuthentication(req, res, next) {
 
   return auth.verifyToken(authMatch[1], (err) => {
     if (err) {
-      return tokenErrorHandler(err, res);
+      tokenErrorHandler(err, res);
+    } else {
+      next();
     }
-
-    return next();
   });
 }
 
 function validateAuthenticationAttachUser(req, res, next) {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
-    res.status(401).json({
+    return res.status(401).json({
       error: 'Unauthorized',
       message: 'You are not authenticated.',
     });
@@ -68,7 +67,7 @@ function validateAuthenticationAttachUser(req, res, next) {
   const authMatch = authHeader.match(/Bearer (.*)$/);
 
   if (!authMatch) {
-    res.status(401).json({
+    return res.status(401).json({
       error: 'Unauthorized',
       message: 'You are not authenticated.',
     });
@@ -77,7 +76,9 @@ function validateAuthenticationAttachUser(req, res, next) {
   const decoded = auth.verifyToken(authMatch[1]);
   const userId = decoded.userId;
 
-  const userPromise = User.where('id', userId).fetch()
+  const userPromise = User.where('id', userId).fetch({
+    withRelated: ['roles'],
+  })
     .then((user) => {
       req.user = user.serialize();
     })
@@ -88,7 +89,7 @@ function validateAuthenticationAttachUser(req, res, next) {
       });
     });
 
-  userPromise.then(next);
+  return userPromise.then(next);
 }
 
 /**
@@ -132,7 +133,7 @@ function verifyProfessor(req, res, next) {
   let isProf = false;
 
   roles.forEach((role) => {
-    if (role.name === 'Professor') {
+    if (role.name === 'professor') {
       isProf = true;
     }
   });
@@ -141,7 +142,7 @@ function verifyProfessor(req, res, next) {
   }
   return res.status(403).json({
     error: 'Forbidden',
-    message: 'User must be part of the \'Professor\' Role to perform this action',
+    message: 'User must be part of the \'professor\' Role to perform this action',
   });
 }
 

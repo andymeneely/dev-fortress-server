@@ -2,7 +2,7 @@ exports.seed = knex =>
   knex.transaction((trx) => {
     knex('role').transacting(trx).insert({
       id: 1,
-      name: 'Professor',
+      name: 'professor',
     })
     .then(trx.commit)
     .catch(
