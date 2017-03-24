@@ -133,7 +133,7 @@ function verifyProfessor(req, res, next) {
   let isProf = false;
 
   roles.forEach((role) => {
-    if (role.name === 'Professor') {
+    if (role.name === 'professor') {
       isProf = true;
     }
   });
@@ -142,7 +142,7 @@ function verifyProfessor(req, res, next) {
   }
   return res.status(403).json({
     error: 'Forbidden',
-    message: 'User must be part of the \'Professor\' Role to perform this action',
+    message: 'User must be part of the \'professor\' Role to perform this action',
   });
 }
 
