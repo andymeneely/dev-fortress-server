@@ -21,7 +21,14 @@ exports.seed = knex =>
         knex('user_role').transacting(trx)
         .insert({
           user_id: userId,
-          role_id: 1, // Assumes that role id 1 name is Professor due to seeded roles
+          role_id: 1,
+        }),
+        knex('game').transacting(trx)
+        .insert({
+          id: 1,
+          name: 'SWEN-356-01 Fall 2017',
+          max_round: 5,
+          storyteller_id: 1,
         }),
       ]);
     })
