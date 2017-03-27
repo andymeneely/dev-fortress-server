@@ -1,5 +1,5 @@
 const API_USER_REGISTER_URL = require('../../data/constants').API_USER_REGISTER_URL;
-const API_LOGIN_URL = require('../../data/constants').API_LOGIN_URL;
+const API_USER_LOGIN_URL = require('../../data/constants').API_USER_LOGIN_URL;
 const knex = require('../../../app/lib/db');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -46,14 +46,14 @@ describe('User Registration API Tests', () => {
     setTimeout(() => {
       // Login as admin and set token
       const adminLoginPromise = chai.request(server)
-                              .post(`${API_LOGIN_URL}`)
+                              .post(`${API_USER_LOGIN_URL}`)
                               .send({
                                 username: 'test_user_admin',
                                 password: 'password',
                               });
       // Login as regular user and set token
       const userLoginPromise = chai.request(server)
-                              .post(`${API_LOGIN_URL}`)
+                              .post(`${API_USER_LOGIN_URL}`)
                               .send({
                                 username: 'test_user',
                                 password: 'password',
