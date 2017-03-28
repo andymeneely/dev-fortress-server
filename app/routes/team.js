@@ -5,22 +5,22 @@ const express = require('express');
 const router = express.Router();
 
 // Optional: include a query param 'game_id' to return Teams for a specific game.
-// router.get(
-//   '/',
-//   teamController.getTeams
-// );
+router.get(
+  '/',
+  teamController.getTeams
+);
 
-// router.get(
-//   '/:team_id',
-//   teamController.getTeamById
-// );
+router.get(
+  '/:id',
+  teamController.getTeamById
+);
 
-// router.patch(
-//   '/:team_id',
-//   authenticationMiddleware.validateAuthenticationAttachUser,
-//   authenticationMiddleware.verifyProfessor,
-//   teamController.updateExistingTeamType
-// );
+router.patch(
+  '/:id',
+  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.verifyProfessor,
+  teamController.updateExistingTeamType
+);
 
 router.post(
   '/',
