@@ -19,7 +19,7 @@ router.patch(
   '/:id',
   authenticationMiddleware.validateAuthenticationAttachUser,
   authenticationMiddleware.verifyProfessor,
-  teamController.updateExistingTeamType
+  teamController.updateExistingTeam
 );
 
 router.post(
