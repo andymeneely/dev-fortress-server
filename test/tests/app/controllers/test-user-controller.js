@@ -85,7 +85,7 @@ describe('User Controller Tests', () => {
       }, (error) => {
         console.error(error);
       });
-    }, timeout);
+    }, 500);
   });
 
   describe('user controller registerNewUser', () => {

@@ -68,41 +68,80 @@ describe('Team Creation API Tests', () => {
       });
   });
 
-  const mockTeamCreateRequestBody = {
-    name: 'The Best Security Team',
-    mature: false,
-    resources: 10,
-    mindset: 5,
-    type_id: 1,
-    game_id: 1,
-  };
+  beforeEach((done) => {
+    // Run initial migrations and seed db
+    knex.migrate.rollback()
+      .then(() => {
+        knex.migrate.latest()
+          .then(() => {
+            knex.seed.run()
+              .then(() => done());
+          });
+      });
+  });
+
+  /**
+   * Internal helper function.
+   * Returns a valid object containing key/value pairs for request bodies.
+   */
+  function getMockTeamCreateRequestBody() {
+    return {
+      name: 'The Best Security Team',
+      mature: false,
+      resources: 10,
+      mindset: 5,
+      type_id: 1,
+      game_id: 1,
+    };
+  }
 
   describe('Success', () => {
     it('Professor can create a Team with all parameters', (done) => {
+      const reqBody = getMockTeamCreateRequestBody();
       chai.request(server)
         .post(`${API_TEAM_CREATE_URL}`)
         .set('Authorization', `Bearer ${profAuthToken}`)
-        .send(mockTeamCreateRequestBody)
+        .send(reqBody)
         .end((err, res) => {
           res.should.have.status(201);
           const resBody = res.body;
-          resBody.name.should.equal(mockTeamCreateRequestBody.name);
-          resBody.mature.should.equal(mockTeamCreateRequestBody.mature);
-          resBody.resources.should.equal(mockTeamCreateRequestBody.resources);
-          resBody.mindset.should.equal(mockTeamCreateRequestBody.mindset);
-          resBody.type_id.should.equal(mockTeamCreateRequestBody.type_id);
-          resBody.game_id.should.equal(mockTeamCreateRequestBody.game_id);
+          resBody.name.should.equal(reqBody.name);
+          resBody.mature.should.equal(reqBody.mature);
+          resBody.resources.should.equal(reqBody.resources);
+          resBody.mindset.should.equal(reqBody.mindset);
+          resBody.type_id.should.equal(reqBody.type_id);
+          resBody.game_id.should.equal(reqBody.game_id);
           done();
         });
     });
-    it('Professor can create a Team using only required parameters');
+    it('Professor can create a Team using only required parameters', (done) => {
+      const reqBody = getMockTeamCreateRequestBody();
+      delete reqBody.name;
+      delete reqBody.mature;
+      delete reqBody.mindset;
+      delete reqBody.resources;
+      chai.request(server)
+        .post(`${API_TEAM_CREATE_URL}`)
+        .set('Authorization', `Bearer ${profAuthToken}`)
+        .send(reqBody)
+        .end((err, res) => {
+          res.should.have.status(201);
+
+          const resBody = res.body;
+          resBody.should.include.keys('name', 'mature', 'resources', 'mindset', 'type_id', 'game_id');
+          resBody.type_id.should.equal(reqBody.type_id);
+          resBody.game_id.should.equal(reqBody.game_id);
+          done();
+        });
+    });
   });
 
   describe('Fail', () => {
     it('Unauthenticated User may not create a Team', (done) => {
+      const reqBody = getMockTeamCreateRequestBody();
       chai.request(server)
         .post(`${API_TEAM_CREATE_URL}`)
-        .send(mockTeamCreateRequestBody)
+        .send(reqBody)
         .end((err, res) => {
           res.should.have.status(401);
           const resBody = res.body;
@@ -111,6 +150,49 @@ describe('Team Creation API Tests', () => {
           done();
         });
     });
-    it('A non-admin User who is not in the Professor role may not create a Team');
+    it('A non-admin User who is not in the Professor role may not create a Team', (done) => {
+      const reqBody = getMockTeamCreateRequestBody();
+      chai.request(server)
+        .post(`${API_TEAM_CREATE_URL}`)
+        .set('Authorization', `Bearer ${userAuthToken}`)
+        .send(reqBody)
+        .end((err, res) => {
+          res.should.have.status(403);
+          const resBody = res.body;
+          resBody.error.should.equal('Forbidden');
+          resBody.message.should.equal('User must be part of the \'professor\' Role to perform this action');
+          done();
+        });
+    });
+    it('A Professor may not create a Team with an invalid "type_id" field', (done) => {
+      const reqBody = getMockTeamCreateRequestBody();
+      reqBody.type_id = 100;
+      chai.request(server)
+        .post(`${API_TEAM_CREATE_URL}`)
+        .set('Authorization', `Bearer ${profAuthToken}`)
+        .send(reqBody)
+        .end((err, res) => {
+          res.should.have.status(400);
+          const resBody = res.body;
+          resBody.error.should.equal('A TeamType whose id matches "team_id" in the request body does not exist.');
+          assert.deepEqual(resBody.request, reqBody);
+          done();
+        });
+    });
+    it('A Professor may not create a Team with an invalid "game_id" field', (done) => {
+      const reqBody = getMockTeamCreateRequestBody();
+      reqBody.game_id = 100;
+      chai.request(server)
+        .post(`${API_TEAM_CREATE_URL}`)
+        .set('Authorization', `Bearer ${profAuthToken}`)
+        .send(reqBody)
+        .end((err, res) => {
+          res.should.have.status(400);
+          const resBody = res.body;
+          resBody.error.should.equal('A Game whose id matches "game_id" in the request body does not exist.');
+          assert.deepEqual(resBody.request, reqBody);
+          done();
+        });
+    });
   });
 });
