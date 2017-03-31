@@ -159,10 +159,12 @@ function getTeams(req, res) {
  */
 function updateExistingTeam(req, res) {
   if (!has(req.params, 'id')) return sendError(500, 'The server is configured incorrectly.', req.body, res);
-  if (!has(req, 'user')) return sendError(500, 'The server is configured incorrectly. No User attached to request.', req.body, res);
+  // if (!has(req, 'user')) {
+  //   return sendError(500, 'The server is configured incorrectly. No User attached to request.', req.body, res);
+  // }
 
   const teamId = req.params.id;
-  const user = req.user;
+  // const user = req.user;
 
   const teamPromise = Team.where('id', teamId).fetch({
     withRelated: ['game'],
@@ -171,9 +173,10 @@ function updateExistingTeam(req, res) {
   return teamPromise.then((team) => {
     if (team) {
       const updatedFields = req.body;
-      const teamObject = team.serialize();
-      // Only the Storyteller or an Admin may update an existing Team
-      if ((teamObject.game.storyteller_id !== user.id) && !(user.is_admin)) return sendError(403, 'Only the Storyteller of this Team\'s Game or an Admin may update the Team.', updatedFields, res);
+      // const teamObject = team.serialize();
+      // if ((teamObject.game.storyteller_id !== user.id) && !(user.is_admin)) {
+      //   return sendError(403, 'Only the Storyteller of this Team\'s Game or an Admin may update the Team.', updatedFields, res);
+      // }
       if ((has(updatedFields, 'resources')) && (updatedFields.resources < 0)) return sendError(400, 'Optional "resources" field cannot be negative.', updatedFields, res);
       if ((has(updatedFields, 'mindset')) && (updatedFields.mindset < 0)) return sendError(400, 'Optional "mindset" field cannot be negative.', updatedFields, res);
 

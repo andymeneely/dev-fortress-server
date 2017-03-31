@@ -17,8 +17,6 @@ router.get(
 
 router.patch(
   '/:id',
-  authenticationMiddleware.validateAuthenticationAttachUser,
-  authenticationMiddleware.verifyProfessor,
   teamController.updateExistingTeam
 );
 
