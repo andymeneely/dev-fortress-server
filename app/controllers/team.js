@@ -6,6 +6,7 @@ const Team = require('../models/team');
 const TeamType = require('../models/teamtype');
 const Game = require('../models/game');
 const has = require('has');
+const randomstring = require('randomstring')
 
 /**
  * Internal helper function. Serializes and performs type coercion
@@ -36,6 +37,18 @@ function sendError(statusCode, errorMessage, requestBody, res) {
     error: errorMessage,
     request: requestBody,
   });
+}
+
+/**
+ * Internal helper function. Generates a unique LinkCode for a Team
+ */
+function generateUniqueLinkCode() {
+  const linkCode = randomstring.generate(7);
+  return Team.where('link_code', linkCode).fetch()
+          .then((team) => {
+            if (!team) return linkCode;
+            return generateUniqueLinkCode();
+          });
 }
 
 /**
@@ -89,19 +102,23 @@ function createTeam(req, res) {
     if (!has(requestBody, 'mature')) requestBody.mature = defaultFields.initial_mature;
     if (!has(requestBody, 'mindset')) requestBody.mindset = defaultFields.initial_mindset;
 
-    return validateNameUnique(requestBody.name)
-    .then((isValid) => {
-      if (!isValid) {
-        sendError(400, 'A Team with the requested name already exists.', requestBody, res);
-      } else {
-        Team.forge(requestBody).save()
-        .then(team =>
-          // Retrieve the newly created Team and return it in the success response.
-          Team.where('id', team.id).fetch()
-          .then(newTeam => res.status(201).json(serializeAndCoerce(newTeam)))
-        );
-      }
-    });
+    const uniqueLinkPromise = generateUniqueLinkCode()
+    return uniqueLinkPromise.then((linkCode) => {
+      requestBody.link_code = linkCode;
+      return validateNameUnique(requestBody.name)
+      .then((isValid) => {
+        if (!isValid) {
+          sendError(400, 'A Team with the requested name already exists.', requestBody, res);
+        } else {
+          Team.forge(requestBody).save()
+            .then(team =>
+              // Retrieve the newly created Team and return it in the success response.
+              Team.where('id', team.id).fetch()
+              .then(newTeam => res.status(201).json(serializeAndCoerce(newTeam)))
+            );
+        }
+      });
+    })
   });
 }
 

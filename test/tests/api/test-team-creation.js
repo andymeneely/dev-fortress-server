@@ -111,6 +111,8 @@ describe('Team Creation API Tests', () => {
           resBody.mindset.should.equal(reqBody.mindset);
           resBody.type_id.should.equal(reqBody.type_id);
           resBody.game_id.should.equal(reqBody.game_id);
+          should.exist(resBody.link_code);
+          resBody.link_code.should.be.a('string');
           done();
         });
     });
@@ -131,6 +133,8 @@ describe('Team Creation API Tests', () => {
           resBody.should.include.keys('name', 'mature', 'resources', 'mindset', 'type_id', 'game_id');
           resBody.type_id.should.equal(reqBody.type_id);
           resBody.game_id.should.equal(reqBody.game_id);
+          should.exist(resBody.link_code);
+          resBody.link_code.should.be.a('string');
           done();
         });
     });

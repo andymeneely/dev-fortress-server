@@ -69,6 +69,7 @@ exports.up = knex =>
     table.integer('mindset').unsigned().defaultTo(0).notNullable();
     table.integer('type_id').references('teamtype.id').notNullable().onDelete('CASCADE');
     table.integer('game_id').references('game.id').notNullable().onDelete('CASCADE');
+    table.string('link_code').unique().notNullable();
   });
 
 exports.down = knex =>
