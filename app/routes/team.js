@@ -1,4 +1,5 @@
 const teamController = require('../controllers/team');
+const authController = require('../controllers/authentication');
 const authenticationMiddleware = require('../middleware/authentication');
 const express = require('express');
 
@@ -26,6 +27,13 @@ router.post(
   authenticationMiddleware.verifyProfessor,
   teamController.createTeam
 );
+
+router.get(
+  '/login/:link',
+  authenticationMiddleware.validateTeam,
+  authController.refreshToken
+);
+
 
 /**
  * Generate 404s.

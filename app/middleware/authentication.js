@@ -1,5 +1,6 @@
 const auth = require('../lib/authentication');
 const User = require('../models/user');
+const Team = require('../models/team');
 
 /**
  * Error handler for verifyToken errors
@@ -74,13 +75,14 @@ function validateAuthenticationAttachUser(req, res, next) {
   }
 
   const decoded = auth.verifyToken(authMatch[1]);
-  const userId = decoded.userId;
+  const userId = decoded.id;
 
   const userPromise = User.where('id', userId).fetch({
     withRelated: ['roles'],
   })
     .then((user) => {
       req.user = user.serialize();
+      req.userType = 'USER';
     })
     .catch((fetchErr) => {
       console.error(fetchErr);
@@ -97,14 +99,14 @@ function validateAuthenticationAttachUser(req, res, next) {
  * Ensure that the user is an Administrator.
  */
 function verifyAdministrator(req, res, next) {
-  if (!req.user) {
+  if (!req.user || !req.userType) {
     console.error('validateAuthenticationAttachUser middleware is a pre-requisite of verifyAdministrator middleware.');
     return res.status(500).json({
       error: 'Internal Server Error',
       message: 'The server is configured incorrectly.',
     });
   }
-  if (!req.user.is_admin) {
+  if (!req.user.is_admin || req.userType !== 'USER') {
     return res.status(403).json({
       error: 'Forbidden',
       message: 'You must be an Administrator',
@@ -118,7 +120,7 @@ function verifyAdministrator(req, res, next) {
  * Ensure that the user is in the 'Professor' role.
  */
 function verifyProfessor(req, res, next) {
-  if (!req.user) {
+  if (!req.user || !req.userType || req.userType !== 'USER') {
     console.error('validateAuthenticationAttachUser middleware is a pre-requisite of verifyAdministrator middleware.');
     return res.status(500).json({
       error: 'Internal Server Error',
@@ -146,9 +148,25 @@ function verifyProfessor(req, res, next) {
   });
 }
 
+function validateTeam(req, res, next) {
+  Team.where('link_code', req.params.link).fetch()
+    .then((team) => {
+      if (team) {
+        req.user = team.serialize();
+        req.userType = 'TEAM';
+        return next();
+      }
+      return res.status(404).json({
+        error: 'Not Found',
+        message: 'Could not find Team associated with that link',
+      });
+    });
+}
+
 module.exports = {
   validateAuthentication,
   validateAuthenticationAttachUser,
   verifyAdministrator,
   verifyProfessor,
+  validateTeam,
 };

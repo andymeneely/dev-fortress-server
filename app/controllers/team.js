@@ -6,7 +6,7 @@ const Team = require('../models/team');
 const TeamType = require('../models/teamtype');
 const Game = require('../models/game');
 const has = require('has');
-const randomstring = require('randomstring')
+const randomstring = require('randomstring');
 
 /**
  * Internal helper function. Serializes and performs type coercion
@@ -102,7 +102,7 @@ function createTeam(req, res) {
     if (!has(requestBody, 'mature')) requestBody.mature = defaultFields.initial_mature;
     if (!has(requestBody, 'mindset')) requestBody.mindset = defaultFields.initial_mindset;
 
-    const uniqueLinkPromise = generateUniqueLinkCode()
+    const uniqueLinkPromise = generateUniqueLinkCode();
     return uniqueLinkPromise.then((linkCode) => {
       requestBody.link_code = linkCode;
       return validateNameUnique(requestBody.name)
