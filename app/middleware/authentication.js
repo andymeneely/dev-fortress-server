@@ -152,7 +152,7 @@ function verifyProfessor(req, res, next) {
  * Pre-req: none
  * Ensure that the Team with a valid link_code exists and attaches it to req.user.
  */
-function validateTeam(req, res, next) {
+function validateTeamAttachTeam(req, res, next) {
   Team.where('link_code', req.params.link).fetch()
     .then((team) => {
       if (team) {
@@ -172,5 +172,5 @@ module.exports = {
   validateAuthenticationAttachUser,
   verifyAdministrator,
   verifyProfessor,
-  validateTeam,
+  validateTeamAttachTeam,
 };

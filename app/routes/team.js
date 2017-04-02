@@ -30,7 +30,7 @@ router.post(
 
 router.get(
   '/login/:link',
-  authenticationMiddleware.validateTeam,
+  authenticationMiddleware.validateTeamAttachTeam,
   authController.refreshToken
 );
 
