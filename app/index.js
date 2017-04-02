@@ -29,6 +29,7 @@ app.use((req, res, next) => {
   next(err);
 });
 
+/* istanbul ignore next */
 if (app.get('env') === 'development') {
   // development specific functionality
   // development error handler

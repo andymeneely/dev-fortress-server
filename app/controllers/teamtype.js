@@ -39,13 +39,16 @@ function updateExistingTeamType(req, res) {
         .then((updatedTeamType) => {
           res.status(200).json(updatedTeamType);
         })
-        .catch((err) => {
-          console.error(err);
-          return res.status(500).json({
-            error: 'UnknownError',
-            request: req.body,
-          });
-        });
+        .catch(
+          /* istanbul ignore next */
+          (err) => {
+            console.error(err);
+            return res.status(500).json({
+              error: 'UnknownError',
+              request: req.body,
+            });
+          }
+        );
     });
 }
 
@@ -60,13 +63,16 @@ function getTeamTypes(req, res) {
     const teamTypes = serializeAndCoerce(collection);
     res.json(teamTypes);
   })
-  .catch((err) => {
-    console.error(err);
-    return res.status(500).json({
-      error: 'UnknownError',
-      request: req.body,
-    });
-  });
+  .catch(
+    /* istanbul ignore next */
+    (err) => {
+      console.error(err);
+      return res.status(500).json({
+        error: 'UnknownError',
+        request: req.body,
+      });
+    }
+  );
 }
 
 /**
@@ -83,21 +89,23 @@ function getTeamTypeById(req, res) {
     res.json(teamType);
   })
   .catch((err) => {
-    // 404
+    /* istanbul ignore else */
     if (err.message === 'EmptyResponse') {
-      return res.status(404)
+      // 404
+      res.status(404)
       .json({
         error: 'A TeamType with the requested id could not be found.',
         request: { params: req.params },
       });
+    } else {
+      // Unknown error
+      console.error(err);
+      res.status(500)
+      .json({
+        error: 'UnknownError',
+        request: { params: req.params },
+      });
     }
-    // Unknown error
-    console.error(err);
-    return res.status(500)
-    .json({
-      error: 'UnknownError',
-      request: { params: req.params },
-    });
   });
 }
 
@@ -140,17 +148,19 @@ function createTeamType(req, res) {
   return TeamType.forge(req.body)
     .save().then(teamtype => res.json(teamtype.serialize()))
     .catch((err) => {
+      /* istanbul ignore else */
       if (err.errno === 19 && err.code === 'SQLITE_CONSTRAINT') {
-        return res.status(409).json({
+        res.status(409).json({
           error: err,
           request: req.body,
         });
+      } else {
+        console.error(err);
+        res.status(500).json({
+          error: 'UnknownError',
+          request: req.body,
+        });
       }
-      console.error(err);
-      return res.status(500).json({
-        error: 'UnknownError',
-        request: req.body,
-      });
     });
 }
 

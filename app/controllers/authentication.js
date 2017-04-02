@@ -8,6 +8,7 @@ const authentication = require('../lib/authentication');
  * @param {Express.Response}  res  - the response
  */
 function refreshToken(req, res) {
+  /* istanbul ignore if */
   if (!(req.user)) {
     console.error('No user data attached to req.body. AttachUser middleware is required.');
     res.status(500).json({
@@ -70,6 +71,7 @@ function login(req, res) {
     refreshToken(req, res);
   })
   .catch((err) => {
+    /* istanbul ignore else */
     if (err.message === 'EmptyResponse') {
       res.status(400)
       .json({

@@ -14,6 +14,7 @@ function allowMethods(req, res, next) {
 }
 
 function handleOptions(req, res, next) {
+  /* istanbul ignore next */
   if (req.method === 'OPTIONS') {
     // respond with 200
     return res.send(200);
@@ -26,6 +27,7 @@ function handleOptions(req, res, next) {
  * Used for when API Endpoints are deprecated / changed.
  */
 function redirect(req, res, next) {
+  /* istanbul ignore next */
   switch (req.url) {
     case '/login':
       res.redirect(308, '/api/user/login');

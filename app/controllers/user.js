@@ -120,20 +120,22 @@ function registerNewUser(req, res) {
     })
   )
   .catch((err) => {
-    // username exists
     if (err.message === 'A user with that username already exists.') {
-      return res.status(400).json({ error: err.message });
+      // username exists
+      res.status(400).json({ error: err.message });
     }
-    // email exists
+    /* istanbul ignore else */
     if (err.message === 'That email is already taken.') {
-      return res.status(400).json({ error: err.message });
+      // username exists
+      res.status(400).json({ error: err.message });
+    } else {
+      // Unknown error
+      console.error(err);
+      res.status(500)
+      .json({
+        error: 'UnknownError',
+      });
     }
-    // Unknown error
-    console.error(err);
-    return res.status(500)
-    .json({
-      error: 'UnknownError',
-    });
   });
 }
 

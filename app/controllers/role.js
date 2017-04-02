@@ -14,12 +14,15 @@ const Role = require('../models/role');
 function getRoles(req, res) {
   return Role.fetchAll()
   .then(collection => res.json(collection.serialize()))
-  .catch((err) => {
-    console.error(err);
-    res.status(500).json({
-      error: 'UnknownError',
-    });
-  });
+  .catch(
+    /* istanbul ignore next */
+    (err) => {
+      console.error(err);
+      res.status(500).json({
+        error: 'UnknownError',
+      });
+    }
+  );
 }
 
 /**
@@ -31,12 +34,15 @@ function getRoles(req, res) {
 function createRole(req, res) {
   return Role.forge(req.body)
   .save().then(role => res.json(role.serialize()))
-  .catch((err) => {
-    console.error(err);
-    res.status(500).json({
-      error: 'UnknownError',
-    });
-  });
+  .catch(
+    /* istanbul ignore next */
+    (err) => {
+      console.error(err);
+      res.status(500).json({
+        error: 'UnknownError',
+      });
+    }
+  );
 }
 
 /**
@@ -49,12 +55,15 @@ function getRoleUsers(req, res) {
   return Role.forge({ id: req.params.id })
   .fetch({ withRelated: 'users' })
   .then(role => res.json(role.related('users')))
-  .catch((err) => {
-    console.error(err);
-    res.status(500).json({
-      error: 'UnknownError',
-    });
-  });
+  .catch(
+    /* istanbul ignore next */
+    (err) => {
+      console.error(err);
+      res.status(500).json({
+        error: 'UnknownError',
+      });
+    }
+  );
 }
 
 
