@@ -3,7 +3,7 @@ const chai = require('chai');
 const UserController = require('../../../../app/controllers/user');
 const MockExpressResponse = require('mock-express-response');
 const API_USER_GET_USER_BY_ID = require('../../../data/constants').API_USER_GET_USER_BY_ID;
-const API_LOGIN_URL = require('../../../data/constants').API_LOGIN_URL;
+const API_USER_LOGIN_URL = require('../../../data/constants').API_USER_LOGIN_URL;
 const server = require('../../../../app');
 const timeout = require('../../../data/constants').TIMEOUT;
 
@@ -66,14 +66,14 @@ describe('User Controller Tests', () => {
     setTimeout(() => {
       // Login as admin and set token
       const adminLoginPromise = chai.request(server)
-                              .post(`${API_LOGIN_URL}`)
+                              .post(`${API_USER_LOGIN_URL}`)
                               .send({
                                 username: 'test_user_admin',
                                 password: 'password',
                               });
       // Login as regular user and set token
       const userLoginPromise = chai.request(server)
-                              .post(`${API_LOGIN_URL}`)
+                              .post(`${API_USER_LOGIN_URL}`)
                               .send({
                                 username: 'test_user',
                                 password: 'password',
@@ -85,7 +85,7 @@ describe('User Controller Tests', () => {
       }, (error) => {
         console.error(error);
       });
-    }, timeout);
+    }, 500);
   });
 
   describe('user controller registerNewUser', () => {

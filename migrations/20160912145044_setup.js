@@ -60,17 +60,27 @@ exports.up = knex =>
     table.integer('max_round').unsigned().notNullable();
     table.integer('round_phase').unsigned().defaultTo(0).notNullable();
     table.integer('storyteller_id').references('user.id').notNullable().onDelete('CASCADE');
+  })
+  .createTable('team', (table) => {
+    table.increments('id');
+    table.string('name').unique().notNullable();
+    table.boolean('mature').defaultTo(false).notNullable();
+    table.integer('resources').unsigned().defaultTo(0).notNullable();
+    table.integer('mindset').unsigned().defaultTo(0).notNullable();
+    table.integer('type_id').references('teamtype.id').notNullable().onDelete('CASCADE');
+    table.integer('game_id').references('game.id').notNullable().onDelete('CASCADE');
+    table.string('link_code').unique().notNullable();
   });
 
-exports.down = (knex, Promise) =>
-  Promise.all([
-    knex.schema.dropTable('game'),
-    knex.schema.dropTable('rumor'),
-    knex.schema.dropTable('event'),
-    knex.schema.dropTable('teamtype'),
-    knex.schema.dropTable('password'),
-    knex.schema.dropTable('email'),
-    knex.schema.dropTable('user_role'),
-    knex.schema.dropTable('role'),
-    knex.schema.dropTable('user'),
-  ]);
+exports.down = knex =>
+  knex.schema
+      .dropTable('user_role')
+      .dropTable('user')
+      .dropTable('role')
+      .dropTable('password')
+      .dropTable('email')
+      .dropTable('team')
+      .dropTable('teamtype')
+      .dropTable('game')
+      .dropTable('event')
+      .dropTable('rumor');

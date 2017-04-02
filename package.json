@@ -24,6 +24,7 @@
     "jsonwebtoken": "^7.1.9",
     "knex": "^0.11.10",
     "morgan": "~1.7.0",
+    "randomstring": "^1.1.5",
     "serve-favicon": "~2.3.0",
     "winston": "^2.3.0"
   },

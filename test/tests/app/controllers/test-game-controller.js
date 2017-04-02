@@ -93,7 +93,7 @@ describe('Game Controller Tests', () => {
     it('A User can retrieve a Game by id.', (done) => {
       const mockReq = {
         params: {
-          id: 1,
+          id: 2,
         },
       };
       const mockRes = new MockExpressResponse();
@@ -139,7 +139,7 @@ describe('Game Controller Tests', () => {
       GameController.getGames(mockReq, mockRes);
       setTimeout(() => {
         const resJSON = mockRes._getJSON();
-        resJSON.length.should.equal(1);
+        resJSON.length.should.equal(2);
         done();
       }, timeout);
     });
