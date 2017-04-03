@@ -153,7 +153,7 @@ function verifyProfessor(req, res, next) {
  * Ensure that the Team with a valid link_code exists and attaches it to req.user.
  */
 function validateTeamAttachTeam(req, res, next) {
-  Team.where('link_code', req.params.link).fetch()
+  Team.where('link_code', req.body.link).fetch()
     .then((team) => {
       if (team) {
         req.user = team.serialize();

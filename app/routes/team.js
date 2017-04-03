@@ -28,8 +28,8 @@ router.post(
   teamController.createTeam
 );
 
-router.get(
-  '/login/:link',
+router.post(
+  '/login',
   authenticationMiddleware.validateTeamAttachTeam,
   authController.refreshToken
 );

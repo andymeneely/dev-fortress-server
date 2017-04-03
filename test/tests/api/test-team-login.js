@@ -23,12 +23,15 @@ describe('Team Login API Tests', () => {
 
   describe('Success', () => {
     it('Team can login with a valid link_code', (done) => {
-      const linkCode = '1234567';
-      const reqURL = `${API_TEAM_LOGIN_URL}${linkCode}`;
+      const reqURL = `${API_TEAM_LOGIN_URL}`;
       chai.request(server)
-        .get(reqURL)
+        .post(reqURL)
+        .send({
+          link: '1234567',
+        })
         .end((err, res) => {
           res.statusCode.should.equal(200);
+          console.log(res.body.token);
           should.exist(res.body.token);
           should.not.exist(err);
           done();
@@ -37,11 +40,13 @@ describe('Team Login API Tests', () => {
   });
 
   describe('Fail', () => {
-    it('Team can login with a valid link_code', (done) => {
-      const linkCode = 'nopekek';
-      const reqURL = `${API_TEAM_LOGIN_URL}${linkCode}`;
+    it('Team can not login with a invalid link_code', (done) => {
+      const reqURL = `${API_TEAM_LOGIN_URL}`;
       chai.request(server)
-        .get(reqURL)
+        .post(reqURL)
+        .send({
+          link: 'nopekek',
+        })
         .end((err, res) => {
           res.statusCode.should.equal(404);
           should.not.exist(res.body.token);
