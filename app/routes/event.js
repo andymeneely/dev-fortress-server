@@ -7,7 +7,7 @@ const router = express.Router();
 // GET all events
 router.get(
   '/',
-  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.validateAuthenticationAttachEntity,
   authenticationMiddleware.verifyProfessor,
   eventController.getEvents
 );
@@ -15,7 +15,7 @@ router.get(
 // GET a specific event
 router.get(
   '/:id',
-  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.validateAuthenticationAttachEntity,
   authenticationMiddleware.verifyProfessor,
   eventController.getEventById
 );
@@ -23,7 +23,7 @@ router.get(
 // CREATE a new user
 router.post(
   '/',
-  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.validateAuthenticationAttachEntity,
   authenticationMiddleware.verifyProfessor,
   eventController.createEvent
 );
@@ -31,7 +31,7 @@ router.post(
 // UPDATE a specific event
 router.patch(
   '/',
-  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.validateAuthenticationAttachEntity,
   authenticationMiddleware.verifyProfessor,
   eventController.updateEvent
 );

@@ -9,16 +9,19 @@ const authentication = require('../lib/authentication');
  */
 function refreshToken(req, res) {
   /* istanbul ignore if */
-  if (!(req.user)) {
-    console.error('No user data attached to req.body. AttachUser middleware is required.');
+  if (!(req.user) && !(req.team)) {
+    console.error('No user or team data attached to req.body. AttachUser or AttachTeam middleware is required.');
     res.status(500).json({
       error: 'Internal Server Error',
       message: 'The server is configured incorrectly.',
     });
   }
+  // Set token data specific to the team or user depending on which is attached to the request.
+  const tokenId = req.user ? req.user.id : req.team.id;
+  const tokenType = req.user ? 'USER' : 'TEAM';
   const tokenData = {
-    id: req.user.id,
-    type: req.userType,
+    id: tokenId,
+    type: tokenType,
   };
   authentication.signToken(tokenData, (err, theToken) => {
     if (err) {

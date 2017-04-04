@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 router.use(
-  authenticationMiddleware.validateAuthenticationAttachUser
+  authenticationMiddleware.validateAuthenticationAttachEntity
 );
 
 router.get(

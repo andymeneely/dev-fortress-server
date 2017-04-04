@@ -20,7 +20,7 @@ router.get(
 // CREATE a new user
 router.post(
   '/',
-  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.validateAuthenticationAttachEntity,
   authenticationMiddleware.verifyAdministrator,
   userController.registerNewUser
 );
@@ -32,7 +32,7 @@ router.delete(
 );
 router.patch(
   '/:id/roles',
-  authenticationMiddleware.validateAuthenticationAttachUser, // verify token and attach user to res
+  authenticationMiddleware.validateAuthenticationAttachEntity, // verify token and attach user to res
   authenticationMiddleware.verifyAdministrator,              // verifyAdministrator middleware
   userController.setRoles
 );
@@ -42,7 +42,7 @@ router.post(
 );
 router.post(
   '/refresh',
-  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.validateAuthenticationAttachEntity,
   authenticationController.refreshToken
 );
 

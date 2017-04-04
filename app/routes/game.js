@@ -14,7 +14,7 @@ router.get(
 // CREATE a new Game
 router.post(
   '/',
-  authMiddleware.validateAuthenticationAttachUser,
+  authMiddleware.validateAuthenticationAttachEntity,
   authMiddleware.verifyProfessor,
   gameController.createGame
 );
@@ -29,7 +29,7 @@ router.get(
 // PATCH Game by id
 router.patch(
   '/:id',
-  authMiddleware.validateAuthenticationAttachUser,
+  authMiddleware.validateAuthenticationAttachEntity,
   authMiddleware.verifyProfessor,
   gameController.updateGame
 );
