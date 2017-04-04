@@ -99,6 +99,7 @@ function validateAuthenticationAttachUser(req, res, next) {
  * Ensure that the user is an Administrator.
  */
 function verifyAdministrator(req, res, next) {
+  /* istanbul ignore if */
   if (!req.user || !req.userType) {
     console.error('validateAuthenticationAttachUser middleware is a pre-requisite of verifyAdministrator middleware.');
     return res.status(500).json({
@@ -120,6 +121,7 @@ function verifyAdministrator(req, res, next) {
  * Ensure that the user is in the 'Professor' role.
  */
 function verifyProfessor(req, res, next) {
+  /* istanbul ignore if */
   if (!req.user || !req.userType || req.userType !== 'USER') {
     console.error('validateAuthenticationAttachUser middleware is a pre-requisite of verifyAdministrator middleware.');
     return res.status(500).json({

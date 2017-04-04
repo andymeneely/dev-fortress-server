@@ -50,13 +50,16 @@ function updateExistingRumor(req, res) {
         .then((updatedRumor) => {
           res.status(200).json(serializeAndCoerce(updatedRumor)[0]);
         })
-        .catch((err) => {
-          console.error(err);
-          res.status(500).json({
-            error: 'UnknownError',
-            request: req.body,
-          });
-        });
+        .catch(
+          /* istanbul ignore next */
+          (err) => {
+            console.error(err);
+            res.status(500).json({
+              error: 'UnknownError',
+              request: req.body,
+            });
+          }
+        );
     });
 }
 
@@ -71,12 +74,15 @@ function getRumors(req, res) {
     const rumors = serializeAndCoerce(collection);
     res.json(rumors);
   })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).json({
-      error: 'UnknownError',
-    });
-  });
+  .catch(
+    /* istanbul ignore next */
+    (err) => {
+      console.error(err);
+      res.status(500).json({
+        error: 'UnknownError',
+      });
+    }
+  );
 }
 
 /**
@@ -97,13 +103,16 @@ function getRumorById(req, res) {
       res.json(rumorJson);
     }
   })
-  .catch((err) => {
-    console.error(err);
-    return res.status(500).json({
-      error: err,
-      request: req,
-    });
-  });
+  .catch(
+    /* istanbul ignore next */
+    (err) => {
+      console.error(err);
+      return res.status(500).json({
+        error: err,
+        request: req,
+      });
+    }
+  );
 }
 
 /**
@@ -139,50 +148,46 @@ function createRumor(req, res) {
     Rumor.forge(newRumorData)
       .save().then(rumor => res.json(serializeAndCoerce(rumor)[0]))
       .catch((err) => {
+        /* istanbul ignore else */
         if (err.errno === 19 && err.code === 'SQLITE_CONSTRAINT') {
-          return res.status(409).json({
+          res.status(409).json({
             error: err,
             request: newRumorData,
           });
+        } else {
+          console.error(err);
+          res.status(500).json({
+            error: 'UnknownError',
+            request: newRumorData,
+          });
         }
-        console.error(err);
-        return res.status(500).json({
-          error: 'UnknownError',
-          request: newRumorData,
-        });
       });
   }, (reason) => {
-    // Promise rejected.
+    /* istanbul ignore else */
     if (reason.message === 'EmptyResponse') {
-      return res.status(400).json({
+      // Promise rejected.
+      res.status(400).json({
         error: 'The Event represented by event_id does not exist.',
         request: newRumorData,
       });
-    }
-    console.error(reason);
-    return res.status(500).json({
-      error: 'UnknownError',
-      requst: newRumorData,
-    });
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-  Rumor.forge(newRumorData)
-    .save().then(rumor => res.json(serializeAndCoerce(rumor)[0]))
-    .catch((err) => {
-      if (err.errno === 19 && err.code === 'SQLITE_CONSTRAINT') {
-        res.status(409).json({
-          error: err,
-          request: newRumorData,
-        });
-      }
-      console.error(err);
+    } else {
+      console.error(reason);
       res.status(500).json({
         error: 'UnknownError',
-        request: newRumorData,
+        requst: newRumorData,
       });
-    });
+    }
+  })
+  .catch(
+    /* istanbul ignore next */
+    (error) => {
+      console.error(error);
+      res.status(500).json({
+        error: 'UnknownError',
+        requst: newRumorData,
+      });
+    }
+  );
 }
 
 module.exports = {

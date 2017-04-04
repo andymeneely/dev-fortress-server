@@ -14,7 +14,10 @@ const has = require('has');
 function getEvents(req, res) {
   return Event.fetchAll()
   .then(collection => res.json(collection.serialize()))
-  .catch(err => console.error(err));
+  .catch(
+    /* istanbul ignore next */
+    err => console.error(err)
+  );
 }
 
 /**
@@ -28,21 +31,23 @@ function getEventById(req, res) {
   })
   .then(event => res.json(event.serialize()))
   .catch((err) => {
-    // 404
+    /* istanbul ignore else */
     if (err.message === 'EmptyResponse') {
-      return res.status(404)
+      // 404
+      res.status(404)
       .json({
         error: 'An Event with that ID could not be found.',
         request: { params: req.params },
       });
+    } else {
+      // Unknown error
+      console.error(err);
+      res.status(500)
+      .json({
+        error: 'UnknownError',
+        request: { params: req.params },
+      });
     }
-    // Unknown error
-    console.error(err);
-    return res.status(500)
-    .json({
-      error: 'UnknownError',
-      request: { params: req.params },
-    });
   });
 }
 
@@ -112,15 +117,17 @@ function createEvent(req, res) {
     })
   )
   .catch((err) => {
-    // name exists
+    /* istanbul ignore else */
     if (err.message === 'A event with that name already exists.') {
-      return res.status(400).json({ error: err.message });
+      // Name exists
+      res.status(400).json({ error: err.message });
+    } else {
+      console.error(err);
+      res.status(500)
+      .json({
+        error: 'UnknownError',
+      });
     }
-    console.error(err);
-    return res.status(500)
-    .json({
-      error: 'UnknownError',
-    });
   });
 }
 /**
@@ -141,13 +148,16 @@ function updateEvent(req, res) {
         .then((updatedEvent) => {
           res.status(200).json(updatedEvent);
         })
-        .catch((err) => {
-          console.error(err);
-          return res.status(500).json({
-            error: 'UnknownError',
-            request: req.body,
-          });
-        });
+        .catch(
+          /* istanbul ignore next */
+          (err) => {
+            console.error(err);
+            return res.status(500).json({
+              error: 'UnknownError',
+              request: req.body,
+            });
+          }
+        );
     });
 }
 

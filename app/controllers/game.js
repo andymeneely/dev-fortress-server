@@ -23,13 +23,16 @@ function validateNameUnique(newName) {
 function getGames(req, res) {
   return Game.fetchAll()
   .then(collection => res.json(collection.serialize()))
-  .catch((err) => {
-    console.error(err);
-    res.status(500).json({
-      error: 'UnknownError',
-      request: req.body,
-    });
-  });
+  .catch(
+    /* istanbul ignore next */
+    (err) => {
+      console.error(err);
+      res.status(500).json({
+        error: 'UnknownError',
+        request: req.body,
+      });
+    }
+  );
 }
 
 /**
@@ -49,13 +52,16 @@ function getGameById(req, res) {
       });
     }
   })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).json({
-      error: 'UnknownError',
-      request: req.params,
-    });
-  });
+  .catch(
+    /* istanbul ignore next */
+    (err) => {
+      console.error(err);
+      res.status(500).json({
+        error: 'UnknownError',
+        request: req.params,
+      });
+    }
+  );
 }
 
 /**
@@ -197,13 +203,16 @@ function updateGame(req, res) {
         res.status(200).json(updatedGame.serialize());
       })
       )
-      .catch((err) => {
-        console.error(err);
-        res.status(500).json({
-          error: 'UnknownError',
-          request: updatedFields,
-        });
-      });
+      .catch(
+        /* istanbul ignore next */
+        (err) => {
+          console.error(err);
+          res.status(500).json({
+            error: 'UnknownError',
+            request: updatedFields,
+          });
+        }
+      );
     }
   });
 
@@ -246,28 +255,32 @@ function createGame(req, res) {
         Game.where('id', game.id).fetch()
         .then(newGame => res.status(201).json(newGame.serialize()))
       )
-      .catch((err) => {
-        console.error(err);
-        return res.status(500).json({
-          error: 'UnknownError',
-          request: newGameReq,
-        });
-      });
+      .catch(
+        /* istanbul ignore next */
+        (err) => {
+          console.error(err);
+          return res.status(500).json({
+            error: 'UnknownError',
+            request: newGameReq,
+          });
+        }
+      );
     }
   })
   .catch((err) => {
+    /* istanbul ignore else */
     if (err.message === 'Game with Name exists') {
       res.status(400).json({
         error: 'There is already a Game with that name. Please choose a unique name.',
         request: newGameReq,
       });
-      return null;
+    } else {
+      console.error(err);
+      res.status(500).json({
+        error: 'UnknownError',
+        request: newGameReq,
+      });
     }
-    console.error(err);
-    res.status(500).json({
-      error: 'UnknownError',
-      request: newGameReq,
-    });
     return null;
   });
 }
