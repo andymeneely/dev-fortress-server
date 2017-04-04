@@ -6,10 +6,10 @@ require('./team');
 const Game = bookshelf.model('game', {
   tableName: 'game',
   storyteller() {
-    return this.hasOne('user');
+    return this.hasOne('User');
   },
   team() {
-    return this.hasMany('team');
+    return this.belongsToMany('Team');
   },
 });
 
