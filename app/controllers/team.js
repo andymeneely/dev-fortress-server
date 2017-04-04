@@ -72,13 +72,13 @@ function createTeam(req, res) {
   const requestBody = req.body;
 
   // Check for required fields
-  if (!has(requestBody, 'type_id')) return sendError(400, 'Missing required "type_id" field.', requestBody, res);
+  if (!has(requestBody, 'teamtype_id')) return sendError(400, 'Missing required "teamtype_id" field.', requestBody, res);
   if (!has(requestBody, 'game_id')) return sendError(400, 'Missing required "game_id" field.', requestBody, res);
   if ((has(requestBody, 'resources')) && (requestBody.resources < 0)) return sendError(400, 'Optional "resources" field cannot be negative.', requestBody, res);
   if ((has(requestBody, 'mindset')) && (requestBody.mindset < 0)) return sendError(400, 'Optional "mindset" field cannot be negative.', requestBody, res);
 
   const gamePromise = Game.where('id', requestBody.game_id).fetch();
-  const teamtypePromise = TeamType.where('id', requestBody.type_id).fetch();
+  const teamtypePromise = TeamType.where('id', requestBody.teamtype_id).fetch();
 
   return Promise.all([gamePromise, teamtypePromise]).then((responses) => {
     let game = responses[0];
@@ -91,7 +91,7 @@ function createTeam(req, res) {
     game = game.serialize();
     teamtype = teamtype.serialize();
 
-    if (teamtype.disabled === 1) return sendError(400, 'The TeamType specified by the "type_id" field is disabled and cannot be used.', requestBody, res);
+    if (teamtype.disabled === 1) return sendError(400, 'The TeamType specified by the "teamtype_id" field is disabled and cannot be used.', requestBody, res);
     if (game.current_round === game.max_round) return sendError(400, 'The Game specified by the "game_id" field has ended.', requestBody, res);
 
     const defaultFields = teamtype;
@@ -113,7 +113,10 @@ function createTeam(req, res) {
           Team.forge(requestBody).save()
             .then(team =>
               // Retrieve the newly created Team and return it in the success response.
-              Team.where('id', team.id).fetch()
+              Team.where('id', team.id)
+              .fetch({
+                withRelated: ['teamtype'],
+              })
               .then(newTeam => res.status(201).json(serializeAndCoerce(newTeam)))
             );
         }
@@ -129,11 +132,13 @@ function createTeam(req, res) {
  */
 function getTeamById(req, res) {
   if (!has(req.params, 'id')) return sendError(500, 'The server\'s routes are configured incorrectly.', {}, res);
-  return Team.where('id', req.params.id).fetch()
-    .then((team) => {
-      if (team) res.json(serializeAndCoerce(team));
-      else sendError(404, 'The Team specified by the id in the request does not exist.', {}, res);
-    });
+  return Team.where('id', req.params.id).fetch({
+    withRelated: ['teamtype'],
+  })
+  .then((team) => {
+    if (team) res.json(serializeAndCoerce(team));
+    else sendError(404, 'The Team specified by the id in the request does not exist.', {}, res);
+  });
 }
 
 /**
@@ -145,9 +150,13 @@ function getTeamById(req, res) {
 function getTeams(req, res) {
   let getTeamsPromise = null;
   if (has(req.query, 'game_id')) {
-    getTeamsPromise = Team.where('game_id', req.query.game_id).fetchAll();
+    getTeamsPromise = Team.where('game_id', req.query.game_id).fetchAll({
+      withRelated: ['teamtype'],
+    });
   } else {
-    getTeamsPromise = Team.fetchAll();
+    getTeamsPromise = Team.fetchAll({
+      withRelated: ['teamtype'],
+    });
   }
   return getTeamsPromise.then(collection => res.json(serializeAndCoerce(collection)));
 }
@@ -171,21 +180,23 @@ function updateExistingTeam(req, res) {
   if ((teamMakingTheRequest.id).toString() !== requestedTeamIdToUpdate) return sendError(403, 'Teams may only update data for their Team.', updatedFields, res);
 
   const teamPromise = Team.where('id', requestedTeamIdToUpdate).fetch({
-    withRelated: ['game'],
+    withRelated: ['teamtype'],
   });
 
   return teamPromise.then((team) => {
     if (team) {
       // Don't allow certain fields to be changed.
       if (has(updatedFields, 'game_id')) return sendError(400, 'You may not modify the "game_id" field.', updatedFields, res);
-      if (has(updatedFields, 'type_id')) return sendError(400, 'You may not modify the "type_id" field.', updatedFields, res);
+      if (has(updatedFields, 'teamtype_id')) return sendError(400, 'You may not modify the "teamtype_id" field.', updatedFields, res);
       if (has(updatedFields, 'resources')) return sendError(400, 'You may not modify the "resources" field.', updatedFields, res);
       if (has(updatedFields, 'mindset')) return sendError(400, 'You may not modify the "mindset" field.', updatedFields, res);
       if (has(updatedFields, 'mature')) return sendError(400, 'You may not modify the "mature" field.', updatedFields, res);
       if (has(updatedFields, 'link_code')) return sendError(400, 'You may not modify the "link_code" field.', updatedFields, res);
 
       return team.save(updatedFields)
-        .then(() => Team.where('id', requestedTeamIdToUpdate).fetch())
+        .then(() => Team.where('id', requestedTeamIdToUpdate).fetch({
+          withRelated: ['teamtype'],
+        }))
         .then(updatedTeam => res.json(serializeAndCoerce(updatedTeam)));
     }
     return sendError(404, 'The Team specified by the id in the request does not exist.', req.body, res);
