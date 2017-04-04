@@ -16,7 +16,8 @@ function refreshToken(req, res) {
     });
   }
   const tokenData = {
-    userId: req.user.id,
+    id: req.user.id,
+    type: req.userType,
   };
   authentication.signToken(tokenData, (err, theToken) => {
     if (err) {
