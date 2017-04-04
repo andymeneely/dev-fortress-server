@@ -31,7 +31,6 @@ describe('Team Login API Tests', () => {
         })
         .end((err, res) => {
           res.statusCode.should.equal(200);
-          console.log(res.body.token);
           should.exist(res.body.token);
           should.not.exist(err);
           done();
