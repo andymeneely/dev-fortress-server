@@ -90,8 +90,8 @@ describe('Team Update API Tests', () => {
       });
     });
 
-    it('An existing Team cannot update their type_id field', (done) => {
-      const requestBody = { type_id: 1 };
+    it('An existing Team cannot update their teamtype_id field', (done) => {
+      const requestBody = { teamtype_id: 1 };
       sendPatchTeamRequest(requestBody, (err, res) => {
         res.statusCode.should.equal(400);
         assert.deepEqual(res.body.request, requestBody);
