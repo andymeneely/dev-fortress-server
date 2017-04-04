@@ -118,7 +118,7 @@ function createTeam(req, res) {
             );
         }
       });
-    })
+    });
   });
 }
 
@@ -159,33 +159,33 @@ function getTeams(req, res) {
  */
 function updateExistingTeam(req, res) {
   if (!has(req.params, 'id')) return sendError(500, 'The server is configured incorrectly.', req.body, res);
-  // if (!has(req, 'user')) {
-  //   return sendError(500, 'The server is configured incorrectly. No User attached to request.', req.body, res);
-  // }
+  if (!has(req, 'team')) {
+    return sendError(500, 'The server is configured incorrectly. No Team attached to request.', req.body, res);
+  }
 
-  const teamId = req.params.id;
-  // const user = req.user;
+  const updatedFields = req.body;
+  const requestedTeamIdToUpdate = req.params.id;
+  const teamMakingTheRequest = req.team;
 
-  const teamPromise = Team.where('id', teamId).fetch({
+  // Only allow Teams to PATCH their own Team
+  if ((teamMakingTheRequest.id).toString() !== requestedTeamIdToUpdate) return sendError(403, 'Teams may only update data for their Team.', updatedFields, res);
+
+  const teamPromise = Team.where('id', requestedTeamIdToUpdate).fetch({
     withRelated: ['game'],
   });
 
   return teamPromise.then((team) => {
     if (team) {
-      const updatedFields = req.body;
-      // const teamObject = team.serialize();
-      // if ((teamObject.game.storyteller_id !== user.id) && !(user.is_admin)) {
-      //   return sendError(403, 'Only the Storyteller of this Team\'s Game or an Admin may update the Team.', updatedFields, res);
-      // }
-      if ((has(updatedFields, 'resources')) && (updatedFields.resources < 0)) return sendError(400, 'Optional "resources" field cannot be negative.', updatedFields, res);
-      if ((has(updatedFields, 'mindset')) && (updatedFields.mindset < 0)) return sendError(400, 'Optional "mindset" field cannot be negative.', updatedFields, res);
-
       // Don't allow certain fields to be changed.
-      if (has(updatedFields, 'game_id')) return sendError(400, 'The "game_id" field may not be modified for an existing Team.', updatedFields, res);
-      if (has(updatedFields, 'type_id')) return sendError(400, 'The "type_id" field may not be modified for an existing Team.', updatedFields, res);
+      if (has(updatedFields, 'game_id')) return sendError(400, 'You may not modify the "game_id" field.', updatedFields, res);
+      if (has(updatedFields, 'type_id')) return sendError(400, 'You may not modify the "type_id" field.', updatedFields, res);
+      if (has(updatedFields, 'resources')) return sendError(400, 'You may not modify the "resources" field.', updatedFields, res);
+      if (has(updatedFields, 'mindset')) return sendError(400, 'You may not modify the "mindset" field.', updatedFields, res);
+      if (has(updatedFields, 'mature')) return sendError(400, 'You may not modify the "mature" field.', updatedFields, res);
+      if (has(updatedFields, 'link_code')) return sendError(400, 'You may not modify the "link_code" field.', updatedFields, res);
 
       return team.save(updatedFields)
-        .then(() => Team.where('id', teamId).fetch())
+        .then(() => Team.where('id', requestedTeamIdToUpdate).fetch())
         .then(updatedTeam => res.json(serializeAndCoerce(updatedTeam)));
     }
     return sendError(404, 'The Team specified by the id in the request does not exist.', req.body, res);
