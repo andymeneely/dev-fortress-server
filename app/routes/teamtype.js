@@ -16,13 +16,13 @@ router.get(
 );
 router.patch(
   '/:id',
-  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.validateAuthenticationAttachEntity,
   authenticationMiddleware.verifyProfessor,
   teamtypeController.updateExistingTeamType
 );
 router.post(
   '/',
-  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.validateAuthenticationAttachEntity,
   authenticationMiddleware.verifyProfessor,
   teamtypeController.createTeamType
 );

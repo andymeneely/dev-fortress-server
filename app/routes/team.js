@@ -18,12 +18,13 @@ router.get(
 
 router.patch(
   '/:id',
+  authenticationMiddleware.validateAuthenticationAttachEntity,
   teamController.updateExistingTeam
 );
 
 router.post(
   '/',
-  authenticationMiddleware.validateAuthenticationAttachUser,
+  authenticationMiddleware.validateAuthenticationAttachEntity,
   authenticationMiddleware.verifyProfessor,
   teamController.createTeam
 );

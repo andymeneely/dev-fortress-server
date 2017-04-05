@@ -3,13 +3,13 @@ const bookshelf = require('../lib/bookshelf');
 require('./user');
 require('./team');
 
-const Game = bookshelf.model('game', {
+const Game = bookshelf.model('Game', {
   tableName: 'game',
   storyteller() {
-    return this.hasOne('user');
+    return this.hasOne('User');
   },
   team() {
-    return this.hasMany('team');
+    return this.belongsToMany('Team');
   },
 });
 

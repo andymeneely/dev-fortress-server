@@ -90,7 +90,7 @@ describe('Team Creation API Tests', () => {
       mature: false,
       resources: 10,
       mindset: 5,
-      type_id: 1,
+      teamtype_id: 1,
       game_id: 1,
     };
   }
@@ -109,7 +109,7 @@ describe('Team Creation API Tests', () => {
           resBody.mature.should.equal(reqBody.mature);
           resBody.resources.should.equal(reqBody.resources);
           resBody.mindset.should.equal(reqBody.mindset);
-          resBody.type_id.should.equal(reqBody.type_id);
+          resBody.teamtype_id.should.equal(reqBody.teamtype_id);
           resBody.game_id.should.equal(reqBody.game_id);
           should.exist(resBody.link_code);
           resBody.link_code.should.be.a('string');
@@ -130,8 +130,8 @@ describe('Team Creation API Tests', () => {
           res.should.have.status(201);
 
           const resBody = res.body;
-          resBody.should.include.keys('name', 'mature', 'resources', 'mindset', 'type_id', 'game_id');
-          resBody.type_id.should.equal(reqBody.type_id);
+          resBody.should.include.keys('name', 'mature', 'resources', 'mindset', 'teamtype_id', 'game_id');
+          resBody.teamtype_id.should.equal(reqBody.teamtype_id);
           resBody.game_id.should.equal(reqBody.game_id);
           should.exist(resBody.link_code);
           resBody.link_code.should.be.a('string');
@@ -168,9 +168,9 @@ describe('Team Creation API Tests', () => {
           done();
         });
     });
-    it('A Professor may not create a Team with an invalid "type_id" field', (done) => {
+    it('A Professor may not create a Team with an invalid "teamtype_id" field', (done) => {
       const reqBody = getMockTeamCreateRequestBody();
-      reqBody.type_id = 100;
+      reqBody.teamtype_id = 100;
       chai.request(server)
         .post(`${API_TEAM_CREATE_URL}`)
         .set('Authorization', `Bearer ${profAuthToken}`)

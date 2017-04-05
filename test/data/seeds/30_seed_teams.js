@@ -6,7 +6,7 @@ exports.seed = (knex) => {
         mature: false,
         resources: 5,
         mindset: 10,
-        type_id: 1,
+        teamtype_id: 1,
         game_id: 1,
         link_code: '1234567',
       })
@@ -25,7 +25,7 @@ exports.seed = (knex) => {
         mature: true,
         resources: 2,
         mindset: 15,
-        type_id: 2,
+        teamtype_id: 2,
         game_id: 1,
         link_code: 'qwertyu',
       })
