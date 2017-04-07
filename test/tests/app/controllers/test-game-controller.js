@@ -160,6 +160,20 @@ describe('Game Controller Tests', () => {
       }, timeout);
     });
 
+    it('Professor attempts to create a game with the empty string as a name.', (done) => {
+      const mockReq = getMockNewGameReq();
+      mockReq.body.name = '';
+      const mockRes = new MockExpressResponse();
+      GameController.createGame(mockReq, mockRes);
+      setTimeout(() => {
+        mockRes.statusCode.should.equal(400);
+        const resJSON = mockRes._getJSON();
+        resJSON.error.should.equal('"name" field cannot be an empty string.');
+        assert.deepEqual(resJSON.request, mockReq.body);
+        done();
+      }, timeout);
+    });
+
     it('Professor attempts to create a game without a max_round.', (done) => {
       const mockReq = getMockNewGameReq();
       delete mockReq.body.max_round;

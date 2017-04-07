@@ -128,6 +128,14 @@ function updateGame(req, res) {
     }
 
     if (has(updatedFields, 'name')) {
+      // Don't allow empty or all whitespace names
+      if (updatedFields.name.replace(/\s/g, '') === '') {
+        res.status(400).json({
+          error: '"name" field cannot be an empty string.',
+          request: updatedFields,
+        });
+        return false;
+      }
       const namePromise = validateNameUnique(updatedFields.name).then((isValid) => {
         if (!isValid) {
           throw new Error('Game with Name exists');
@@ -237,6 +245,14 @@ function createGame(req, res) {
   if (!has(newGameReq, 'max_round')) {
     res.status(400).json({
       error: 'Missing required "max_round" field.',
+      request: newGameReq,
+    });
+    return null;
+  }
+  // Don't allow empty or all whitespace names
+  if (newGameReq.name.replace(/\s/g, '') === '') {
+    res.status(400).json({
+      error: '"name" field cannot be an empty string.',
       request: newGameReq,
     });
     return null;
