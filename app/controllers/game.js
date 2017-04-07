@@ -134,7 +134,7 @@ function updateGame(req, res) {
           error: '"name" field cannot be an empty string.',
           request: updatedFields,
         });
-        return null;
+        return false;
       }
       const namePromise = validateNameUnique(updatedFields.name).then((isValid) => {
         if (!isValid) {
