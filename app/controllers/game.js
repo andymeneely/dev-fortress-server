@@ -21,16 +21,30 @@ function validateNameUnique(newName) {
  * @param  {Express.Response}  res  - the response object
  */
 function getGames(req, res) {
-  return Game.fetchAll()
+  const fetchBody = {};
+  if (req.query) {
+    if (req.query.withRelated) fetchBody.withRelated = req.query.withRelated;
+  }
+  return Game.fetchAll(fetchBody)
   .then(collection => res.json(collection.serialize()))
   .catch(
     /* istanbul ignore next */
     (err) => {
-      console.error(err);
-      res.status(500).json({
-        error: 'UnknownError',
-        request: req.body,
-      });
+      const regMatch = err.message.match(/([a-zA-Z]*) is not defined on the model/);
+      if (regMatch) {
+        res.status(400)
+        .json({
+          error: 'InvalidRelation',
+          message: `'${regMatch[1]}' is not a valid relation on this model.`,
+        });
+      } else {
+        // Unknown error
+        console.error(err);
+        res.status(500).json({
+          error: 'UnknownError',
+          request: req.body,
+        });
+      }
     }
   );
 }
@@ -41,7 +55,11 @@ function getGames(req, res) {
  * @param {Express.Response} res  - the response object
  */
 function getGameById(req, res) {
-  return Game.where('id', req.params.id).fetch()
+  const fetchBody = {};
+  if (req.query) {
+    if (req.query.withRelated) fetchBody.withRelated = req.query.withRelated;
+  }
+  return Game.where('id', req.params.id).fetch(fetchBody)
   .then((game) => {
     if (game) {
       res.status(200).json(game.serialize());
@@ -55,11 +73,21 @@ function getGameById(req, res) {
   .catch(
     /* istanbul ignore next */
     (err) => {
-      console.error(err);
-      res.status(500).json({
-        error: 'UnknownError',
-        request: req.params,
-      });
+      const regMatch = err.message.match(/([a-zA-Z]*) is not defined on the model/);
+      if (regMatch) {
+        res.status(400)
+        .json({
+          error: 'InvalidRelation',
+          message: `'${regMatch[1]}' is not a valid relation on this model.`,
+        });
+      } else {
+        // Unknown error
+        console.error(err);
+        res.status(500).json({
+          error: 'UnknownError',
+          request: req.body,
+        });
+      }
     }
   );
 }

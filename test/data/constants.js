@@ -8,6 +8,8 @@ const API_TEAM_GET_TEAMS_URL = '/api/team';
 const API_TEAM_CREATE_URL = '/api/team';
 const API_TEAM_LOGIN_URL = '/api/team/login/';
 
+const API_GAME_GET_GAME_BY_ID_URL = '/api/game/';
+const API_GAME_GET_GAMES_URL = '/api/game';
 
 // Milliseconds – How long each test should wait before checking response values.
 const TIMEOUT = 25;
@@ -21,5 +23,7 @@ module.exports = {
   API_TEAM_GET_TEAMS_URL,
   API_TEAM_CREATE_URL,
   API_TEAM_LOGIN_URL,
+  API_GAME_GET_GAME_BY_ID_URL,
+  API_GAME_GET_GAMES_URL,
   TIMEOUT,
 };
