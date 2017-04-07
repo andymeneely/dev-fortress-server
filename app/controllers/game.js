@@ -241,6 +241,14 @@ function createGame(req, res) {
     });
     return null;
   }
+  // Don't allow empty or all whitespace names
+  if (newGameReq.name.replace(/\s/g, '') === '') {
+    res.status(400).json({
+      error: '"name" field cannot be an empty string.',
+      request: newGameReq,
+    });
+    return null;
+  }
 
   return validateNameUnique(newGameReq.name).then((isValid) => {
     if (!isValid) {
