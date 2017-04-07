@@ -14,10 +14,10 @@ const Game = bookshelf.model('Game', {
     return attributes;
   },
   storyteller() {
-    return this.hasOne('User');
+    return this.hasOne('User', 'id', 'storyteller_id');
   },
-  team() {
-    return this.belongsToMany('Team');
+  teams() {
+    return this.hasMany('Team');
   },
 });
 
