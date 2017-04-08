@@ -16,7 +16,10 @@
   },
   "apidoc": {
     "title": "Dev-Fortress Server",
-    "url" : "http://localhost:3000/api"
+    "url" : "http://localhost:3000/api",
+    "template": {
+      "withCompare": false
+    }
   },
   "dependencies": {
     "apidoc": "^0.17.5",
