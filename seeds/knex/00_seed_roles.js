@@ -1,11 +1,11 @@
-const DefaultActions = require('./data/json/action').DefaultActions;
+const DefaultRoles = require('../data/json/role').DefaultRoles;
 
 exports.seed = (knex) => {
-  const actionPromiseArray = [];
-  DefaultActions.forEach((action) => {
-    actionPromiseArray.push(
+  const rolePromiseArray = [];
+  DefaultRoles.forEach((role) => {
+    rolePromiseArray.push(
       knex.transaction((trx) => {
-        knex('action').transacting(trx).insert(action)
+        knex('role').transacting(trx).insert(role)
         .then(trx.commit)
         .catch(
           (err) => {
@@ -18,5 +18,5 @@ exports.seed = (knex) => {
     );
   });
 
-  return actionPromiseArray;
+  return Promise.all(rolePromiseArray);
 };
