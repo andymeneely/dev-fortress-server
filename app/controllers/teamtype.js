@@ -3,6 +3,7 @@
  */
 const TeamType = require('../models/teamtype');
 const bookshelf = require('../lib/bookshelf');
+const has = require('has');
 
 /**
  * Internal helper function. Serializes and performs type coercion
@@ -115,31 +116,31 @@ function getTeamTypeById(req, res) {
  * @param  {Express.Response}   res  - the response object
  */
 function createTeamType(req, res) {
-  if (!req.body.name) {
+  if (!has(req.body, 'name')) {
     return res.status(400).json({
       error: '"name" is a required field.',
       request: req.body,
     });
   }
-  if (!req.body.description) {
+  if (!has(req.body, 'description')) {
     return res.status(400).json({
       error: '"description" is a required field.',
       request: req.body,
     });
   }
-  if (!req.body.initial_mature) {
+  if (!has(req.body, 'initial_mature')) {
     return res.status(400).json({
       error: '"initial_mature" is a required field.',
       request: req.body,
     });
   }
-  if (!req.body.initial_resources) {
+  if (!has(req.body, 'initial_resources')) {
     return res.status(400).json({
       error: '"initial_resources" is a required field.',
       request: req.body,
     });
   }
-  if (!req.body.initial_mindset) {
+  if (!has(req.body, 'initial_mindset')) {
     return res.status(400).json({
       error: '"initial_mindset" is a required field.',
       request: req.body,
