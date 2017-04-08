@@ -1,6 +1,7 @@
 
 exports.up = knex =>
-  knex.schema.createTable('user', (table) => {
+  knex.schema
+  .createTable('user', (table) => {
     table.increments('id');
     table.string('username').unique().notNullable();
     table.string('name');
@@ -70,10 +71,21 @@ exports.up = knex =>
     table.integer('teamtype_id').references('teamtype.id').notNullable().onDelete('CASCADE');
     table.integer('game_id').references('game.id').notNullable().onDelete('CASCADE');
     table.string('link_code').unique().notNullable();
-  });
+  })
+  .createTable('action', (table) => {
+    table.increments('id');
+    table.string('name').unique().notNullable();
+    table.string('description').notNullable();
+    table.integer('devcaps_cost').notNullable();
+    table.integer('mindset_reward').defaultTo(0).notNullable();
+    table.boolean('repeatable').defaultTo(false).notNullable();
+    table.boolean('requires_mature').defaultTo(false).notNullable();
+  })
+  ;
 
 exports.down = knex =>
   knex.schema
+      .dropTable('action')
       .dropTable('user_role')
       .dropTable('user')
       .dropTable('role')
