@@ -4,7 +4,7 @@ const DefaultActions = [
     description: 'Develop a plan for how your system will be deployed, configured, and patched in dire and routine circumstances. Rolling back configurations and hotpatching are common techniques here.',
     devcaps_cost: 1,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -12,7 +12,7 @@ const DefaultActions = [
     description: 'Develop a plan for how your organization will detect and respond to incidents. Determine metrics of network traffic, abnormal system behavior, chain of command, and policies about responsible disclosure.',
     devcaps_cost: 1,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -20,7 +20,7 @@ const DefaultActions = [
     description: 'Determine the assets of your system and give them a relative value. Map those assets to the estimated probability of attack, and compute risk from there. Primarily used for prioritization of security resources.',
     devcaps_cost: 1,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -52,7 +52,7 @@ const DefaultActions = [
     description: 'Vulnerabilities in this category are common native programming languages (e.g. C) and hardware. e.g.flashing, low-level networking, rootkits, side channel attacks, and memory corruption.',
     devcaps_cost: 2,
     mindset_reward: 2,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -60,7 +60,7 @@ const DefaultActions = [
     description: 'Learn about the many ways that attackers can use physical information to attack deployed systems.',
     devcaps_cost: 2,
     mindset_reward: 2,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -68,7 +68,7 @@ const DefaultActions = [
     description: 'Securing databases here involves more than simply locking down the server. Repudiation is a huge concern and effective logging is a big part of that.',
     devcaps_cost: 2,
     mindset_reward: 2,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -76,7 +76,7 @@ const DefaultActions = [
     description: 'Injection is the ability to take data and turn it into executable code. Includes SQL injection, Cross-Site Scripting, OS command injection, uncontrolled format string, and many, many more.',
     devcaps_cost: 2,
     mindset_reward: 2,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -84,7 +84,7 @@ const DefaultActions = [
     description: 'Be able to manipulate memory that leads to things like tampering and arbitrary code execution. Includes buffer overflows, double-free, use-after-free, incorrect buffer size computation, lack of zeroing out key variables.',
     devcaps_cost: 2,
     mindset_reward: 2,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -92,7 +92,7 @@ const DefaultActions = [
     description: 'Learn the many ways that denial of service attacks can be carried out by sending simple, malformed network packets. This includes the basic SYN-flood attacks via bot nets, or more sophisticated attacks on specific servers and protocols.',
     devcaps_cost: 2,
     mindset_reward: 2,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -100,7 +100,7 @@ const DefaultActions = [
     description: 'Caches are important assets that require care and attention to detail. Watch out for those expiration dates and hit counts.',
     devcaps_cost: 1,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -108,7 +108,7 @@ const DefaultActions = [
     description: 'Even the simplest of data can be overly-compressed where the parser becomes overloaded. With compression bombs, you have to carefully manage your environment and parser API when handling compression.',
     devcaps_cost: 1,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -116,7 +116,7 @@ const DefaultActions = [
     description: 'The basics of file systems: users, groups, read, write, execute, setuid, setgid, and umask.',
     devcaps_cost: 2,
     mindset_reward: 2,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -124,7 +124,7 @@ const DefaultActions = [
     description: 'Break a system into untrusting processes that have varying permissions depending on their needs. Communicate between processes with inter-process communication.',
     devcaps_cost: 2,
     mindset_reward: 2,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -132,7 +132,7 @@ const DefaultActions = [
     description: 'In an untrusted API situation, you need to lock down certain parts of the system that requires special privileges. Java provides a strong security manager for such situations.',
     devcaps_cost: 2,
     mindset_reward: 2,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -156,7 +156,7 @@ const DefaultActions = [
     description: 'Run a seminar at your company that raises awareness of how insider threat has impacted software engineers and various organizations.',
     devcaps_cost: 1,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -164,7 +164,7 @@ const DefaultActions = [
     description: 'Enact policies and procedures that are designed to mitigate insider threat.',
     devcaps_cost: 1,
     mindset_reward: 0,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -172,7 +172,7 @@ const DefaultActions = [
     description: 'Automated unit testing is a common technique that can be costly to start up, but puts developers into the mindset of a tester and checks for basic mistakes.',
     devcaps_cost: 3,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -188,7 +188,7 @@ const DefaultActions = [
     description: 'Construct a build system that compiles, integrates, tests, and reports a build constantly. This gets developers to integrate their code with their colleagues early on, and opens up all kinds of other avenues for secure software. A significant initial setup with little security mindset, however.',
     devcaps_cost: 2,
     mindset_reward: 0,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -196,7 +196,7 @@ const DefaultActions = [
     description: 'Fuzz testers (aka fuzzers) are testing tools used to discover and automatically test the inputs of a system. They can have a high false-positive rate and need a lot of customization for a given product, but can be useful in discovering and tracking new channels of attack.',
     devcaps_cost: 2,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -220,7 +220,7 @@ const DefaultActions = [
     description: 'Static analysis tools are powerful and relatively easy to run, but have a startup cost of initial configuration and training to lower false positives.',
     devcaps_cost: 2,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -236,7 +236,7 @@ const DefaultActions = [
     description: 'Thinking defensively, limit the inputs to your system using a combination of blacklists and whitelists.',
     devcaps_cost: 1,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -260,7 +260,7 @@ const DefaultActions = [
     description: 'Streamline the way that updates are delivered to your product quickly.',
     devcaps_cost: 1,
     mindset_reward: 0,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -268,7 +268,7 @@ const DefaultActions = [
     description: 'Control how your company’s network evolves over time by tracking new nodes and setting strict networking policies.',
     devcaps_cost: 2,
     mindset_reward: 0,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -276,7 +276,7 @@ const DefaultActions = [
     description: 'Enable a feature on your system that allows users to enter something they have (e.g. a rolling code) in addition to their password for authentication.',
     devcaps_cost: 1,
     mindset_reward: 0,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -284,7 +284,7 @@ const DefaultActions = [
     description: 'Provide a key signing infrastructure for deploying cryptographic certificates internally.',
     devcaps_cost: 3,
     mindset_reward: 0,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -292,7 +292,7 @@ const DefaultActions = [
     description: 'Begin research on a proprietary, novel algorithm for socket-layer cryptography.',
     devcaps_cost: 1,
     mindset_reward: 1,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -300,7 +300,7 @@ const DefaultActions = [
     description: 'Research is expensive and takes a long time. Various research communities need to be engaged to evaluate it and attempt to break it.',
     devcaps_cost: 2,
     mindset_reward: 0,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -308,7 +308,7 @@ const DefaultActions = [
     description: 'Bringing a new crypto algorithm to deployment also has its own hardware and implementation challenges.',
     devcaps_cost: 3,
     mindset_reward: 0,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
   {
@@ -316,7 +316,7 @@ const DefaultActions = [
     description: 'Deploy the widely-adopted cryptographic protocol to prevent unauthorized packet sniffing.',
     devcaps_cost: 1,
     mindset_reward: 0,
-    repeatable: false,
+    repeatable: true,
     requires_mature: false,
   },
 ];
