@@ -28,6 +28,14 @@ Migrations are written in the `migrations/` directory.
 
 Once this is done you should now have a `databse.sqlite3` file in your project root. This is your project's development database.
 
+API Documentation
+----
+API documentation is generated using [apidoc](http://apidocjs.com/).
+
+`npm run apidocs`
+
+The generated documentation outputs to `doc/index.html`
+
 Project Structure
 ----
 There are numbers subdirectories within the start kit application structure.
