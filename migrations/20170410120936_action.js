@@ -4,7 +4,7 @@ exports.up = knex =>
   .createTable('action', (table) => {
     table.increments('id');
     table.string('name').unique().notNullable();
-    table.string('description').notNullable();
+    table.string('description', 10000).notNullable();
     table.integer('devcaps_cost').notNullable();
     table.integer('mindset_reward').defaultTo(0).notNullable();
     table.boolean('repeatable').defaultTo(false).notNullable();

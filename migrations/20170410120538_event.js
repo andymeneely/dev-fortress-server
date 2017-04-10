@@ -4,7 +4,7 @@ exports.up = knex =>
   .createTable('event', (table) => {
     table.increments('id');
     table.string('name').unique().notNullable();
-    table.string('description').notNullable();
+    table.string('description', 10000).notNullable();
     table.integer('default_damage').notNullable();
     table.boolean('disabled').defaultTo(false);
   })
