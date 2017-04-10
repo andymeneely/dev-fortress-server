@@ -59,6 +59,7 @@ describe('Action Retrieval API Tests', () => {
             should.not.exist(err);
             res.statusCode.should.equal(200);
             res.body.id.should.equal(actionId);
+            res.body.prereqs.should.be.an('array');
             done();
           });
     });
