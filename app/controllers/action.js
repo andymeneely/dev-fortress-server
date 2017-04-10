@@ -10,7 +10,9 @@ const utils = require('../lib/utils');
  * @param {Express.Response} res the response object
  */
 function getActions(req, res) {
-  return Action.fetchAll()
+  return Action.fetchAll({
+    withRelated: ['prereqs'],
+  })
     .then(collection => res.json(collection.serialize()))
     .catch(
       /* istanbul ignore next */
@@ -38,7 +40,9 @@ function getActionById(req, res) {
     return null;
   }
 
-  return Action.where('id', actionId).fetch()
+  return Action.where('id', actionId).fetch({
+    withRelated: ['prereqs'],
+  })
     .then((action) => {
       if (!action) {
         // 404 not found
