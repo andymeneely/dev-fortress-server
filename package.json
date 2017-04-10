@@ -1,6 +1,7 @@
 {
-  "name": "express-mvc-starter",
-  "version": "0.0.0",
+  "name": "dev-fortress-server",
+  "version": "0.1.0",
+  "description": "The API for the Dev-Fortress security game.",
   "private": true,
   "scripts": {
     "start": "NODE_ENV=development node ./bin/www",
@@ -10,9 +11,18 @@
     "exec": "exec",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
-    "lint": "eslint ./app;  exit 0"
+    "lint": "eslint ./app;  exit 0",
+    "apidocs": "apidoc -i app/routes"
+  },
+  "apidoc": {
+    "title": "Dev-Fortress Server",
+    "url" : "http://localhost:3000/api",
+    "template": {
+      "withCompare": false
+    }
   },
   "dependencies": {
+    "apidoc": "^0.17.5",
     "bcrypt": "^0.8.7",
     "body-parser": "~1.15.1",
     "bookshelf": "^0.10.0",
