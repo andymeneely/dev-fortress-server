@@ -10,7 +10,6 @@ const server = require('../../../app');
 const should = chai.should();
 
 describe('Action Retrieval API Tests', () => {
-
   let userToken;
 
   before((done) => {
