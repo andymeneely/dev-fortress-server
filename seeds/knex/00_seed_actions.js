@@ -1,4 +1,4 @@
-const DefaultActions = require('../data/json/action').DefaultActions;
+const DefaultActions = require('../data/json/action');
 
 exports.seed = (knex) => {
   const actionPromiseArray = [];

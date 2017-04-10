@@ -1,4 +1,4 @@
-const DefaultRoles = require('../data/json/role').DefaultRoles;
+const DefaultRoles = require('../data/json/role');
 
 exports.seed = (knex) => {
   const rolePromiseArray = [];

@@ -1,4 +1,4 @@
-const DefaultEvents = require('../data/json/event').DefaultEvents;
+const DefaultEvents = require('../data/json/event');
 
 exports.seed = (knex) => {
   const eventPromiseArray = [];

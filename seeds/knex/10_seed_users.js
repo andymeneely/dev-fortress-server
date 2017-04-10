@@ -1,4 +1,4 @@
-const DefaultUsers = require('../data/json/user').DefaultUserData;
+const DefaultUsers = require('../data/json/user');
 
 exports.seed = (knex) => {
   const userPromiseArray = [];

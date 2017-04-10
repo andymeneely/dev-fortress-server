@@ -1,4 +1,4 @@
-const DefaultTeamTypes = require('../data/json/teamtype').DefaultTeamTypes;
+const DefaultTeamTypes = require('../data/json/teamtype');
 
 exports.seed = (knex) => {
   const teamtypePromiseArray = [];
