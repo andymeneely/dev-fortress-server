@@ -22,10 +22,14 @@ function validateNameUnique(newName) {
  */
 function getGames(req, res) {
   const fetchBody = {};
+  let knexQuery = Game;
   if (req.query) {
+    // Optional model relations
     if (req.query.withRelated) fetchBody.withRelated = req.query.withRelated;
+    // Filter by storyteller_id
+    if (req.query.storyteller_id) knexQuery = knexQuery.where('storyteller_id', req.query.storyteller_id);
   }
-  return Game.fetchAll(fetchBody)
+  return knexQuery.fetchAll(fetchBody)
   .then(collection => res.json(collection.serialize()))
   .catch(
     /* istanbul ignore next */
