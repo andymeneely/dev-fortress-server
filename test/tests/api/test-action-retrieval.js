@@ -10,7 +10,6 @@ const server = require('../../../app');
 const should = chai.should();
 
 describe('Action Retrieval API Tests', () => {
-
   let userToken;
 
   before((done) => {
@@ -59,6 +58,7 @@ describe('Action Retrieval API Tests', () => {
             should.not.exist(err);
             res.statusCode.should.equal(200);
             res.body.id.should.equal(actionId);
+            res.body.prereqs.should.be.an('array');
             done();
           });
     });

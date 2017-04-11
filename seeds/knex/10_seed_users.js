@@ -6,6 +6,7 @@ exports.seed = (knex) => {
     userPromiseArray.push(
       knex.transaction((trx) => {
         knex('user').transacting(trx).insert(user.user)
+        .returning('id')
         .then((results) => {
           const userId = results[0];
           user.email.user_id = userId;

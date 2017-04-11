@@ -1,5 +1,5 @@
 [
-  {
+  { "id": 1,
     "name": "Deployment and Configuration Management Plan",
     "description": "Develop a plan for how your system will be deployed, configured, and patched in dire and routine circumstances. Rolling back configurations and hotpatching are common techniques here.",
     "devcaps_cost": 1,
@@ -7,7 +7,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 2,
     "name": "Incident Response Plan",
     "description": "Develop a plan for how your organization will detect and respond to incidents. Determine metrics of network traffic, abnormal system behavior, chain of command, and policies about responsible disclosure.",
     "devcaps_cost": 1,
@@ -15,7 +15,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 3,
     "name": "Risk Assessment Plan",
     "description": "Determine the assets of your system and give them a relative value. Map those assets to the estimated probability of attack, and compute risk from there. Primarily used for prioritization of security resources.",
     "devcaps_cost": 1,
@@ -23,7 +23,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 4,
     "name": "Misuse and Abuse Cases",
     "description": "Take use case requirements and mutate them into evil scenarios. Determine what types of damage attackers could do without consideration of how they would accomplish it to determine the specific risks of the domain.",
     "devcaps_cost": 1,
@@ -31,7 +31,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 5,
     "name": "Threat Modeling: Develop Model",
     "description": "Construct a data flow model of your architecture. Determine external interactors and trust boundaries. Use STRIDE to consider particularly risky data transfers and other risks of your design.",
     "devcaps_cost": 2,
@@ -39,7 +39,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 6,
     "name": "Threat Modeling: Review Threats",
     "description": "Use STRIDE to consider particularly risky data transfers and other risks of your design.",
     "devcaps_cost": 1,
@@ -47,7 +47,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 7,
     "name": "Learn embedded security",
     "description": "Vulnerabilities in this category are common native programming languages (e.g. C) and hardware. e.g.flashing, low-level networking, rootkits, side channel attacks, and memory corruption.",
     "devcaps_cost": 2,
@@ -55,7 +55,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 8,
     "name": "Learn side channel attacks",
     "description": "Learn about the many ways that attackers can use physical information to attack deployed systems.",
     "devcaps_cost": 2,
@@ -63,7 +63,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 9,
     "name": "Learn database auditability",
     "description": "Securing databases here involves more than simply locking down the server. Repudiation is a huge concern and effective logging is a big part of that.",
     "devcaps_cost": 2,
@@ -71,7 +71,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 10,
     "name": "Learn injection attacks",
     "description": "Injection is the ability to take data and turn it into executable code. Includes SQL injection, Cross-Site Scripting, OS command injection, uncontrolled format string, and many, many more.",
     "devcaps_cost": 2,
@@ -79,7 +79,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 11,
     "name": "Learn memory corruption vulnerabilities",
     "description": "Be able to manipulate memory that leads to things like tampering and arbitrary code execution. Includes buffer overflows, double-free, use-after-free, incorrect buffer size computation, lack of zeroing out key variables.",
     "devcaps_cost": 2,
@@ -87,7 +87,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 12,
     "name": "Learn packet flooding attacks",
     "description": "Learn the many ways that denial of service attacks can be carried out by sending simple, malformed network packets. This includes the basic SYN-flood attacks via bot nets, or more sophisticated attacks on specific servers and protocols.",
     "devcaps_cost": 2,
@@ -95,7 +95,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 13,
     "name": "Learn cache poisoning attacks",
     "description": "Caches are important assets that require care and attention to detail. Watch out for those expiration dates and hit counts.",
     "devcaps_cost": 1,
@@ -103,7 +103,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 14,
     "name": "Learn compression bombs",
     "description": "Even the simplest of data can be overly-compressed where the parser becomes overloaded. With compression bombs, you have to carefully manage your environment and parser API when handling compression.",
     "devcaps_cost": 1,
@@ -111,7 +111,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 15,
     "name": "Learn file system permissions",
     "description": "The basics of file systems: users, groups, read, write, execute, setuid, setgid, and umask.",
     "devcaps_cost": 2,
@@ -119,7 +119,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 16,
     "name": "Learn distrustful decomposition",
     "description": "Break a system into untrusting processes that have varying permissions depending on their needs. Communicate between processes with inter-process communication.",
     "devcaps_cost": 2,
@@ -127,7 +127,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 17,
     "name": "Learn security managers",
     "description": "In an untrusted API situation, you need to lock down certain parts of the system that requires special privileges. Java provides a strong security manager for such situations.",
     "devcaps_cost": 2,
@@ -135,7 +135,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 18,
     "name": "Assess past vulnerabilities",
     "description": "Go over the vulnerabilities you have experienced in the past and perform a post-mortem. Assess and discuss the severity using the CVSS. Determine the engineering failures that led to this particular mistake.",
     "devcaps_cost": 2,
@@ -143,7 +143,7 @@
     "repeatable": true,
     "requires_mature": true
   },
-  {
+  { "id": 19,
     "name": "Hire external penetration testers",
     "description": "Hire a group of red-team, white-hat hackers to attempt to break into your running system.",
     "devcaps_cost": 1,
@@ -151,7 +151,7 @@
     "repeatable": true,
     "requires_mature": true
   },
-  {
+  { "id": 20,
     "name": "Insider Threat Seminar",
     "description": "Run a seminar at your company that raises awareness of how insider threat has impacted software engineers and various organizations.",
     "devcaps_cost": 1,
@@ -159,7 +159,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 21,
     "name": "Insider Threat Policies",
     "description": "Enact policies and procedures that are designed to mitigate insider threat.",
     "devcaps_cost": 1,
@@ -167,7 +167,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 22,
     "name": "Unit Testing: Initial Suite",
     "description": "Automated unit testing is a common technique that can be costly to start up, but puts developers into the mindset of a tester and checks for basic mistakes.",
     "devcaps_cost": 3,
@@ -175,7 +175,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 23,
     "name": "Unit Testing: Maintain",
     "description": "Continue with unit testing, but with a lower cost.",
     "devcaps_cost": 1,
@@ -183,7 +183,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 24,
     "name": "Continuous Integration Initial Setup",
     "description": "Construct a build system that compiles, integrates, tests, and reports a build constantly. This gets developers to integrate their code with their colleagues early on, and opens up all kinds of other avenues for secure software. A significant initial setup with little security mindset, however.",
     "devcaps_cost": 2,
@@ -191,7 +191,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 25,
     "name": "Write a fuzz tester",
     "description": "Fuzz testers (aka fuzzers) are testing tools used to discover and automatically test the inputs of a system. They can have a high false-positive rate and need a lot of customization for a given product, but can be useful in discovering and tracking new channels of attack.",
     "devcaps_cost": 2,
@@ -199,7 +199,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 26,
     "name": "Continuous Integration: Daily Fuzz Testing",
     "description": "Fuzz testers need to run for a long time to be exhaustive. This can be helpful, but automating a fuzzer is a big challenge and requires maintenance.",
     "devcaps_cost": 0,
@@ -207,7 +207,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 27,
     "name": "Continuous Integration: Track Attack Surface",
     "description": "Using fuzz testers on a daily build can also provide useful insight into how your system’s risk has changed over time. A new feature, for example, might significantly increase the number of ways the attackers can get in.",
     "devcaps_cost": 1,
@@ -215,7 +215,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 28,
     "name": "Run Static Analysis Manually",
     "description": "Static analysis tools are powerful and relatively easy to run, but have a startup cost of initial configuration and training to lower false positives.",
     "devcaps_cost": 2,
@@ -223,7 +223,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 29,
     "name": "Continuous Integration: Daily Static Analysis",
     "description": "Tracking static analysis over time can provide some help in understanding how the system may be improving or degrading.",
     "devcaps_cost": 0,
@@ -231,7 +231,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 30,
     "name": "Implement Input Validation",
     "description": "Thinking defensively, limit the inputs to your system using a combination of blacklists and whitelists.",
     "devcaps_cost": 1,
@@ -239,7 +239,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 31,
     "name": "Conduct Code Reviews on New Changes",
     "description": "Have developers invite each other to code reviews of their commits to determine design, style, security, and other potential issues they see without executing the code.",
     "devcaps_cost": 2,
@@ -247,7 +247,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 32,
     "name": "Simulate Massive Traffic Events",
     "description": "Automate how your users interact with the system (e.g. clicks, or network traffic) and repeat it many times to stress your system. Great for finding availability issues.",
     "devcaps_cost": 3,
@@ -255,7 +255,7 @@
     "repeatable": true,
     "requires_mature": true
   },
-  {
+  { "id": 33,
     "name": "Improved Patch Delivery",
     "description": "Streamline the way that updates are delivered to your product quickly.",
     "devcaps_cost": 1,
@@ -263,7 +263,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 34,
     "name": "Network change control",
     "description": "Control how your company’s network evolves over time by tracking new nodes and setting strict networking policies.",
     "devcaps_cost": 2,
@@ -271,7 +271,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 35,
     "name": "Two-factor authentication",
     "description": "Enable a feature on your system that allows users to enter something they have (e.g. a rolling code) in addition to their password for authentication.",
     "devcaps_cost": 1,
@@ -279,7 +279,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 36,
     "name": "Internal public key infrastructure",
     "description": "Provide a key signing infrastructure for deploying cryptographic certificates internally.",
     "devcaps_cost": 3,
@@ -287,7 +287,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 37,
     "name": "Cryptographic Research 1",
     "description": "Begin research on a proprietary, novel algorithm for socket-layer cryptography.",
     "devcaps_cost": 1,
@@ -295,7 +295,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 38,
     "name": "Cryptographic Research 2",
     "description": "Research is expensive and takes a long time. Various research communities need to be engaged to evaluate it and attempt to break it.",
     "devcaps_cost": 2,
@@ -303,7 +303,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 39,
     "name": "Deploy proprietary, novel cryptographic algorithm",
     "description": "Bringing a new crypto algorithm to deployment also has its own hardware and implementation challenges.",
     "devcaps_cost": 3,
@@ -311,7 +311,7 @@
     "repeatable": true,
     "requires_mature": false
   },
-  {
+  { "id": 40,
     "name": "Deploy SSL/TLS on the product",
     "description": "Deploy the widely-adopted cryptographic protocol to prevent unauthorized packet sniffing.",
     "devcaps_cost": 1,

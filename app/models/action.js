@@ -1,6 +1,8 @@
 const bookshelf = require('../lib/bookshelf');
 const has = require('has');
 
+require('./prereq');
+
 const Action = bookshelf.model('Action', {
   tableName: 'action',
   parse: (attributes) => {
@@ -14,6 +16,9 @@ const Action = bookshelf.model('Action', {
     }
 
     return attributes;
+  },
+  prereqs() {
+    return this.hasMany('PreReq');
   },
 });
 
