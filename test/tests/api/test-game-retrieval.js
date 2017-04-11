@@ -70,10 +70,37 @@ describe('Game Retrieval API Tests', () => {
             done();
           });
     });
+    it('All Games can be retrieved given a valid storyteller id', (done) => {
+      const storytellerId = 1;
+      chai.request(server)
+          .get(`${API_GAME_GET_GAMES_URL}`)
+          .set('Authorization', `Bearer ${userToken}`)
+          .query({ storyteller_id: storytellerId })
+          .end((err, res) => {
+            should.not.exist(err);
+            res.statusCode.should.equal(200);
+            res.body.should.be.an('array');
+            res.body.length.should.equal(1);
+            done();
+          });
+    });
   });
 
 
   describe('Fail', () => {
-
+    it('No Games can be retrieved given an invalid storyteller id', (done) => {
+      const storytellerId = 100;
+      chai.request(server)
+          .get(`${API_GAME_GET_GAMES_URL}`)
+          .set('Authorization', `Bearer ${userToken}`)
+          .query({ storyteller_id: storytellerId })
+          .end((err, res) => {
+            should.not.exist(err);
+            res.statusCode.should.equal(200);
+            res.body.should.be.an('array');
+            res.body.length.should.equal(0);
+            done();
+          });
+    });
   });
 });
