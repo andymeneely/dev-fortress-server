@@ -11,8 +11,11 @@ const has = require('has');
  * @param {String} newName - the requested Game name field value
  */
 function validateNameUnique(newName) {
-  return Game.where('name', newName).count('name')
-    .then(count => (count === 0));
+  return Game.where('name', newName).fetch()
+  .then((game) => {
+    if (game) return false;
+    return true;
+  });
 }
 
 /**
