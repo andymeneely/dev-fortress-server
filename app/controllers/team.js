@@ -56,8 +56,12 @@ function generateUniqueLinkCode() {
  * @param {String} teamName - the name to check the existence of.
  */
 function validateNameUnique(teamName) {
-  return Team.where('name', teamName).count('name')
-    .then(count => (count === 0));
+  return Team.where('name', teamName).fetch()
+  .then((team) => {
+    console.log(team);
+    if (team) return false;
+    return true;
+  });
 }
 
 /**

@@ -77,6 +77,7 @@ function attachUser(req, res, userId, next) {
       req.user = user.serialize();
       req.userType = 'USER';
       next();
+      return null;
     })
     .catch((fetchErr) => {
       console.error(fetchErr);
