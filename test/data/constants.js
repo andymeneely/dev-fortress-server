@@ -14,6 +14,9 @@ const API_GAME_GET_GAMES_URL = '/api/game';
 const API_ACTION_GET_ACTIONS_URL = '/api/action';
 const API_ACTION_GET_ACTION_BY_ID_URL = '/api/action/';
 
+const API_MITIGATION_GET_MITIGATIONS_URL = '/api/mitigation';
+const API_MITIGATION_GET_MITIGATION_BY_ID_URL = '/api/mitigation/';
+
 // Milliseconds – How long each test should wait before checking response values.
 const TIMEOUT = 25;
 
@@ -30,5 +33,7 @@ module.exports = {
   API_GAME_GET_GAMES_URL,
   API_ACTION_GET_ACTIONS_URL,
   API_ACTION_GET_ACTION_BY_ID_URL,
+  API_MITIGATION_GET_MITIGATIONS_URL,
+  API_MITIGATION_GET_MITIGATION_BY_ID_URL,
   TIMEOUT,
 };
