@@ -7,8 +7,10 @@
 const APP_NAME = "express-mvc-starter";
 
 var app = require('../app');
+var io = require('../app/io');
 var debug = require('debug')('express-mvc-starter:server');
 var http = require('http');
+
 
 /**
  * Get port from environment and store in Express.
@@ -22,6 +24,9 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+// attatch the server to socket.io
+io.attach(server);
 
 /**
  * Listen on provided port, on all network interfaces.
