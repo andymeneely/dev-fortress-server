@@ -1,0 +1,192 @@
+[
+  {
+    "id": 1,
+    "type": "EVERY_ANY_ANY",
+    "data": {
+      "teamtypes": [1,2,3,4],
+      "actions": [30],
+      "reward_value": 3
+    },
+    "event_id": 1
+  },
+  {
+    "id": 2,
+    "type": "EVERY_ANY_ANY",
+    "data": {
+      "teamtypes": [1,2,3,4,5,6,7,8],
+      "actions": [19],
+      "reward_value": 1
+    },
+    "event_id": 1
+  },
+  {
+    "id": 3,
+    "type": "EVERY_ANY_ANY",
+    "data": {
+      "teamtypes": [6,7],
+      "actions": [7,11],
+      "reward_value": 3
+    },
+    "event_id": 2
+  },
+  {
+    "id": 4,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [1],
+      "actions": [8],
+      "reward_value": 5
+    },
+    "event_id": 3
+  },
+  {
+    "id": 5,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [1],
+      "actions": [3,4],
+      "reward_value": 3 
+    },
+    "event_id": 3
+  },
+  {
+    "id": 6,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [1,2,3,4,5,6,7,8],
+      "actions": [5,6],
+      "reward_value": 2
+    },
+    "event_id": 3
+  },
+  {
+    "id": 7,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [4],
+      "actions": [19,30],
+      "reward_value": 2
+    },
+    "event_id": 4
+  },
+  {
+    "id": 8,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [5],
+      "actions": [12,13,15],
+      "reward_value": 3
+    },
+    "event_id": 4
+  },
+  {
+    "id": 9,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [3,4,6,8],
+      "actions": [16],
+      "reward_value": 2
+    },
+    "event_id": 4
+  },
+  {
+    "id": 10,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [1,2,3,4,5,6,7,8],
+      "actions": [39],
+      "reward_value": 3
+    },
+    "event_id": 5
+  },
+  {
+    "id": 11,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [1,2,3,4,5,6,7,8],
+      "actions": [40],
+      "reward_value": 4
+    },
+    "event_id": 5
+  },
+  {
+    "id": 12,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [5],
+      "actions": [34,36],
+      "reward_value": 5
+    },
+    "event_id": 5
+  },
+  {
+    "id": 13,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [1,2,3,4,5,6,7,8],
+      "actions": [21],
+      "reward_value": 6
+    },
+    "event_id": 5
+  },
+  {
+    "id": 14,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [1,2,3,4,5,6,7,8],
+      "actions": [2],
+      "reward_value": 3
+    },
+    "event_id": 6
+  },
+  {
+    "id": 15,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [1,2,3,4,5,6,7,8],
+      "actions": [33],
+      "reward_value": 4
+    },
+    "event_id": 6
+  },
+  {
+    "id": 16,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [1,2,3,4,5,6,7,8],
+      "actions": [30],
+      "reward_value": 1
+    },
+    "event_id": 6
+  },
+  {
+    "id": 17,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [7],
+      "actions": [2,33,40,19,35,8,10,5,6],
+      "reward_value": 4
+    },
+    "event_id": 7
+  },
+  {
+    "id": 18,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [6],
+      "actions": [5,6,17],
+      "reward_value": 3
+    },
+    "event_id": 7
+  },
+  {
+    "id": 19,
+    "type": "ANY_ANY",
+    "data": {
+      "teamtypes": [5],
+      "actions": [34],
+      "reward_value": 6
+    },
+    "event_id": 7
+  }
+]
