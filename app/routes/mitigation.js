@@ -33,7 +33,7 @@ router.get(
 );
 
 /**
- * @api {get} /mitigation Get Mitigation
+ * @api {get} /mitigation/:id Get Mitigation
  * @apiName GetMitigation
  * @apiGroup Mitigation
  *
@@ -43,7 +43,8 @@ router.get(
  * @apiHeader  {String}     Authorization         Bearer [JWT_TOKEN]
  *
  * @apiParam   {String}     [withRelated]         Return valid relations on the model.
- *                                                  Valid relations include: 'event'
+ *                                                  Valid relations include: 'event'.
+ * @apiParam   {Integer}    :id                   Primary key of the mitigation being queried
  *
  * @apiSuccess {Integer}    id        Primary key.
  * @apiSuccess {String}     type      Logic identifier
