@@ -1,12 +1,15 @@
 exports.seed = knex =>
   Promise.all([
     knex.transaction((trx) => {
-      knex('event').transacting(trx).insert({
+      knex('mitigation').transacting(trx).insert({
         id: 1,
-        name: 'Test',
-        description: 'This is a test',
-        default_damage: 100,
-        disabled: 0,
+        type: 'ANY_ANY',
+        data: JSON.stringify({
+          teamtypes: [1, 2],
+          actions: [12, 15],
+          reward_value: 5,
+        }),
+        event_id: 1,
       })
       .then(trx.commit)
       .catch(
@@ -18,12 +21,15 @@ exports.seed = knex =>
       );
     }),
     knex.transaction((trx) => {
-      knex('event').transacting(trx).insert({
+      knex('mitigation').transacting(trx).insert({
         id: 2,
-        name: 'Aliens Attack',
-        description: 'Aliens attack your server room. All applications are affected.',
-        default_damage: 50,
-        disabled: 0,
+        type: 'ANY_ANY',
+        data: JSON.stringify({
+          teamtypes: [3, 4],
+          actions: [2, 1],
+          reward_value: 10,
+        }),
+        event_id: 2,
       })
       .then(trx.commit)
       .catch(

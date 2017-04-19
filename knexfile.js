@@ -3,8 +3,10 @@
 module.exports = {
 
   development: {
+    // client: 'postgres',
     client: 'sqlite3',
     connection: {
+      // database: 'fortress_dev',
       filename: './database.sqlite3',
     },
     seeds: {
