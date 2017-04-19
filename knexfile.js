@@ -2,23 +2,14 @@
 
 module.exports = {
 
-  // development: {
-  //   client: 'sqlite3',
-  //   connection: {
-  //     filename: './database.sqlite3',
-  //   },
-  //   seeds: {
-  //     directory: './seeds/knex',
-  //   },
-  //   useNullAsDefault: true,
-  // },
-
   development: {
-    client: 'postgresql',
+    // client: 'postgresql',
+    client: 'sqlite3',
     connection: {
-      database: 'dev-fortress',
-      user: 'postgres',
-      password: 'password',
+      // database: 'fortress_dev',
+      // user: 'postgres',
+      // password: 'password',
+      filename: './database.sqlite3',
     },
     pool: {
       min: 2,

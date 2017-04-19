@@ -1,5 +1,5 @@
 [
-  {
+  { "id": 1,
     "name": "iOS App Team",
     "description": "You are developing a new line of mobile applications for the Rainforest system. These applications will be on iOS. They interact primarily with the Rainforest API, but also cache important data such as payment data and various other personal information. These applications involve a combination of both native implementations and HTML5 implementations on mobile devices.\nYour products will be considered mature at the beginning of Month 3.\nYour products are considered to be public-facing, meaning untrusted users outside the company will interact with your product.\nYour product primarily interacts with API, with some interaction with Cloud and Web.\nGoal: Devote at least 30 devcaps of Routine Development by the end of Month 3, or this team will be fired.",
     "initial_mature": false,
@@ -7,7 +7,7 @@
     "initial_mindset": 0,
     "disabled": false
   },
-  {
+  { "id": 2,
     "name": "Android Open Source App Team",
     "description": "You are developing a new line of mobile applications for the Rainforest system. These applications will be on Android devices. They interact primarily with the Rainforest API, but also cache important data such as payment data and various other personal information. These applications involve a combination of both native implementations and HTML5 implementations on mobile devices.\nUnlike the iOS team, this product is unique because it’s also open source. This means that you can leverage a community of volunteers to inspect your code.\nSpecifically, you are able to get code inspections of new development changes each month (#3), with no devcap cost (as a results you get the Hacker Mindset bonus too). Track this on your sheet by changing the Dev Capacity entry the Tasks page to zero.\nYour products will be considered mature at the beginning of Month 3.\nYour products are considered to be public-facing, meaning untrusted users outside the company interact with your product.\nYour product primarily interacts with API, with some interaction with Infrastructure and Web.\nGoal: devote at least 30 devcaps of Routine Development by the end of Month 5, or this team will be fired.",
     "initial_mature": false,
@@ -15,7 +15,7 @@
     "initial_mindset": 0,
     "disabled": false
   },
-  {
+  { "id": 3,
     "name": "Web Team",
     "description": "You are developing and maintaining the website of the Rainforest storefront, which is implemented in a variety of server-side languages such as Java and .NET. Your application primarily interfaces with the API, with some direct interaction with Inventory directly. Since scalability is a concern, your team interfaces with Infrastructure quite frequently.\nYour product is already considered mature.\nYour product is also considered to be public-facing, meaning untrusted users outside the company interact with your product.\nYour product primarily interacts with API, and is deployed on Cloud Services. There’s some legacy code that accesses Automated Factory directly.\nGoal: devote at least 28 devcaps of Routine Development by the end of Month 5, or this line of products will be at risk of being cancelled or significantly re-organized.",
     "initial_mature": true,
@@ -23,7 +23,7 @@
     "initial_mindset": 0,
     "disabled": false
   },
-  {
+  { "id": 4,
     "name": "API Team",
     "description": "Your team maintains the primary entry point for the website and apps via a REST API. The API team is also responsible for most of the back-end work in maintaining databases of inventory, purchases, and reviews. Availability of the API is especially crucial.\nYour product will be considered mature at the beginning of Month 2.\nYour product is considered to be internal to the company, meaning untrusted users outside the company are not expected interact with your product.\nYour product provides service to Web, Mobile, and Automated Factory teams, and the entire system is deployed on Rainforest’s Cloud services.\nGoal: devote at least 20 devcaps of Routine Development by the end of Month 5, or this product will be at risk of being cancelled or significantly re-organized.",
     "initial_mature": false,
@@ -31,7 +31,7 @@
     "initial_mindset": 0,
     "disabled": false
   },
-  {
+  { "id": 5,
     "name": "Cloud Services Team",
     "description": "Your team develops a suite of tools used to manage the massive cloud computing needs of your company. All server-side products interact with this team. This team is diverse, with software developers, system administrators, and network administrators working together. Programming languages vary. This team also develops:\ndatabase management tools\n- virtualization management tools\n- physical security for the company\n\nYour product is considered to be internal to the company, meaning untrusted users outside the company are not expected interact with your product.\nYour product is already considered mature.\nThis will impact any team that runs on a server, which includes Automated Factory, Web, and especially API.\nGoal: devote at least 24 devcaps of Routine Development by the end of Month 5, or this product will be at risk of being cancelled or significantly re-organized.",
     "initial_mature": true,
@@ -39,7 +39,7 @@
     "initial_mindset": 0,
     "disabled": false
   },
-  {
+  { "id": 6,
     "name": "Automated Warehouse Team",
     "description": "Your team is in charge of developing software that automates the management of the merchandise your company sells. Historically, your software has optimized inventory management by carefully managing the arrangement of pallets, shelves, and boxes for humans to fulfill orders. However, you are also developing new robotic warehouses that can retrieve items and assemble them for packaging automatically. This software is primarily C/C++ for the robot software, and the server-side applications are implemented in Java.\nYour product will be considered mature starting with Month 2.\nYour product is considered to be mostly internal to the company, meaning untrusted users outside the company are not expected interact with your product. However, your team does interact with third-party vendors to store merchandise.\nThis product mostly interact directly with the API and Drones, and its servers run on the Cloud Services team manages.\nGoal: devote at least 30 devcaps of Routine Development by the end of Month 5, or this product will be at risk of being cancelled or significantly re-organized.",
     "initial_mature": false,
@@ -47,7 +47,7 @@
     "initial_mindset": 0,
     "disabled": false
   },
-  {
+  { "id": 7,
     "name": "Drone Delivery Team",
     "description": "The future is here. Automated drones have advanced greatly in recent years, allowing us to have robotic delivery to individual houses. These drones are embedded with GPS, video, radar, and a data communication channel to allow them to be remotely piloted and deliver products directly to consumers. Software on the drones are primarily implemented in C/C++, with some Python scripts. Server-side software is implemented in Java.\nYour product will be considered mature starting with Month 3.\nYour product is considered to be internal to the company, meaning untrusted users outside the company are not expected interact directly with your product.\nYour product primarily interacts with the Automated Warehouse. Your server-side management runs on Cloud Services.\nGoal: devote at least 30 devcaps of Routine Development by the end of Month 5, or this product will be at risk of being cancelled or significantly re-organized.",
     "initial_mature": false,
@@ -55,7 +55,7 @@
     "initial_mindset": 0,
     "disabled": false
   },
-  {
+  { "id": 8,
     "name": "Streaming App Team",
     "description": "Everybody is streaming their entertainment today. You provide an all-in-one cloud-based system that can stream music and video to your customers. Your data flows through the API product, but you maintain the libraries, user accounts, and streaming services that everyone has come to rely upon. Your product is primarily implemented server-side in C and C++. Availability is critical for you.\nYou are far behind the competitors on this one. You have the steepest devcap total of Routine Development required of anyone at Rainforest. Catching up in the tech industry is very hard.\nFortunately, CEO Beff Jezos believes in you and has put together a bunch of veterans on your team, so at the beginning of the game, you start with 12 Devcaps and 4 Hacker Mindset instead of the usual 10 and 0.\nYour product is not considered mature throughout this game, so those tasks are off-limits to you.\nYour product is also considered to be public-facing, meaning untrusted users outside the company interact with your product.\nYour product primarily interacts with the Cloud and API, and integrates with both Web and Mobile apps.\nGoal: devote at least 40 devcaps of Routine Development by the end of Month 5, or this product will be at risk of being cancelled or significantly re-organized.",
     "initial_mature": false,

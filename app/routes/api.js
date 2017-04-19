@@ -13,6 +13,7 @@ router.use('/rumor', require('./rumor'));
 router.use('/game', require('./game'));
 router.use('/team', require('./team'));
 router.use('/action', require('./action'));
+router.use('/mitigation', require('./mitigation'));
 
 // Generate 404s
 router.use((req, res, next) => {
