@@ -31,7 +31,7 @@
   },
   {
     "id": 4,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1],
       "actions": [8],
@@ -41,7 +41,7 @@
   },
   {
     "id": 5,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1],
       "actions": [3,4],
@@ -51,7 +51,7 @@
   },
   {
     "id": 6,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [5,6],
@@ -61,7 +61,7 @@
   },
   {
     "id": 7,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [4],
       "actions": [19,30],
@@ -71,7 +71,7 @@
   },
   {
     "id": 8,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [5],
       "actions": [12,13,15],
@@ -81,7 +81,7 @@
   },
   {
     "id": 9,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [3,4,6,8],
       "actions": [16],
@@ -91,7 +91,7 @@
   },
   {
     "id": 10,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [39],
@@ -101,7 +101,7 @@
   },
   {
     "id": 11,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [40],
@@ -111,7 +111,7 @@
   },
   {
     "id": 12,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [5],
       "actions": [34,36],
@@ -121,7 +121,7 @@
   },
   {
     "id": 13,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [21],
@@ -131,7 +131,7 @@
   },
   {
     "id": 14,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [2],
@@ -141,7 +141,7 @@
   },
   {
     "id": 15,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [33],
@@ -151,7 +151,7 @@
   },
   {
     "id": 16,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [30],
@@ -161,7 +161,7 @@
   },
   {
     "id": 17,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [7],
       "actions": [2,33,40,19,35,8,10,5,6],
@@ -171,7 +171,7 @@
   },
   {
     "id": 18,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [6],
       "actions": [5,6,17],
@@ -181,7 +181,7 @@
   },
   {
     "id": 19,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [5],
       "actions": [34],
@@ -191,7 +191,7 @@
   },
   {
     "id": 20,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [2],
       "actions": [14,16,17,19],
@@ -201,7 +201,7 @@
   },
   {
     "id": 21,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [8],
       "actions": [33],
@@ -211,7 +211,7 @@
   },
   {
     "id": 22,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [8],
       "actions": [16,10,11],
@@ -221,7 +221,7 @@
   },
   {
     "id": 23,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [4],
       "actions": [25,26],
@@ -231,7 +231,7 @@
   },
   {
     "id": 24,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [6],
       "actions": [21,9],
@@ -241,7 +241,7 @@
   },
   {
     "id": 25,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [6],
       "actions": [17],
@@ -251,7 +251,7 @@
   },
   {
     "id": 26,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [35],
@@ -261,7 +261,7 @@
   },
   {
     "id": 27,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [10],
@@ -271,7 +271,7 @@
   },
   {
     "id": 28,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [33],
@@ -281,7 +281,7 @@
   },
   {
     "id": 29,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [27],
@@ -291,7 +291,7 @@
   },
   {
     "id": 30,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [18],
@@ -301,7 +301,7 @@
   },
   {
     "id": 31,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [32],
@@ -311,7 +311,7 @@
   },
   {
     "id": 32,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [30],
@@ -321,7 +321,7 @@
   },
   {
     "id": 33,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [14],
@@ -331,7 +331,7 @@
   },
   {
     "id": 34,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [1,2,3,4,5,6,7,8],
       "actions": [13],
@@ -341,7 +341,7 @@
   },
   {
     "id": 35,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [3],
       "actions": [35],
@@ -351,7 +351,7 @@
   },
   {
     "id": 36,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [6],
       "actions": [35],
@@ -361,12 +361,22 @@
   },
   {
     "id": 37,
-    "type": "ANY_ANY",
+    "type": "EVERY_ANY_ANY",
     "data": {
       "teamtypes": [4],
       "actions": [10],
       "reward_value": 4
     },
     "event_id": 14
+  },
+  {
+    "id": 38,
+    "type": "EVERY_ANY_ANY",
+    "data": {
+      "teamtypes": [1,2],
+      "actions": [30],
+      "reward_value": 10
+    },
+    "event_id": 18
   }
 ]
