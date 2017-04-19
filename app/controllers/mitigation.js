@@ -28,8 +28,13 @@ function getMitigations(req, res) {
   .catch(
     /* istanbul ignore next */
     (err) => {
-      console.error(err);
-      util.sendError(500, 'Unknown Error: Internal Server Error.', {}, res);
+      const regMatch = err.message.match(/([a-zA-Z]*) is not defined on the model/);
+      if (regMatch) {
+        util.sendError(400, `Invalid Relation: '${regMatch[1]}' is not a valid relation on this model.`, {}, res);
+      } else {
+        console.error(err);
+        util.sendError(500, 'Unknown Error: Internal Server Error.', {}, res);
+      }
     }
   );
 }
