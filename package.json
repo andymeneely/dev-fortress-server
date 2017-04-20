@@ -31,10 +31,12 @@
     "ejs": "~2.4.1",
     "express": "~4.13.4",
     "has": "^1.0.1",
+    "ioredis": "^2.5.0",
     "jsonwebtoken": "^7.1.9",
     "knex": "^0.11.10",
     "morgan": "~1.7.0",
     "randomstring": "^1.1.5",
+    "redis-server": "^1.1.0",
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.7.3",
     "winston": "^2.3.0"
