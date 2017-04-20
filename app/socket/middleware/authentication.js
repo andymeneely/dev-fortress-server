@@ -13,10 +13,13 @@ const has = require('has');
 function validateTeamToken(socket, token) {
   const decoded = authLib.verifyToken(token);
   if (!decoded || !has(decoded, 'type') || !has(decoded, 'id') || decoded.type !== 'TEAM') {
-    socket.emit('error', 'Could not verify token!');
-    console.error('Could not verify token!');
+    const message = 'Could not verify token!';
+    socket.emit('info', { event: 'authenticate_team', didSucceed: false, message });
+    console.error(message);
   } else {
-    console.log(`Socket ${socket.id} validated successfully!`);
+    const message = `Socket ${socket.id} validated successfully!`;
+    socket.emit('info', { event: 'authenticate_team', didSucceed: true, message });
+    console.log(message);
     teamController.storeSocketIdTeamId(socket.id, decoded.id);
     teamController.storeUpdateTeamInfo(decoded.id);
   }
