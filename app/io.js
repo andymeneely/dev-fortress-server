@@ -1,24 +1,23 @@
 const Server = require('socket.io');
+const authMiddleware = require('./socket/middleware/authentication');
+const handlers = require('./socket/handlers/handlers');
 
 const ioOptions = {
-  path: '/socket',
+  path: '/socket.io',
   serveClient: false,
 };
 
 const io = new Server(ioOptions);
 
-
-io.use((socket, next) => {
-  console.log(socket.handshake.query.token);
-  next();
-});
-
 io.on('connection', (socket) => {
-  console.log('Connected!');
-  // console.log(util.inspect(socket.request))
-  console.log(socket.id);
-  socket.emit('current_games', []);
-  io.emit('game_start', {id: 1});
-  io.emit('game_end', {id: 1});
+  console.log(`Socket ${socket.id} has connected`);
+  socket.on('disconnect', () => {
+    console.log(`Socket ${socket.id} has disconnected`);
+  });
+  socket.on('authenticate_team', (token) => {
+    authMiddleware.validateTeamToken(socket, token);
+    handlers.registerTeamHandlers(socket);
+  });
+});
 
 module.exports = io;
