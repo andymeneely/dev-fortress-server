@@ -11,10 +11,14 @@ module.exports = {
       // password: 'password',
       filename: './database.sqlite3',
     },
-    pool: {
-      min: 2,
-      max: 10,
-    },
+    // required for sqlite
+    useNullAsDefault: true,
+
+    // only use with postgresql
+    // pool: {
+    //   min: 2,
+    //   max: 10,
+    // },
     seeds: {
       directory: './seeds/knex',
     },
