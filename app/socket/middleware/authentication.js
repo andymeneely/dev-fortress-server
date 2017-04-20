@@ -3,6 +3,7 @@
  */
 const authLib = require('../../lib/authentication');
 const teamController = require('../controllers/team');
+const emitters = require('../emitters/emitters');
 const has = require('has');
 
 /**
@@ -11,18 +12,22 @@ const has = require('has');
  * @param {String} token  the team's auth token
  */
 function validateTeamToken(socket, token) {
+  let didSucceed;
+  let message;
   const decoded = authLib.verifyToken(token);
   if (!decoded || !has(decoded, 'type') || !has(decoded, 'id') || decoded.type !== 'TEAM') {
-    const message = 'Could not verify token!';
-    socket.emit('info', { event: 'authenticate_team', didSucceed: false, message });
+    message = 'Could not verify token!';
+    didSucceed = false;
     console.error(message);
   } else {
-    const message = `Socket ${socket.id} validated successfully!`;
-    socket.emit('info', { event: 'authenticate_team', didSucceed: true, message });
+    message = `Socket ${socket.id} validated successfully!`;
+    didSucceed = true;
     console.log(message);
+
     teamController.storeSocketIdTeamId(socket.id, decoded.id);
     teamController.storeUpdateTeamInfo(decoded.id);
   }
+  emitters.emitInfoEventResults(socket, 'authenticate_team', didSucceed, message);
 }
 
 module.exports = {
