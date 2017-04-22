@@ -10,23 +10,6 @@ var app = require('../app');
 var io = require('../app/io');
 var debug = require('debug')('express-mvc-starter:server');
 var http = require('http');
-var RedisServer = require('redis-server');
-
-/**
- * Redis Server
- */
-var redisPort = 6379;
-var newRedisServer = new RedisServer(redisPort);
-
-newRedisServer.open().then((err) => {
-  if (err === null) {
-    debug(`Redis Server listening on: ${redisPort}`);
-  } else {
-    console.error('An error occurred while starting redis-server. Ensure the binary is installed and try again.');
-    throw err;
-  }
-});
-
 
 /**
  * Get port from environment and store in Express.
