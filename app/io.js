@@ -15,8 +15,9 @@ io.on('connection', (socket) => {
     console.log(`Socket ${socket.id} has disconnected`);
   });
   socket.on('authenticate_team', (token) => {
-    authMiddleware.validateTeamToken(socket, token);
-    handlers.registerTeamHandlers(socket);
+    authMiddleware.validateTeamToken(socket, token, () => {
+      handlers.registerTeamHandlers(socket);
+    });
   });
 });
 
