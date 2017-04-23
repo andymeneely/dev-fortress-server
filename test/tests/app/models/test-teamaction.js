@@ -51,4 +51,18 @@ describe('TeamAction Models Tests', () => {
       should.not.exist(err);
     });
   });
+  it('Test Get TeamAction By ID', (done) => {
+    const teamActionId = 1;
+    TeamAction.where('id', teamActionId).fetch({withRelated: ['action','team']}).then((teamAction) => {
+      teamAction = teamAction.serialize();
+      should.exist(teamAction);
+      should.exist(teamAction.team);
+      should.exist(teamAction.action);
+      teamAction.team.id.should.equal(teamAction.team_id);
+      teamAction.action.id.should.equal(teamAction.action_id);
+      done();
+    }).catch((err) => {
+      should.not.exist(err);
+    });
+  });
 });
