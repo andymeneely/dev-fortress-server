@@ -2,20 +2,17 @@ const knex = require('../../../../app/lib/db');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../../../app');
-const io = require('socket.io-client');
-const SOCKET_URL = require('../../../data/constants').SOCKET_URL;
 const API_TEAM_LOGIN_URL = require('../../../data/constants').API_TEAM_LOGIN_URL;
+const authenticationMiddleware = require('../../../../app/socket/middleware/authentication');
+const roomController = require('../../../../app/socket/controllers/room');
+const randomString = require('randomstring');
+const timeout = require('../../../data/constants').TIMEOUT;
 
 chai.use(chaiHttp);
-const should = chai.should;
-const socketOptions = {
-  transports: ['websocket'],
-  'force new connection': true,
-};
-
+const should = chai.should();
 let teamToken = null;
 
-describe('Team Socket', () => {
+describe('Team Socket Functions', () => {
   before((done) => {
     // Authenticate a Team to perform protected queries.
     function authenticateTeam() {
@@ -43,47 +40,60 @@ describe('Team Socket', () => {
           });
       });
   });
-  beforeEach((done) => {
-    // Run initial migrations and seed db
-    knex.migrate.rollback()
-      .then(() => {
-        knex.migrate.latest()
-          .then(() => {
-            knex.seed.run()
-              .then(() => done());
-          });
-      });
-  });
 
-  it('Should allow Team to connect', (done) => {
-    const teamSocket = io('http://localhost:3000/');
-    teamSocket.on('connect', () => {
-      teamSocket.close();
+  // Internally used for mocking Sockets.
+  function getMockSocket() {
+    const socketId = randomString.generate(5);
+    const mockSocket = {
+      id: socketId,
+      emit: (eventName, eventData) => {
+        should.exist(eventName);
+        should.exist(eventData);
+      },
+    };
+    return mockSocket;
+  }
+
+  it('Should succeed validate Team Token', (done) => {
+    const socket = getMockSocket();
+    socket.emit = (eventName, eventData) => {
+      eventName.should.equal('info');
+      eventData.event.should.equal('authentication');
+      eventData.didSucceed.should.equal(true);
       done();
-    });
-    teamSocket.on('error', (err) => {
-      console.error(err);
-      should.not.exist(err);
-    });
+    };
+    authenticationMiddleware.validateTeamToken(socket, teamToken, () => {});
   });
 
-  it('Should allow Team to authenticate', (done) => {
-    const teamSocket = io('http://localhost:3000/');
-    teamSocket.on('connect', () => {
-      teamSocket.on('info', (info) => {
-        info.should.have.property('event');
-        if (info.event === 'authenticate_team') {
-          info.should.have.property('didSucceed');
-          info.should.have.property('message');
-          info.didSucceed.should.equal(true);
-          done();
-        }
-      });
-      teamSocket.emit('authenticate_team', teamToken);
-    });
-    teamSocket.on('error', (err) => {
-      console.error(err);
-    });
+  it('Should fail validate Team Token', (done) => {
+    const invalidTeamToken = 'THIS_IS_FAKE';
+    const socket = getMockSocket();
+    socket.emit = (eventName, eventData) => {
+      eventName.should.equal('info');
+      eventData.event.should.equal('authentication');
+      eventData.didSucceed.should.equal(false);
+      done();
+    };
+    authenticationMiddleware.validateTeamToken(socket, invalidTeamToken, () => {});
+  });
+
+  it('Should join a Socket to a Room', (done) => {
+    const socket = getMockSocket();
+    socket.to = () => socket;
+    socket.join = (room) => {
+      should.exist(room);
+    };
+    socket.emit = (eventName, eventData) => {
+      eventName.should.equal('info');
+      eventData.event.should.equal('join room');
+      eventData.didSucceed.should.equal(true);
+    };
+    roomController.joinRoom(socket, 'game_room');
+
+    // Delay for emitter checks.
+    setTimeout(() => {
+      done();
+    }, timeout);
   });
 });
 
