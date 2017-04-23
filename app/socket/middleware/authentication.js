@@ -17,7 +17,6 @@ function validateTeamToken(socket, token, next) {
     if (err || !decoded || !has(decoded, 'type') || !has(decoded, 'id') || decoded.type !== 'TEAM') {
       message = 'Could not verify token!';
       didSucceed = false;
-      console.error(message);
     } else {
       message = `Team ${decoded.id} has authenticated successfully!`;
       didSucceed = true;
