@@ -22,7 +22,7 @@ const API_MITIGATION_GET_MITIGATION_BY_ID_URL = '/api/mitigation/';
 const SOCKET_URL = `${BASE_URL}/socket.io`;
 
 // Milliseconds – How long each test should wait before checking response values.
-const TIMEOUT = 25;
+const TIMEOUT = 100;
 
 module.exports = {
   API_USER_LOGIN_URL,
