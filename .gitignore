@@ -38,6 +38,9 @@ npm-debug.log
 ### VSCode ###
 .vscode/*
 
+# Redis temp data
+dump.rdb
+
 # Created by https://www.gitignore.io/api/webstorm
 
 ### WebStorm ###

@@ -3,16 +3,28 @@
 module.exports = {
 
   development: {
-    // client: 'postgres',
+    // client: 'postgresql',
     client: 'sqlite3',
     connection: {
       // database: 'fortress_dev',
+      // user: 'postgres',
+      // password: 'password',
       filename: './database.sqlite3',
     },
+    // required for sqlite
+    useNullAsDefault: true,
+
+    // only use with postgresql
+    // pool: {
+    //   min: 2,
+    //   max: 10,
+    // },
     seeds: {
       directory: './seeds/knex',
     },
-    useNullAsDefault: true,
+    migrations: {
+      tableName: 'knex_migrations',
+    },
   },
 
   test: {
