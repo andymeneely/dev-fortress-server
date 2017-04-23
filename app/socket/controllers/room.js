@@ -1,17 +1,7 @@
 /**
  * @module socket/controllers/room
  */
-const redis = require('../../redis');
-
-/**
- * Retrieve the list of rooms from Redis, forward to callback.
- * @param {Function} callback the callback: function(err, rooms)
- */
-function getRooms(callback) {
-  redis.llen('rooms', (err, length) => {
-    redis.lrange('rooms', 0, length, callback);
-  });
-}
+const emitters = require('../emitters/emitters');
 
 /**
  * Join a socket to a room.
@@ -20,12 +10,10 @@ function getRooms(callback) {
  */
 function joinRoom(socket, room) {
   socket.join(room);
-  console.log(`Socket ${socket.id} has joined room: ${room}`);
-  socket.emit('info', `You've joined room: ${room}`);
-  socket.to(room).emit('info', `Socket ${socket.id} has entered the room`);
+  emitters.emitInfoEventResults(socket, 'join room', true, `You've joined room: ${room}`);
+  emitters.emitInfoFromSocketToRoom(socket, 'join room', true, `Socket ${socket.id} has entered the room`, room);
 }
 
 module.exports = {
-  getRooms,
   joinRoom,
 };
