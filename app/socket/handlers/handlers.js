@@ -2,38 +2,60 @@
  * @module /socket/handlers/handlers
  */
 const teamController = require('../controllers/team');
-const gameController = require('../controllers/game');
+const storytellerController = require('../controllers/storyteller');
 
-/**
- * Register event handlers for Team events.
- * @param {Socket} socket the socket.io socket
- */
 function registerTeamHandlers(socket) {
-  // Retrieve Team info
-  socket.on('get_team_info', () => {
-    teamController.getTeam(socket, (err, team) => {
-      socket.emit('team_info', team);
-      console.log(`Team Info: ${team}`);
-    });
+  socket.on('update_team', () => {
+    teamController.updateTeamInfo(socket, () => {});
+  });
+}
+
+function registerStorytellerHandlers(socket) {
+  socket.on('update_games_list', () => {
+    storytellerController.updateStorytellerGamesList(socket, () => {});
   });
 
-  // Retrieve Game info
-  socket.on('get_game_info', () => {
-    teamController.getTeam(socket, (teamErr, team) => {
-      const teamJson = JSON.parse(team);
-      gameController.getGame(teamJson.game_id, (gameErr, game) => {
-        socket.emit('game_info', game);
-        console.log(`Game Info: ${game}`);
+  socket.on('join_game_room', (gameId) => {
+    storytellerController.joinGameRoom(socket, gameId);
+  });
+
+  socket.on('start_game', (gameId) => {
+    console.log(`Socket ${socket.id} has started Game ID ${gameId}`);
+    // TODO: start_game logic
+  });
+}
+
+/**
+ * Initialize a Team socket.
+ * @param {Socket} socket the socket.io socket
+ * @param {Integer} teamId the id of the team being initialized
+ */
+function initializeTeam(socket, teamId) {
+  teamController.storeSocketIdTeamId(socket, teamId, () => {
+    teamController.updateTeamInfo(socket, () => {
+      teamController.joinGameRoom(socket, () => {
+        registerTeamHandlers(socket);
       });
     });
   });
+}
 
-  // Join the namespace for the Game
-  socket.on('join_game_room', () => {
-    teamController.joinGameRoom(socket);
+/**
+ * Initialize a Storyteller socket.
+ * @param {Socket} socket the socket.io socket
+ * @param {Integer} storytellerId the id of the storyteller being initialized
+ */
+function initializeStoryteller(socket, storytellerId) {
+  storytellerController.storeSocketIdStorytellerId(socket, storytellerId, () => {
+    storytellerController.updateStorytellerInfo(socket, () => {
+      storytellerController.updateStorytellerGamesList(socket, () => {
+        registerStorytellerHandlers(socket);
+      });
+    });
   });
 }
 
 module.exports = {
-  registerTeamHandlers,
+  initializeTeam,
+  initializeStoryteller,
 };
