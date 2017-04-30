@@ -1,9 +1,9 @@
+const CONSTANTS = require('../../../data/constants');
+const roomController = require('../../../../app/socket/controllers/room');
 const knex = require('../../../../app/lib/db');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const roomController = require('../../../../app/socket/controllers/room');
 const randomString = require('randomstring');
-const timeout = require('../../../data/constants').TIMEOUT;
 
 chai.use(chaiHttp);
 const should = chai.should();
@@ -45,11 +45,11 @@ describe('Team Socket Functions', () => {
       eventData.event.should.equal('join room');
       eventData.didSucceed.should.equal(true);
     };
-    roomController.joinRoom(socket, 'game_room');
-
-    // Delay for emitter checks.
-    setTimeout(() => {
-      done();
-    }, timeout);
+    roomController.joinRoom(socket, 'game_room', () => {
+      // Delay for emitter checks.
+      setTimeout(() => {
+        done();
+      }, CONSTANTS.TIMEOUT);
+    });
   });
 });
