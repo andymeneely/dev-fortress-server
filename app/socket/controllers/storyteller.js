@@ -36,10 +36,7 @@ function storeStorytellerGamesList(storytellerId, gameIdList, callback) {
 function updateStorytellerGamesList(socket, callback) {
   getStorytellerId(socket, (id) => {
     gameController.getGamesByStorytellerId(id, (games) => {
-      const gameIdList = [];
-      games.forEach((game) => {
-        gameIdList.push(game.id);
-      });
+      const gameIdList = games.map(element => element.id);
       storeStorytellerGamesList(id, gameIdList, () => {
         emitters.storytellerEmitters.emitStorytellerGames(socket, games);
         if (callback) callback();
