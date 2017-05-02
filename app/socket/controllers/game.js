@@ -3,34 +3,41 @@
  */
 const redis = require('../../redis');
 const Game = require('../../models/game');
+const emitters = require('../emitters');
 
-function getGamesInProgress() {
-  redis.get('games_in_progress', (err, result) => {
-    if (err) {
-      console.error(err);
-      return null;
-    }
-    return result;
-  });
-}
-
-function storeUpdatedGameInfo(gameId, callback) {
-  Game.where('id', gameId).fetch({ withRelated: ['teams', 'storyteller'] })
-  .then((game) => {
-    const jsonString = JSON.stringify(game.serialize());
-    redis.set(`game_${gameId}`, jsonString);
+function storeGameInfo(game, callback) {
+  const jsonString = JSON.stringify(game);
+  redis.set(`game_${game.id}`, jsonString, () => {
+    emitters.gameEmitters.emitGameUpdate(game);
     callback();
   });
 }
 
-function getGame(gameId, callback) {
-  storeUpdatedGameInfo(gameId, () => {
-    redis.get(`game_${gameId}`, callback);
+/**
+ * Update Redis with the latest Game info from the Model
+ * @param {Integer} gameId the id of the Game
+ * @param {Function} callback the callback function
+ */
+function updateGameInfo(gameId, callback) {
+  Game.where('id', gameId).fetch({ withRelated: ['teams', 'storyteller'] })
+  .then((game) => {
+    storeGameInfo(game.serialize(), callback);
   });
 }
 
+function getGamesByStorytellerId(storytellerId, callback) {
+  Game.where('storyteller_id', storytellerId).fetchAll({ withRelated: ['teams', 'storyteller'] })
+  .then((games) => {
+    callback(games.serialize());
+  });
+}
+
+function getGameById(gameId, callback) {
+  redis.get(`game_${gameId}`, callback);
+}
+
 module.exports = {
-  getGamesInProgress,
-  getGame,
-  storeUpdatedGameInfo,
+  updateGameInfo,
+  getGamesByStorytellerId,
+  getGameById,
 };

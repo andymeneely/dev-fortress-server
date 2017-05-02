@@ -1,12 +1,20 @@
 /**
- * @module /socket/emitters
+ * @module /socket/emitters/general
  */
+// const io = require('../../io');
+
 function emitToSocket(socket, eventName, eventData) {
   socket.emit(eventName, eventData);
 }
 
 function emitToSocketRoom(socket, room, eventName, eventData) {
   socket.to(room).emit(eventName, eventData);
+}
+
+function emitToRoom(room, eventName, eventData) {
+  console.log('TODO: THIS FUNCTION IS NOT IMPLEMENTED');
+  console.log(eventData);
+  // io.to(room).emit(eventName, eventData);
 }
 
 function emitInfoEventResults(socket, eventResultName, didSucceed, message) {
@@ -29,6 +37,7 @@ function emitInfoFromSocketToRoom(socket, eventResultName, didSucceed, message, 
 
 module.exports = {
   emitToSocket,
+  emitToRoom,
   emitInfoEventResults,
   emitInfoFromSocketToRoom,
 };

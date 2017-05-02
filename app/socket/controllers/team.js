@@ -9,50 +9,56 @@ const roomController = require('./room');
  * Update Redis store with Team info.
  * @param {Integer} teamId the id of the Team
  */
-function storeUpdateTeamInfo(teamId) {
-  Team.where('id', teamId).fetch({ withRelated: ['teamtype'] })
-    .then((team) => {
-      const jsonString = JSON.stringify(team.serialize());
-      redis.set(`team_${team.id}`, jsonString);
-      console.log(`Team ${teamId} info updated`);
-    });
-}
-
-/**
- * Store the socketid/teamid association.
- * @param {Integer} socketId the id of the socket
- * @param {Integer} teamId the id of the team
- */
-function storeSocketIdTeamId(socketId, teamId) {
-  redis.set(socketId, teamId);
-  console.log(`Socket ${socketId} stored as Team ${teamId}`);
+function updateTeamInfo(socket, callback) {
+  redis.get(socket.id).then((teamId) => {
+    Team.where('id', teamId).fetch({ withRelated: ['teamtype'] })
+      .then((team) => {
+        const jsonString = JSON.stringify(team.serialize());
+        redis.set(`team_${team.id}`, jsonString, callback);
+      });
+  });
 }
 
 /**
  * Get the Team associated with the socket, forward to the callback.
  * @param {Socket} socket the socket.io socket
- * @param {Function} callback the callback: function(err, team)
+ * @param {Function} callback the callback
  */
-function getTeam(socket, callback) {
-  redis.get(socket.id, (err, teamId) => {
-    redis.get(`team_${teamId}`, callback);
+function getTeamJSON(socket, callback) {
+  redis.get(socket.id).then((teamId) => {
+    redis.get(`team_${teamId}`).then((team) => {
+      const teamJSON = JSON.parse(team);
+      console.log(teamJSON);
+      callback(teamJSON);
+    });
   });
+}
+
+/**
+ * Store the socketid/teamid association.
+ * @param {Integer} socketId the socket
+ * @param {Integer} teamId the id of the team
+ */
+function storeSocketIdTeamId(socket, teamId, callback) {
+  const socketId = socket.id;
+  const teamID = teamId;
+  redis.set(socketId, teamID);
+  callback(teamId);
 }
 
 /**
  * Join the socket to its associated Game.
  * @param {Socket} socket the socket.io socket
  */
-function joinGameRoom(socket) {
-  getTeam(socket, (err, team) => {
-    const teamJson = JSON.parse(team);
-    roomController.joinRoom(socket, `game_${teamJson.game_id}`);
+function joinGameRoom(socket, callback) {
+  getTeamJSON(socket, (team) => {
+    roomController.joinGameRoom(socket, team.game_id, callback);
   });
 }
 
 module.exports = {
-  storeUpdateTeamInfo,
+  updateTeamInfo,
   storeSocketIdTeamId,
-  getTeam,
+  getTeamJSON,
   joinGameRoom,
 };

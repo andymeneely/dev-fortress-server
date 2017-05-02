@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3000'
+const BASE_URL = 'http://localhost:3000';
 
 const API_USER_LOGIN_URL = '/api/user/login';
 const API_USER_REGISTER_URL = '/api/user';
