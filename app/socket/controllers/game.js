@@ -33,7 +33,10 @@ function getGamesByStorytellerId(storytellerId, callback) {
 }
 
 function getGameById(gameId, callback) {
-  redis.get(`game_${gameId}`, callback);
+  // redis.get(`game_${gameId}`, callback);
+  Game.where('id', gameId).fetch().then((game) => {
+    callback(game.serialize());
+  });
 }
 
 // function for Storyteller to advance a Round
