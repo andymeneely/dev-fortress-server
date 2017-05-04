@@ -62,9 +62,23 @@ function joinGameRoom(socket, gameId, callback) {
   });
 }
 
+function isGameStoryteller(socket, gameId, callback) {
+  getStoryteller(socket, (storyteller) => {
+    gameController.getGameById(gameId, (game) => {
+      // Ensure the game exists, and that the User is the storyteller of that game
+      if (game && game.storyteller_id === storyteller.id) {
+        callback(true);
+      } else {
+        callback(false);
+      }
+    });
+  });
+}
+
 module.exports = {
   storeSocketIdStorytellerId,
   updateStorytellerInfo,
   updateStorytellerGamesList,
   joinGameRoom,
+  isGameStoryteller,
 };

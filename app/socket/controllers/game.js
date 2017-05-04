@@ -36,8 +36,19 @@ function getGameById(gameId, callback) {
   redis.get(`game_${gameId}`, callback);
 }
 
+// function for Storyteller to advance a Round
+function nextRound(gameId, callback) {
+  Game.where('id', gameId).fetch().then(() => {
+    new Game({ id: gameId }).save({
+      round_phase: 0,
+      current_round: +1,
+    }).then(updateGameInfo(gameId, callback));
+  });
+}
+
 module.exports = {
   updateGameInfo,
   getGamesByStorytellerId,
   getGameById,
+  nextRound,
 };
