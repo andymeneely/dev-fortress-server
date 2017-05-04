@@ -5,6 +5,11 @@ const redis = require('../../redis');
 const Game = require('../../models/game');
 const emitters = require('../emitters');
 
+/**
+ * Store the json string representation of a game model to redis.
+ * @param {JSON}     game     the game model as a JSON object
+ * @param {Function} callback the function to call once complete
+ */
 function storeGameInfo(game, callback) {
   const jsonString = JSON.stringify(game);
   redis.set(`game_${game.id}`, jsonString, () => {
@@ -25,6 +30,11 @@ function updateGameInfo(gameId, callback) {
   });
 }
 
+/**
+ * Retreive a collection of Games for a given storyteller ID
+ * @param {Integer}  storytellerId the id of the storyteller
+ * @param {Function} callback the function to forward the collection of game models to.
+ */
 function getGamesByStorytellerId(storytellerId, callback) {
   Game.where('storyteller_id', storytellerId).fetchAll({ withRelated: ['teams', 'storyteller'] })
   .then((games) => {
@@ -32,6 +42,11 @@ function getGamesByStorytellerId(storytellerId, callback) {
   });
 }
 
+/**
+ * Retrieve a game model from redis.
+ * @param {Integer} gameId    the id of the Game model
+ * @param {Function} callback the function to which the game model is passed.
+ */
 function getGameById(gameId, callback) {
   redis.get(`game_${gameId}`, callback);
 }

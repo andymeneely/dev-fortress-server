@@ -42,7 +42,7 @@ describe('Team Socket Functions', () => {
     };
     socket.emit = (eventName, eventData) => {
       eventName.should.equal('info');
-      eventData.event.should.equal('join room');
+      eventData.event.should.equal('join_game_room');
       eventData.didSucceed.should.equal(true);
     };
     roomController.joinRoom(socket, 'game_room', () => {
