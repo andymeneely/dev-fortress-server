@@ -54,6 +54,16 @@ function getGameById(gameId, callback) {
   });
 }
 
+// function for a storyteller to start a game
+function startGame(gameId, callback) {
+  Game.where('id', gameId).fetch().then(() => {
+    new Game({ id: gameId }).save({
+      round_phase: 0,
+      current_round: 1,
+    }, { patch: true }).then(updateGameInfo(gameId, callback));
+  });
+}
+
 // function for Storyteller to advance a Round
 function nextRound(gameId, callback) {
   Game.where('id', gameId).fetch().then((game) => {
@@ -69,5 +79,6 @@ module.exports = {
   updateGameInfo,
   getGamesByStorytellerId,
   getGameById,
+  startGame,
   nextRound,
 };
