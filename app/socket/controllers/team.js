@@ -94,7 +94,6 @@ function updatePendingTeamAction(socket, actionId, updateType, callback) {
         pendingActions[team.id] = teamPendingActions;
         const newPendingActionsJSON = JSON.stringify(pendingActions);
         redis.set(`game_${team.game_id}_pending_actions`, newPendingActionsJSON).then(() => {
-          console.log(`game_${team.game_id}_pending_actions`);
           emitters.gameEmitters.emitPendingActionsUpdate(team.game_id, pendingActions);
           callback();
         });

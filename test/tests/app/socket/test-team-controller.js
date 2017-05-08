@@ -44,10 +44,31 @@ describe.only('Team Socket Functions', () => {
           redis.get('game_1_pending_actions').then((jsonString) => {
             should.exist(jsonString);
             const pendingActions = JSON.parse(jsonString);
-            console.log(pendingActions[1]);
+            pendingActions['2'][0].should.equal(1);
             done();
           });
-        }, 1000);
+        }, CONSTANTS.TIMEOUT);
+      });
+    });
+  });
+
+  it('Should remove pending Team action from redis', (done) => {
+    const socket = getMockSocket();
+    const mockTeamModel = {
+      id: 2,
+      game_id: 1,
+    };
+    redis.set('team_2', JSON.stringify(mockTeamModel));
+    redis.set(socket.id, 2).then(() => {
+      teamController.updatePendingTeamAction(socket, 1, 'remove', () => {
+        setTimeout(() => {
+          redis.get('game_1_pending_actions').then((jsonString) => {
+            should.exist(jsonString);
+            const pendingActions = JSON.parse(jsonString);
+            pendingActions['2'].length.should.equal(0);
+            done();
+          });
+        }, CONSTANTS.TIMEOUT);
       });
     });
   });
