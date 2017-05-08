@@ -41,11 +41,12 @@ function getGameById(gameId, callback) {
 
 // function for Storyteller to advance a Round
 function nextRound(gameId, callback) {
-  Game.where('id', gameId).fetch().then(() => {
+  Game.where('id', gameId).fetch().then((game) => {
+    const newRound = game.attributes.current_round + 1;
     new Game({ id: gameId }).save({
       round_phase: 0,
-      current_round: +1,
-    }).then(updateGameInfo(gameId, callback));
+      current_round: newRound,
+    }, { patch: true }).then(updateGameInfo(gameId, callback));
   });
 }
 

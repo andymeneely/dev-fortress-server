@@ -7,7 +7,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const should = chai.should();
 
-describe('Game Socket Functions: ', () => {
+describe.only('Game Socket Functions: ', () => {
   before((done) => {
     // Run initial migrations and seed db
     knex.migrate.rollback()
