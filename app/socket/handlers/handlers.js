@@ -3,6 +3,7 @@
  */
 const teamController = require('../controllers/team');
 const storytellerController = require('../controllers/storyteller');
+const gameController = require('../controllers/game');
 
 /**
  * Register event listeners and handler callbacks for a team socket.
@@ -85,6 +86,14 @@ function registerStorytellerHandlers(socket) {
   socket.on('start_game', (gameId) => {
     console.log(`Socket ${socket.id} has started Game ID ${gameId}`);
     // TODO: start_game logic
+  });
+
+  socket.on('next_round', (gameId) => {
+    storytellerController.isGameStoryteller(socket, gameId, (isValid) => {
+      if (isValid) {
+        gameController.nextRound(gameId);
+      }
+    });
   });
 }
 

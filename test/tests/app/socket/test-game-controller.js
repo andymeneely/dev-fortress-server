@@ -1,0 +1,33 @@
+const CONSTANTS = require('../../../data/constants');
+const gameController = require('../../../../app/socket/controllers/game');
+const knex = require('../../../../app/lib/db');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+
+chai.use(chaiHttp);
+const should = chai.should();
+
+describe('Game Socket Functions: ', () => {
+  before((done) => {
+    // Run initial migrations and seed db
+    knex.migrate.rollback()
+      .then(() => {
+        knex.migrate.latest()
+          .then(() => {
+            knex.seed.run()
+              .then(() => done());
+          });
+      });
+  });
+  it('Should pass socket next_round', (done) => {
+    gameController.nextRound(1, () => {
+      setTimeout(() => {
+        gameController.getGameById(1, (game) => {
+          game.round_phase.should.equal(0);
+          game.current_round.should.equal(1);
+          done();
+        });
+      }, CONSTANTS.TIMEOUT);
+    });
+  });
+});
