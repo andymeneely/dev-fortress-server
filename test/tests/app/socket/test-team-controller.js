@@ -9,7 +9,7 @@ const redis = require('../../../../app/redis');
 chai.use(chaiHttp);
 const should = chai.should();
 
-describe.only('Team Socket Functions', () => {
+describe('Team Socket Functions', () => {
   before((done) => {
     // Run initial migrations and seed db
     knex.migrate.rollback()
