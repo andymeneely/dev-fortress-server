@@ -1,14 +1,15 @@
 const CONSTANTS = require('../../../data/constants');
-const roomController = require('../../../../app/socket/controllers/room');
+const teamController = require('../../../../app/socket/controllers/team');
 const knex = require('../../../../app/lib/db');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const randomString = require('randomstring');
+const redis = require('../../../../app/redis');
 
 chai.use(chaiHttp);
 const should = chai.should();
 
-describe('Room Socket Functions', () => {
+describe.only('Team Socket Functions', () => {
   before((done) => {
     // Run initial migrations and seed db
     knex.migrate.rollback()
@@ -26,30 +27,28 @@ describe('Room Socket Functions', () => {
     const socketId = randomString.generate(5);
     const mockSocket = {
       id: socketId,
-      emit: (eventName, eventData) => {
-        should.exist(eventName);
-        should.exist(eventData);
-      },
     };
     return mockSocket;
   }
 
-  it('Should join a Socket to a Room', (done) => {
+  it('Should add pending Team action to redis', (done) => {
     const socket = getMockSocket();
-    socket.to = () => socket;
-    socket.join = (room) => {
-      should.exist(room);
+    const mockTeamModel = {
+      id: 2,
+      game_id: 1,
     };
-    socket.emit = (eventName, eventData) => {
-      eventName.should.equal('info');
-      eventData.event.should.equal('join_game_room');
-      eventData.didSucceed.should.equal(true);
-    };
-    roomController.joinRoom(socket, 'game_room', () => {
-      // Delay for emitter checks.
-      setTimeout(() => {
-        done();
-      }, CONSTANTS.TIMEOUT);
+    redis.set('team_2', JSON.stringify(mockTeamModel));
+    redis.set(socket.id, 2).then(() => {
+      teamController.updatePendingTeamAction(socket, 1, 'add', () => {
+        setTimeout(() => {
+          redis.get('game_1_pending_actions').then((jsonString) => {
+            should.exist(jsonString);
+            const pendingActions = JSON.parse(jsonString);
+            console.log(pendingActions[1]);
+            done();
+          });
+        }, 1000);
+      });
     });
   });
 });

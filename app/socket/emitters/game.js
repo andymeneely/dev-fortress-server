@@ -11,6 +11,11 @@ function emitGameUpdate(game) {
   generalEmitters.emitToRoom(`game_${game.id}`, 'game_info', game);
 }
 
+function emitPendingActionsUpdate(gameId, pendingActions) {
+  generalEmitters.emitToRoom(`game_${gameId}`, 'selected_actions_update', pendingActions);
+}
+
 module.exports = {
   emitGameUpdate,
+  emitPendingActionsUpdate,
 };
