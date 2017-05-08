@@ -31,8 +31,8 @@ function emitToSocketRoom(socket, room, eventName, eventData) {
  * @param {Any}    eventData the data to emit: String, JSON, Object, Array, Integer
  */
 function emitToRoom(room, eventName, eventData) {
-  console.log('TODO: THIS FUNCTION IS NOT IMPLEMENTED');
-  console.log(eventData);
+  // console.log('TODO: THIS FUNCTION IS NOT IMPLEMENTED');
+  // console.log(eventData);
   // io.to(room).emit(eventName, eventData);
 }
 
