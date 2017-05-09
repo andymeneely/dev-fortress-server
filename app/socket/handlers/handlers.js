@@ -12,8 +12,35 @@ const gameController = require('../controllers/game');
  * @param socket the socket to which listeners are attached.
  */
 function registerTeamHandlers(socket) {
+  /**
+   * Update the Team model in redis.
+   * Pre-reqs: 'authenticate_team',
+   * Response emits: TODO emit to team info event channel
+   */
   socket.on('update_team', () => {
     teamController.updateTeamInfo(socket, () => {});
+  });
+
+  /**
+   * Adds an Action to the pending actions list for the Team. Updates list in redis.
+   * Pre-reqs: 'authenticate_team',
+   * Response emits: 'selected_actions_update' broadcast to room with a json object
+   *                 whose keys are all Team ids, and values are the id's of the actions
+   *                 they've selected.
+   */
+  socket.on('select_action', (actionId) => {
+    teamController.updatePendingTeamAction(socket, actionId, 'add', () => {});
+  });
+
+  /**
+   * Removes an Action from the pending actions list for the Team. Updates list in redis.
+   * Pre-reqs: 'authenticate_team',
+   * Response emits: 'selected_actions_update' broadcast to room with a json object
+   *                 whose keys are all Team ids, and values are the id's of the actions
+   *                 they've selected.
+   */
+  socket.on('deselect_action', (actionId) => {
+    teamController.updatePendingTeamAction(socket, actionId, 'remove', () => {});
   });
 }
 

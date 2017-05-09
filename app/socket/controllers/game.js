@@ -66,6 +66,7 @@ function startGame(gameId, callback) {
 
 // function for Storyteller to advance a Round
 function nextRound(gameId, callback) {
+  redis.set(`game_${gameId}_pending_actions`, JSON.stringify({}));
   Game.where('id', gameId).fetch().then((game) => {
     const newRound = game.attributes.current_round + 1;
     new Game({ id: gameId }).save({
