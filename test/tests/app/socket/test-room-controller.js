@@ -8,7 +8,7 @@ const randomString = require('randomstring');
 chai.use(chaiHttp);
 const should = chai.should();
 
-describe('Team Socket Functions', () => {
+describe('Room Socket Functions', () => {
   before((done) => {
     // Run initial migrations and seed db
     knex.migrate.rollback()
