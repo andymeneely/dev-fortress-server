@@ -7,7 +7,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const should = chai.should();
 
-describe('Game Socket Functions: ', () => {
+describe.only('Game Socket Functions: ', () => {
   before((done) => {
     // Run initial migrations and seed db
     knex.migrate.rollback()
@@ -19,8 +19,19 @@ describe('Game Socket Functions: ', () => {
           });
       });
   });
-  it('Should pass socket next_round', (done) => {
+  it('Should Pass Socket next_round', (done) => {
     gameController.nextRound(1, () => {
+      setTimeout(() => {
+        gameController.getGameById(1, (game) => {
+          game.round_phase.should.equal(0);
+          game.current_round.should.equal(1);
+          done();
+        });
+      }, CONSTANTS.TIMEOUT);
+    });
+  });
+  it('Should Pass Socket start_game', (done) => {
+    gameController.startGame(1, () => {
       setTimeout(() => {
         gameController.getGameById(1, (game) => {
           game.round_phase.should.equal(0);

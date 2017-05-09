@@ -57,7 +57,7 @@ function registerStorytellerHandlers(socket) {
    * @param {Integer} gameId the ID of the game to start.
    */
   socket.on('start_game', (gameId) => {
-    //console.log(`Socket ${socket.id} has started Game ID ${gameId}`);
+    // console.log(`Socket ${socket.id} has started Game ID ${gameId}`);
     // TODO: start_game logic
     gameController.startGame(gameId);
   });
