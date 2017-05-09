@@ -54,16 +54,6 @@ function getGameById(gameId, callback) {
   });
 }
 
-// function for a storyteller to start a game
-function startGame(gameId, callback) {
-  // Game.where('id', gameId).fetch().then(() => {
-  //   new Game({ id: gameId }).save({
-  //     round_phase: 0,
-  //     current_round: 1,
-  //   }, { patch: true }).then(updateGameInfo(gameId, callback));
-  // });
-}
-
 // function for Storyteller to advance a Round
 function nextRound(gameId, callback) {
   redis.set(`game_${gameId}_pending_actions`, JSON.stringify({}));
@@ -73,6 +63,15 @@ function nextRound(gameId, callback) {
       round_phase: 0,
       current_round: newRound,
     }, { patch: true }).then(updateGameInfo(gameId, callback));
+  });
+}
+
+// function for a storyteller to start a game
+function startGame(gameId, callback) {
+  Game.where('id', gameId).fetch().then((game) => {
+    if (game.attributes.current_round === 0) {
+      nextRound(gameId, callback);
+    }
   });
 }
 

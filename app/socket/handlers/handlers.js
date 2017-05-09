@@ -86,7 +86,11 @@ function registerStorytellerHandlers(socket) {
   socket.on('start_game', (gameId) => {
     // console.log(`Socket ${socket.id} has started Game ID ${gameId}`);
     // TODO: start_game logic
-    gameController.startGame(gameId);
+    storytellerController.isGameStoryteller(socket, gameId, (isValid) => {
+      if (isValid) {
+        gameController.startGame(gameId);
+      }
+    });
   });
 
   socket.on('next_round', (gameId) => {
