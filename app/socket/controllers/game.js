@@ -66,9 +66,19 @@ function nextRound(gameId, callback) {
   });
 }
 
+// function for a storyteller to start a game
+function startGame(gameId, callback) {
+  Game.where('id', gameId).fetch().then((game) => {
+    if (game.attributes.current_round === 0) {
+      nextRound(gameId, callback);
+    }
+  });
+}
+
 module.exports = {
   updateGameInfo,
   getGamesByStorytellerId,
   getGameById,
+  startGame,
   nextRound,
 };
