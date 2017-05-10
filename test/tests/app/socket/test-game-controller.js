@@ -9,7 +9,7 @@ const assert = require('assert');
 chai.use(chaiHttp);
 const should = chai.should();
 
-describe.only('Game Socket Functions: ', () => {
+describe('Game Socket Functions: ', () => {
   beforeEach((done) => {
     // Run initial migrations and seed db
     knex.migrate.rollback()
