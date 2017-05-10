@@ -4,6 +4,30 @@
 const teamController = require('../controllers/team');
 const storytellerController = require('../controllers/storyteller');
 const gameController = require('../controllers/game');
+const authMiddleware = require('../../socket/middleware/authentication');
+const handlers = require('../../socket/handlers/handlers');
+const redis = require('../../redis');
+const io = require('../../io');
+
+io.on('connection', (socket) => {
+  console.log(`socket ${socket.id} connected.`);
+
+  socket.on('disconnect', () => {
+    console.log(`socket ${socket.id} disconnected.`);
+    const socketId = String(socket.id);
+    redis.del(socketId);
+  });
+  socket.on('authenticate_team', (token) => {
+    authMiddleware.validateTeamToken(socket, token, (teamId) => {
+      handlers.initializeTeam(socket, teamId);
+    });
+  });
+  socket.on('authenticate_storyteller', (token) => {
+    authMiddleware.validateUserToken(socket, token, (userId) => {
+      handlers.initializeStoryteller(socket, userId);
+    });
+  });
+});
 
 /**
  * Register event listeners and handler callbacks for a team socket.

@@ -1,7 +1,7 @@
 /**
  * @module /socket/emitters/general
  */
-// const io = require('../../io');
+const io = require('../../io');
 
 /**
  * Emit a message privately to a socket.
@@ -31,9 +31,7 @@ function emitToSocketRoom(socket, room, eventName, eventData) {
  * @param {Any}    eventData the data to emit: String, JSON, Object, Array, Integer
  */
 function emitToRoom(room, eventName, eventData) {
-  // console.log('TODO: THIS FUNCTION IS NOT IMPLEMENTED');
-  // console.log(eventData);
-  // io.to(room).emit(eventName, eventData);
+  io.to(room).emit(eventName, eventData);
 }
 
 /**
