@@ -37,7 +37,7 @@ router.get(
  *
  * @apiHeader  {String}     Authorization     Bearer [JWT_TOKEN]
  *
- * @apiParam   {Number}     id          User's primary key
+ * @apiParam   {Number}     :id         User's primary key
  *
  * @apiSuccess {Number}     id          Primary key.
  * @apiSuccess {String}     username    Username; unique.
@@ -65,7 +65,7 @@ router.get(
  * @apiParam {String}   email       Unique email address of the User.
  * @apiParam {Boolean}  [is_admin]  Set `true` for Admin account.
  *
- * @apiSuccess {Integer}  id        Primary key of the new User.
+ * @apiSuccess {Number}   id        Primary key of the new User.
  * @apiSuccess {String}   username  Username of the new User.
  */
 router.post(
@@ -75,10 +75,22 @@ router.post(
   userController.registerNewUser
 );
 
-// DELETE a user
+/**
+ * @api {delete} /user/:id Delete User by ID
+ * @apiName DeleteUser
+ * @apiGroup User
+ *
+ * @apiDescription
+ * Delete an existing User. Requires administrator authentication.
+ *
+ * @apiHeader {String}  Authorization  Bearer [JWT_TOKEN]
+ *
+ * @apiParam  {String}  :id            ID of the User to be deleted.
+ */
 router.delete(
   '/:id',
-  authenticationMiddleware.validateAuthentication,  // isAuthenticated middleware
+  authenticationMiddleware.validateAuthenticationAttachEntity,
+  authenticationMiddleware.verifyAdministrator,
   userController.deleteUserById
 );
 
@@ -93,13 +105,13 @@ router.delete(
  * @apiHeader  {String}     Authorization     Bearer [JWT_TOKEN]
  *
  * @apiParam {String}   :id         Primary key for the existing User.
- * @apiParam {Integer}  [add]       The Role ID to add the User to.
- * @apiParam {Integer}  [remove]    The Role ID to remove the User from.
+ * @apiParam {Number}   [add]       The Role ID to add the User to.
+ * @apiParam {Number}   [remove]    The Role ID to remove the User from.
  */
 router.patch(
   '/:id/roles',
-  authenticationMiddleware.validateAuthenticationAttachEntity, // verify token and attach user to res
-  authenticationMiddleware.verifyAdministrator,              // verifyAdministrator middleware
+  authenticationMiddleware.validateAuthenticationAttachEntity,
+  authenticationMiddleware.verifyAdministrator,
   userController.setRoles
 );
 
@@ -129,16 +141,16 @@ router.post(
  * @apiDescription
  * Refresh the JWT token of the User making the request. Requires authentication.
  *
- * @apiHeader  {String}     Authorization     Bearer [JWT_TOKEN]
+ * @apiHeader  {String}     Authorization   Bearer [JWT_TOKEN]
  *
- * @apiSuccess {String}     token             A new JWT token with which to send authenticated requests.
+ * @apiSuccess {String}     token           A new JWT token with which
+ *                                          to send authenticated requests.
  */
 router.post(
   '/refresh',
   authenticationMiddleware.validateAuthenticationAttachEntity,
   authenticationController.refreshToken
 );
-
 
 /**
  * Generate 404s.
