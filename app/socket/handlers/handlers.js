@@ -74,7 +74,7 @@ function registerStorytellerHandlers(socket) {
    * @param {Integer} gameId the ID of the game room to which the storyteller should join.
    */
   socket.on('join_game_room', (gameId) => {
-    storytellerController.joinGameRoom(socket, gameId);
+    storytellerController.joinGameRoom(socket, gameId, () => {});
   });
 
   /**
@@ -86,7 +86,6 @@ function registerStorytellerHandlers(socket) {
    * @param {Integer} gameId the ID of the game to start.
    */
   socket.on('start_game', (gameId) => {
-    // console.log(`Socket ${socket.id} has started Game ID ${gameId}`);
     // TODO: start_game logic
     storytellerController.isGameStoryteller(socket, gameId, (isValid) => {
       if (isValid) {
@@ -106,6 +105,34 @@ function registerStorytellerHandlers(socket) {
     storytellerController.isGameStoryteller(socket, gameId, (isValid) => {
       if (isValid) {
         gameController.nextRound(gameId);
+      }
+    });
+  });
+
+  /**
+   * Update the rumor queue.
+   * Pre-reqs: 'authenticate_storyteller',
+   *           storyteller.id === game.storyteller_id
+   */
+  socket.on('update_rumor_queue', (rumorQueueJsonString) => {
+    const rumorQueueJson = JSON.parse(rumorQueueJsonString);
+    const gameId = rumorQueueJson.game_id;
+    const rumorQueue = rumorQueueJson.rumor_queue;
+    storytellerController.isGameStoryteller(socket, gameId, (isValid) => {
+      if (isValid) {
+        gameController.updateRumorQueue(socket, gameId, rumorQueue, () => {});
+      }
+    });
+  });
+
+  socket.on('get_rumor_queue', (gameIdString) => {
+    // game id key is stored as an int in redis
+    const gameId = parseInt(gameIdString, 10);
+    storytellerController.isGameStoryteller(socket, gameId, (isValid) => {
+      if (isValid) {
+        gameController.getRumorQueue(gameId, (rumorQueue) => {
+          gameController.updateRumorQueue(socket, gameId, rumorQueue, () => {});
+        });
       }
     });
   });
