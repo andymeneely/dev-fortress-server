@@ -1,48 +1,21 @@
-Socket events
-======
+# Socket Events
+Documentation for real-time event emits via Socket.io
 
-* Client Emit
-	* `authenticate_team`
-		* `"token"`
-	* `authenticate_storyteller`
-		* `"token"`
-		* Authenticates and sets handlers for user socket
-	* `join_game`
+## Client Emits
+Event Name | Event Data | Description
+-- | -- | --
+`authenticate_storyteller` | `"JWT_TOKEN"` | Authenticate a Storyteller.
+`authenticate_team` | `"LINK_CODE"` | Authenticate a Team.
+`start_game` | `{ "id": GAME_ID }` | Start a configured game the Storyteller has access to.
+`join_game_room` | `GAME_ID` | Joins the Storyteller socket to the Game ID's room.
+`next_round` | `GAME_ID` | Proceed to the next round of the Game, updating models accordingly. Storyteller only.
+`update_games_list` | _None_ | Force update of redis cache with Storyteller's games from DB. Server emits `games_list` event with updated data.
+`select_action` | `ACTION_ID` | Add an action to the pending actions list for the Team.
+`deselect_action` | `ACTION_ID` | Remove an action from the pending actions list for the Team.
 
-		```
-		{
-			"id": 5
-		}
-		```
-		* Team should only be able to join room once game is started (e.g. has representation in redis)
-		* specify game id for storyteller
-	* `start_game`
-
-		```
-		{
-			"id": 5
-		}
-		```
-		* Storyteller Only event
-* Client Receive
-	* `current_games`
-		* `5`
-		* Emits every time a game starts or ends and when team authenticates. Be sure to listen before authenticatin.
-	* `info`
-
-		```
-		{
-			"event": "event_name",
-			"message": "human readable message",
-			"didSucceed": true
-		}
-		```
-		
-		* emits info about an event
-	* `game_info`
-		* `WIP`
-		* broadcasted to room whenever game state changes
-
-	* `team_info`
-		* `WIP`
-		* emitted to socket when team model updates (team name, current devcaps, etc.)
+## Server Emits
+Event Name | Event Data | Description
+-- | -- | --
+`info` | `{ "event": "EVENT_NAME", "message": "HUMAN_READABLE_MESSAGE", "didSucceed": BOOLEAN }` | Emitted privately to the requesting socket after their request has been completed. Client may use this for debugging as well as to trigger additional events based on the value of `didSucceed`.
+`game_info` | JSON representation of `Game` model with related `teams` and `storyteller` data... _See API docs_ | Broadcasted to the relevant Game room whenever game state changes and when a `Team` or `Storyteller` client joins. Clients should use this to manage their Game and Team state/views.
+`selected_actions_update` | `{ TEAM_ID: [ACTION_ID, ...], ... }` | Used to maintain the state of Team selections during the Action Selection phase. All Clients should use this to maintain state/update their views as needed.
