@@ -11,6 +11,11 @@ function emitGameUpdate(game) {
   generalEmitters.emitToRoom(`game_${game.id}`, 'game_info', game);
 }
 
+/**
+ * Emit pending action selections.
+ * @param {Integer} gameId the ID of the Game
+ * @param {JSON} pendingActions keys: team IDs; values: arrays of Action ID's
+ */
 function emitPendingActionsUpdate(gameId, pendingActions) {
   generalEmitters.emitToRoom(`game_${gameId}`, 'selected_actions_update', pendingActions);
 }

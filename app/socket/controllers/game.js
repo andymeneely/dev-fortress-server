@@ -75,10 +75,36 @@ function startGame(gameId, callback) {
   });
 }
 
+/**
+ * Retrieve the rumor queue array for a specific game.
+ * @param {Number} gameId the ID of the game for the rumor queue
+ * @param {Function} callback the callback function to pass the rumor queue array to
+ */
+function getRumorQueue(gameId, callback) {
+  redis.get(`game_${gameId}_rumor_queue`, (err, rumorQueueString) => {
+    if (rumorQueueString !== null) callback(JSON.parse(rumorQueueString));
+    else callback([]);
+  });
+}
+
+/**
+ * Update the rumor queue for a specific game.
+ * @param {Number} gameId the ID of the Game for the rumor queue
+ * @param {Number[]} rumorQueue collection of rumor IDs
+ * @param {Function} callback the callback function after execution is complete
+ */
+function updateRumorQueue(socket, gameId, rumorQueue, callback) {
+  redis.set(`game_${gameId}_rumor_queue`, JSON.stringify(rumorQueue));
+  emitters.storytellerEmitters.emitRumorQueueUpdate(socket, gameId, rumorQueue);
+  callback();
+}
+
 module.exports = {
   updateGameInfo,
   getGamesByStorytellerId,
   getGameById,
   startGame,
   nextRound,
+  getRumorQueue,
+  updateRumorQueue,
 };
