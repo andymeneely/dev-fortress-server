@@ -80,10 +80,9 @@ function registerStorytellerHandlers(socket) {
   /**
    * Start an existing, configured game.
    * Initialize the game model state.
-   * Informs 'game_[id]' room via broadcast to [CHANNEL NAME]
+   * Informs 'game_[id]' room via broadcast to 'game_info' channel.
    * Pre-reqs: 'authenticate_storyteller',
    *           storyteller.id === game.storyteller_id
-   * Response emits: [NOT IMPLEMENTED!]
    * @param {Integer} gameId the ID of the game to start.
    */
   socket.on('start_game', (gameId) => {
@@ -96,6 +95,13 @@ function registerStorytellerHandlers(socket) {
     });
   });
 
+  /**
+   * Proceed to the next round.
+   * Informs 'game_[id]' room via broadcast to 'game_info' channel.
+   * Pre-reqs: 'authenticate_storyteller',
+   *           storyteller.id === game.storyteller_id
+   * @param {Integer} gameId the ID of the relevant game.
+   */
   socket.on('next_round', (gameId) => {
     storytellerController.isGameStoryteller(socket, gameId, (isValid) => {
       if (isValid) {
