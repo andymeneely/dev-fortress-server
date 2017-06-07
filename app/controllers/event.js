@@ -3,7 +3,7 @@
  */
 const Event = require('../models/event');
 const bookshelf = require('../lib/bookshelf');
-
+const utils = require('../lib/utils');
 const has = require('has');
 
 /**
@@ -14,9 +14,11 @@ const has = require('has');
 function getEvents(req, res) {
   return Event.fetchAll()
   .then(collection => res.json(collection.serialize()))
-  .catch(
-    /* istanbul ignore next */
-    err => console.error(err)
+    .catch((err) => {
+      /* istanbul ignore next */
+      console.error(err);
+      utils.sendError(500, 'An unknown error occured.', req.body, res);
+    }
   );
 }
 
@@ -26,6 +28,9 @@ function getEvents(req, res) {
  * @param  {Express.Response}  res  - the response object
  */
 function getEventById(req, res) {
+  if (!has(req.params, 'id')) {
+    return utils.sendError(500, 'The server is configured incorrectly. Query param "id" required for this request.', {}, res);
+  }
   return Event.where('id', req.params.id).fetch({
     require: true,
   })
@@ -34,19 +39,11 @@ function getEventById(req, res) {
     /* istanbul ignore else */
     if (err.message === 'EmptyResponse') {
       // 404
-      res.status(404)
-      .json({
-        error: 'An Event with that ID could not be found.',
-        request: { params: req.params },
-      });
+      utils.sendError(404, 'An Event with that ID could not be found.', req.params, res);
     } else {
       // Unknown error
       console.error(err);
-      res.status(500)
-      .json({
-        error: 'UnknownError',
-        request: { params: req.params },
-      });
+      utils.sendError(500, 'An unknown error occured.', req.params, res);
     }
   });
 }
@@ -60,32 +57,13 @@ function createEvent(req, res) {
   const eventData = {};
   // validate request
   if (!has(req.body, 'name')) {
-    return res.status(400)
-    .json({
-      error: 'MissingField',
-      message: 'name field is missing',
-    });
+    return utils.sendError(400, 'Missing required "name" field.', req.body, res);
   }
   if (!has(req.body, 'description')) {
-    return res.status(400)
-    .json({
-      error: 'MissingField',
-      message: 'description field is missing',
-    });
+    return utils.sendError(400, 'Missing required "description" field.', req.body, res);
   }
   if (!has(req.body, 'default_damage')) {
-    return res.status(400)
-    .json({
-      error: 'MissingField',
-      message: 'default_damage field is missing',
-    });
-  }
-  if (!has(req.body, 'disabled')) {
-    eventData.disabled = false;
-  } else if (req.body.disabled === true) {
-    eventData.disabled = true;
-  } else {
-    eventData.disabled = false;
+    return utils.sendError(400, 'Missing required "default_damage" field.', req.body, res);
   }
 
   eventData.name = req.body.name;
@@ -97,7 +75,7 @@ function createEvent(req, res) {
     const eventExistsPromise = Event.where('name', eventData.name)
     .count('id', { transacting: t })
     .tap((count) => {
-      if (count !== 0) {
+      if (parseInt(count, 10) !== 0) {
         throw new Error('A event with that name already exists.');
       }
     });
@@ -120,13 +98,10 @@ function createEvent(req, res) {
     /* istanbul ignore else */
     if (err.message === 'A event with that name already exists.') {
       // Name exists
-      res.status(400).json({ error: err.message });
+      utils.sendError(400, err.message, req.body, res);
     } else {
       console.error(err);
-      res.status(500)
-      .json({
-        error: 'UnknownError',
-      });
+      utils.sendError(500, 'An unknown error occured.', req.body, res);
     }
   });
 }
@@ -136,6 +111,9 @@ function createEvent(req, res) {
  * @param  {Express.Response}  res  - the response object
  */
 function updateEvent(req, res) {
+  if (!has(req.params, 'id')) {
+    utils.sendError(400, 'Missing required "id" query param.', req.body, res);
+  }
   const targetEvent = Event.forge({ id: req.params.id });
   targetEvent.fetch()
     .then(event =>
@@ -152,10 +130,7 @@ function updateEvent(req, res) {
           /* istanbul ignore next */
           (err) => {
             console.error(err);
-            return res.status(500).json({
-              error: 'UnknownError',
-              request: req.body,
-            });
+            utils.sendError(500, 'An unknown error occured.', req.body, res);
           }
         );
     });

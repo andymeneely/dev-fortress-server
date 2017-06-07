@@ -140,7 +140,7 @@ describe('Event Controller Tests', () => {
           mockRes.statusCode.should.equal(404);
           const resJSON = mockRes._getJSON();
           resJSON.error.should.equal('An Event with that ID could not be found.');
-          assert.deepEqual(resJSON.request, mockReq);
+          assert.deepEqual(resJSON.request, mockReq.params);
           done();
         }, timeout);
       });
