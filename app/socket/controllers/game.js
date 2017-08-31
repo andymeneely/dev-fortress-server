@@ -66,6 +66,20 @@ function nextRound(gameId, callback) {
   });
 }
 
+/**
+ * Advance to the next phase for the current round.
+ * @param {Number} gameId the ID of the game to advance the phase of.
+ * @param {Function} callback the callback function to call when the operation is complete.
+ */
+function nextPhase(gameId, callback) {
+  Game.where('id', gameId).fetch().then((game) => {
+    const newPhase = game.attributes.round_phase === 3 ? 0 : game.attributes.round_phase + 1;
+    new Game({ id: gameId }).save({
+      round_phase: newPhase,
+    }, { patch: true }).then(updateGameInfo(gameId, callback));
+  });
+}
+
 // function for a storyteller to start a game
 function startGame(gameId, callback) {
   Game.where('id', gameId).fetch().then((game) => {
@@ -105,6 +119,7 @@ module.exports = {
   getGameById,
   startGame,
   nextRound,
+  nextPhase,
   getRumorQueue,
   updateRumorQueue,
 };
